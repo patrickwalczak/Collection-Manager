@@ -12,7 +12,7 @@ const CollectionTopic = ({
   value,
 }) => {
   return (
-    <Form.Group controlId={name}>
+    <Form.Group className="mb-3" controlId={name}>
       <Form.Label>Collection Topic*</Form.Label>
       <SelectTopic
         name={name}

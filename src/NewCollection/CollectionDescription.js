@@ -11,7 +11,7 @@ const CollectionDescription = ({
   errors,
 }) => {
   return (
-    <Form.Group controlId={name}>
+    <Form.Group className="mb-3" controlId={name}>
       <Form.Label>Collection description*</Form.Label>
       <Form.Control
         placeholder={placeholder}
@@ -21,6 +21,7 @@ const CollectionDescription = ({
         onChange={onChange}
         isInvalid={isInvalid}
         isValid={isValid}
+        style={{ height: "100px" }}
       />
       <Form.Control.Feedback type="invalid">
         {errors.collectionDescription}

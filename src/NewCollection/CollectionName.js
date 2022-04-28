@@ -10,7 +10,7 @@ const CollectionName = ({
   error,
 }) => {
   return (
-    <Form.Group controlId={name}>
+    <Form.Group className="mb-3" controlId={name}>
       <Form.Label>Collection Name*</Form.Label>
       <Form.Control
         type="text"

@@ -12,6 +12,7 @@ const CustomItemQuestion = ({
 }) => {
   return (
     <Form.Group
+      className="mb-3"
       onChange={(e) => {
         setValue(name, e.target.value);
         setTouched(name, e.target.value);

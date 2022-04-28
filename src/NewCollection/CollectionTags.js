@@ -12,7 +12,7 @@ const CollectionTags = ({
   touched,
 }) => {
   return (
-    <Form.Group controlId={name}>
+    <Form.Group className="mb-3" controlId={name}>
       <Form.Label>Collection Tags*</Form.Label>
       <SelectTags
         name={name}
