@@ -2,37 +2,18 @@ import { Formik } from "formik";
 import * as yup from "yup";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
-import "bootstrap/dist/css/bootstrap.min.css";
-import Spinner from "react-bootstrap/Spinner";
 import Alert from "react-bootstrap/Alert";
+import Spinner from "react-bootstrap/Spinner";
+import "bootstrap/dist/css/bootstrap.min.css";
+import { Link } from "react-router-dom";
 
 const schema = yup.object().shape({
-  email: yup
-    .string()
-    .trim()
-    .required("Email is required!")
-    .min(4)
-    .max(30)
-    .test({
-      message: "Incorrect email input",
-      test: (email) => {
-        if (!email) return;
-        return (
-          email.match(
-            /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:.[a-zA-Z0-9-]+)*$/
-          ) !== null
-        );
-      },
-    }),
-  password: yup
-    .string()
-    .trim()
-    .min(2, "Password must have at least 2 characters")
-    .max(15)
-    .required("Password is required!"),
+  username: yup.string().min(3).max(20).required(),
+  email: yup.string().email().required(),
+  password: yup.mixed().required(),
 });
 
-function SignInForm() {
+function SignUp() {
   const submitHandler = (data) => {
     console.log(data);
   };
@@ -42,6 +23,7 @@ function SignInForm() {
       validationSchema={schema}
       onSubmit={submitHandler}
       initialValues={{
+        username: "",
         email: "",
         password: "",
       }}
@@ -56,11 +38,28 @@ function SignInForm() {
         errors,
       }) => (
         <Form noValidate onSubmit={handleSubmit}>
-          <Form.Group className="mb-4" controlId="email">
+          <Form.Group controlId="username">
+            <Form.Label>Username</Form.Label>
+            <Form.Control
+              type="text"
+              name="username"
+              value={values.username}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              isInvalid={errors.username && touched.username}
+              isValid={!errors.username && values.username}
+            />
+            <Form.Control.Feedback type="invalid">
+              {errors.username}
+            </Form.Control.Feedback>
+            <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
+          </Form.Group>
+          <Form.Group controlId="email">
             <Form.Label>Email</Form.Label>
             <Form.Control
               type="email"
               name="email"
+              value={values.email}
               onChange={handleChange}
               onBlur={handleBlur}
               isInvalid={errors.email && touched.email}
@@ -69,22 +68,23 @@ function SignInForm() {
             <Form.Control.Feedback type="invalid">
               {errors.email}
             </Form.Control.Feedback>
-            <Form.Control.Feedback>Looks Good!</Form.Control.Feedback>
+            <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
           </Form.Group>
-          <Form.Group className="mb-4" controlId="password">
+          <Form.Group controlId="password">
             <Form.Label>Password</Form.Label>
             <Form.Control
               type="password"
               name="password"
+              value={values.password}
               onChange={handleChange}
               onBlur={handleBlur}
               isInvalid={errors.password && touched.password}
-              isValid={values.password && !errors.password}
+              isValid={!errors.password && values.password}
             />
             <Form.Control.Feedback type="invalid">
               {errors.password}
             </Form.Control.Feedback>
-            <Form.Control.Feedback>Looks Good!</Form.Control.Feedback>
+            <br></br>
           </Form.Group>
           {false && (
             <Alert variant="danger" onClose={() => {}} dismissible>
@@ -92,13 +92,14 @@ function SignInForm() {
               <p></p>
             </Alert>
           )}
-
-          <div className="d-grid gap-2">
-            <Button type="submit" variant="dark">
-              SIGN IN
+          <div className="d-grid gap-1">
+            <Button type="submit" variant="dark" size="lg">
+              SIGN UP
             </Button>
+            <Link to={"/login"}>
+              <Button variant="link">Log in instead</Button>
+            </Link>
           </div>
-
           {false && <Spinner animation="border" />}
         </Form>
       )}
@@ -106,4 +107,4 @@ function SignInForm() {
   );
 }
 
-export default SignInForm;
+export default SignUp;

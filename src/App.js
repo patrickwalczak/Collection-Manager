@@ -1,8 +1,9 @@
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import AppNavigation from "./AppNavigation/AppNavigation";
 import { Fragment } from "react";
 import Login from "./Login/Login";
 import Container from "react-bootstrap/Container";
+import SignUp from "./SignUp/SignUp";
 
 function App() {
   return (
@@ -18,6 +19,8 @@ function App() {
       <AppNavigation />
       <Routes>
         <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<SignUp />} />
+        <Route path="*" element={<Navigate replace to="/login" />} />
       </Routes>
     </Container>
   );
