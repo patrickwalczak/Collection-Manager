@@ -6,20 +6,21 @@ import Button from "react-bootstrap/Button";
 import { Fragment } from "react";
 
 const AppNavigation = () => {
-  const navLinkMargin = "mx-1 mx-md-2  nav-link";
-  const navBtnMarPad = "p-1 p-md-2 mx-1 mx-md-2 mx-lg-3";
+  const navLinkMargin = "text-white mx-1 mx-md-2  nav-link";
+  const navBtnMarPad = "text-white p-1 p-md-2 mx-1 mx-md-2 mx-lg-3";
 
   return (
     <Fragment>
       <Navbar
-        className="px-lg-4 px-md-3 px-2 mb-md-3 mb-1"
+        fixed="top"
+        className="px-lg-4 px-md-3 px-2 mb-0"
         style={{
           backgroundColor: "#ADEFD1FF",
           fontWeight: "600",
         }}
         expand="sm"
       >
-        <Link to="/home" className="navbar-brand">
+        <Link to="/home" className="navbar-brand text-white">
           HOME
         </Link>
 
@@ -54,11 +55,19 @@ const AppNavigation = () => {
               </NavLink>
             )}
 
-            {false && <Button className={navBtnMarPad}>Log Out</Button>}
+            {false && (
+              <Button variant="dark" className={navBtnMarPad}>
+                Log Out
+              </Button>
+            )}
 
-            <Button className={navBtnMarPad}>Dark/Light</Button>
+            <Button variant="dark" className={navBtnMarPad}>
+              Dark/Light
+            </Button>
 
-            <Button className={navBtnMarPad}>Language</Button>
+            <Button variant="outline-dark" className={navBtnMarPad}>
+              Language
+            </Button>
           </Nav>
         </Navbar.Collapse>
       </Navbar>
