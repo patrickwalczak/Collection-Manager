@@ -5,6 +5,7 @@ import Button from "react-bootstrap/Button";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Spinner from "react-bootstrap/Spinner";
 import Alert from "react-bootstrap/Alert";
+import { Link } from "react-router-dom";
 
 const schema = yup.object().shape({
   email: yup
@@ -97,6 +98,9 @@ function SignInForm() {
             <Button type="submit" variant="dark">
               SIGN IN
             </Button>
+            <Link to={"/signup"}>
+              <Button variant="link">Sign up instead</Button>
+            </Link>
           </div>
 
           {false && <Spinner animation="border" />}

@@ -1,9 +1,11 @@
 import { Routes, Route, Navigate } from "react-router-dom";
 import AppNavigation from "./AppNavigation/AppNavigation";
-import { Fragment } from "react";
 import Login from "./Login/Login";
 import Container from "react-bootstrap/Container";
 import SignUp from "./SignUp/SignUp";
+import Collections from "./Collections/Collections";
+import Col from "react-bootstrap/Col";
+import Row from "react-bootstrap/Row";
 
 function App() {
   return (
@@ -11,16 +13,17 @@ function App() {
       style={{
         minHeight: "100vh",
         backgroundColor: "#00203FFF",
-        paddingTop: "5rem",
       }}
       fluid
-      className="d-flex align-items-center justify-content-center"
+      className="position-relative gap-5"
     >
       <AppNavigation />
+
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="*" element={<Navigate replace to="/login" />} />
+        <Route path="/:uid/collections" element={<Collections />} />
       </Routes>
     </Container>
   );

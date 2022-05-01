@@ -1,13 +1,14 @@
 import SignInForm from "./SignInForm";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Col from "react-bootstrap/Col";
+import Row from "react-bootstrap/Row";
 
 const Login = () => {
   return (
     <Col
-      className="card shadow rounded p-3  p-lg-3 p-xl-4 mb-3"
-      xs={12}
-      sm={7}
+      className="card shadow rounded p-3 p-lg-3 p-xl-4 mb-3 position-absolute top-50 start-50 translate-middle"
+      xs={8}
+      sm={6}
       md={5}
       lg={4}
       xl={3}
