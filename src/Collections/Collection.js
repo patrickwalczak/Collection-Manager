@@ -4,6 +4,7 @@ import Button from "react-bootstrap/Button";
 import Badge from "react-bootstrap/Badge";
 import Row from "react-bootstrap/Row";
 import ProgressBar from "react-bootstrap/ProgressBar";
+import { Link } from "react-router-dom";
 
 const Collection = () => {
   return (
@@ -34,7 +35,9 @@ const Collection = () => {
           quia, doloribus eius! Ducimus nemo accusantium maiores velit
         </p>
         <div className="col-12 d-flex p-2 gap-3 flex-wrap">
-          <Button variant="success">OPEN</Button>
+          <Link to="/collection" className="btn bg-success text-white">
+            OPEN
+          </Link>
           <Button className="text-white" variant="warning">
             EDIT
           </Button>

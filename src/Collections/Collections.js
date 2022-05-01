@@ -9,9 +9,9 @@ const Collections = () => {
   const uid = useParams().uid;
 
   return (
-    <Container className="rounded bg-white col-10 col-sm-7 col-md-11 col-lg-9 col-xl-8 col-xll-7 mx-auto pb-3">
+    <Container className="rounded bg-white col-10 col-sm-7 col-md-11 col-lg-9 col-xl-8 col-xll-7 mx-auto pb-3 mt-4">
       <Row className="mb-5 rounded">
-        <Col className="rounded p-2 p-md-3 p-xl-4 text-center bg-primary">
+        <Col className="rounded p-2 p-md-3 p-xl-4 text-center bg-dark">
           <h1>Collections</h1>
         </Col>
       </Row>

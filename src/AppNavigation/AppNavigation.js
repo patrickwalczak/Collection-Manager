@@ -45,9 +45,9 @@ const AppNavigation = () => {
                 Sign Up
               </NavLink>
 
-              {false && (
+              {true && (
                 <NavLink
-                  to="/collections"
+                  to="/1/collections"
                   className={({ isActive }) =>
                     `${navLinkMargin}  nav-link` + (isActive ? " active" : "")
                   }

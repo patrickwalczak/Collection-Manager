@@ -4,6 +4,7 @@ import Login from "./Login/Login";
 import Container from "react-bootstrap/Container";
 import SignUp from "./SignUp/SignUp";
 import Collections from "./Collections/Collections";
+import CollectionView from "./Collection/CollectionView";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
 
@@ -22,6 +23,7 @@ function App() {
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />
+        <Route path="/collection" element={<CollectionView />} />
         <Route path="*" element={<Navigate replace to="/login" />} />
         <Route path="/:uid/collections" element={<Collections />} />
       </Routes>
