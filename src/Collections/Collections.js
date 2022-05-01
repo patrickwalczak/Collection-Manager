@@ -9,14 +9,13 @@ const Collections = () => {
   const uid = useParams().uid;
 
   return (
-    <Container className="col-10 col-sm-7 col-md-11 col-lg-9 col-xl-8 col-xll-7 card mx-auto px-2 px-xl-3 px-xll-4">
-      <Row>
-        <Col className="p-2 p-md-3 p-xl-4 text-center">
+    <Container className="rounded bg-white col-10 col-sm-7 col-md-11 col-lg-9 col-xl-8 col-xll-7 mx-auto pb-3">
+      <Row className="mb-5 rounded">
+        <Col className="rounded p-2 p-md-3 p-xl-4 text-center bg-primary">
           <h1>Collections</h1>
         </Col>
       </Row>
-      <Col className="d-flex flex-xl-column flex-wrap gap-4 gap-md-0 gap-xl-3 justify-content-around mb-5">
-        <Collection></Collection>
+      <Col className="d-flex flex-xl-column flex-wrap gap-4 gap-md-0 gap-xl-3 justify-content-around ">
         <Collection></Collection>
       </Col>
     </Container>

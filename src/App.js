@@ -15,7 +15,7 @@ function App() {
         backgroundColor: "#00203FFF",
       }}
       fluid
-      className="position-relative gap-5"
+      className="position-relative gap-5 pb-5"
     >
       <AppNavigation />
 
