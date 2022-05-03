@@ -1,35 +1,62 @@
-import ReactTagInput from "@pathofdev/react-tag-input";
-import "@pathofdev/react-tag-input/build/index.css";
+import { useState, Fragment } from "react";
+import { Typeahead, AsyncTypeahead } from "react-bootstrap-typeahead";
+import Form from "react-bootstrap/Form";
+import "bootstrap/dist/css/bootstrap.min.css";
+import "react-bootstrap-typeahead/css/Typeahead.css";
 
-const SelectTags = ({ name, setTags, tagsList, onTouch, setError }) => {
-  const inputName = name;
+const SEARCH_URI = "https://api.github.com/search/users";
 
-  const addTagHandler = (newTags) => {
-    // if method is triggered, then I want set this input to be touched
-    onTouch(inputName, true);
+const SelectTags = () => {
+  const [isLoading, setIsLoading] = useState(false);
+  const [options, setOptions] = useState([]);
 
-    setTags(inputName, newTags);
+  const handleSearch = (query) => {
+    setIsLoading(true);
+
+    fetch(`${SEARCH_URI}?q=${query}+in:login&page=1&per_page=50`)
+      .then((resp) => resp.json())
+      .then(({ items }) => {
+        const options = items.map((i) => ({
+          avatar_url: i.avatar_url,
+          id: i.id,
+          login: i.login,
+        }));
+
+        setOptions(options);
+        setIsLoading(false);
+      });
   };
 
-  return (
-    <ReactTagInput
-      placeholder="Type your tag and press enter"
-      name={inputName}
-      tags={tagsList}
-      onChange={addTagHandler}
-      validator={(newTag) => {
-        const isDuplicated = tagsList.find(
-          (t) => t.toLowerCase() === newTag.toLowerCase()
-        );
+  // Bypass client-side filtering by returning `true`. Results are already
+  // filtered by the search endpoint, so no need to do it again.
+  const filterBy = () => true;
 
-        if (isDuplicated)
-          return setError(inputName, "You have already this tag");
-        if (!newTag.trim().length)
-          return setError(inputName, "Tag cannot be empty");
-        return newTag;
-      }}
+  return (
+    <AsyncTypeahead
+      filterBy={filterBy}
+      id="async-example"
+      isLoading={isLoading}
+      labelKey="login"
+      minLength={3}
+      onSearch={handleSearch}
+      options={options}
+      placeholder="Search for a Github user..."
+      multiple
+      renderMenuItemChildren={(option, props) => (
+        <Fragment>
+          <img
+            alt={option.login}
+            src={option.avatar_url}
+            style={{
+              height: "24px",
+              marginRight: "10px",
+              width: "24px",
+            }}
+          />
+          <span>{option.login}</span>
+        </Fragment>
+      )}
     />
   );
 };
-
 export default SelectTags;

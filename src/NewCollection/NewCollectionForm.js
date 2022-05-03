@@ -6,38 +6,63 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import CollectionName from "./CollectionName";
 import CollectionTopic from "./CollectionTopic";
 import CollectionDescription from "./CollectionDescription";
-import CollectionTags from "./CollectionTags";
 import CollectionImg from "./CollectionImg";
 import CustomItemQuestion from "./CustomItemQuestion";
+import SelectTags from "./SelectTags";
 
-const NewCollectionForm = () => {
-  const optionMsg = "You have to choose one option";
+const NewCollectionForm = (props) => {
+  const initialValues = props.enteredFormData || {
+    collectionName: "",
+    collectionTopic: "",
+    collectionDescription: "",
+    customItemTxt: "",
+    customItemNum: "",
+    customItemMultiTxt: "",
+    customItemBool: "",
+    customItemDate: "",
+  };
+
+  const customItemErrMsg = "You have to choose one option";
 
   const schema = yup.object().shape({
     collectionName: yup
       .string()
       .trim()
       .min(3, "Collection name is to short")
-      .max(20, "Collection name is too long"),
+      .max(25, "Collection name is too long")
+      .test({
+        message: "Collection name cannot contain special characters",
+        test: (name) => {
+          if (!name) return true;
+          return (
+            name.match(/[`!@#$ %^&*()_+\-=\[\]{};':"\\|,.<>\/? ~]/) === null
+          );
+        },
+      })
+      .required(),
     collectionTopic: yup.string().required("Collection topic is required!"),
-    collectionTags: yup.array().test({
-      message: "Collection tags are required!",
-      test: (arr) => arr.length !== 0,
-    }),
+    collectionTags: yup
+      .array()
+      .test({
+        message: "Collection tags are required!",
+        test: (arr) => arr.length !== 0,
+      })
+      .required(),
     collectionDescription: yup
       .string()
       .trim()
       .max(300)
-      .min(1, "Description must have at least 1 character without spaces"),
-    customItemTxt: yup.string().min(1, optionMsg),
-    customItemNum: yup.string().min(1, optionMsg),
-    customItemMultiTxt: yup.string().min(1, optionMsg),
-    customItemBool: yup.string().min(1, optionMsg),
-    customItemDate: yup.string().min(1, optionMsg),
+      .min(1, "Description must have at least 1 character!")
+      .required(),
+    customItemTxt: yup.string().min(1, customItemErrMsg).required(),
+    customItemNum: yup.string().min(1, customItemErrMsg).required(),
+    customItemMultiTxt: yup.string().min(1, customItemErrMsg).required(),
+    customItemBool: yup.string().min(1, customItemErrMsg).required(),
+    customItemDate: yup.string().min(1, customItemErrMsg).required(),
   });
 
   const customItemOptions = [
-    { value: 0, label: "none" },
+    { value: 0, label: "0" },
     { value: 1, label: "1" },
     { value: 2, label: "2" },
     { value: 3, label: "3" },
@@ -46,20 +71,8 @@ const NewCollectionForm = () => {
   return (
     <Formik
       validationSchema={schema}
-      onSubmit={(data) => {
-        console.log(data);
-      }}
-      initialValues={{
-        collectionName: "",
-        collectionTopic: "",
-        collectionTags: [],
-        collectionDescription: "",
-        customItemTxt: "",
-        customItemNum: "",
-        customItemMultiTxt: "",
-        customItemBool: "",
-        customItemDate: "",
-      }}
+      onSubmit={props.getFormData}
+      initialValues={initialValues}
     >
       {({
         handleSubmit,
@@ -78,22 +91,20 @@ const NewCollectionForm = () => {
             name="collectionName"
             onChange={handleChange}
             onBlur={handleBlur}
-            isInvalid={
-              touched?.collectionName &&
-              values.collectionName &&
-              errors?.collectionName
-            }
-            isValid={values.collectionName && !errors?.collectionName}
+            isInvalid={touched.collectionName && errors.collectionName}
+            isValid={values.collectionName && !errors.collectionName}
             error={errors.collectionName}
+            value={values.collectionName}
           />
+
           <CollectionTopic
             name="collectionTopic"
-            errors={errors}
-            touched={touched}
-            setFieldValue={setFieldValue}
-            setFieldError={setFieldError}
-            setFieldTouched={setFieldTouched}
-            value={values.collectionTopic}
+            error={errors.collectionTopic}
+            isTouched={touched.collectionTopic}
+            setValue={setFieldValue}
+            setError={setFieldError}
+            setTouched={setFieldTouched}
+            defValue={values.collectionTopic}
           />
 
           <CollectionDescription
@@ -102,23 +113,18 @@ const NewCollectionForm = () => {
             onBlur={handleBlur}
             onChange={handleChange}
             isInvalid={
-              touched?.collectionDescription && errors?.collectionDescription
+              touched.collectionDescription && errors.collectionDescription
             }
             isValid={
-              values.collectionDescription && !errors?.collectionDescription
+              values.collectionDescription && !errors.collectionDescription
             }
-            errors={errors}
-          />
-          <CollectionTags
-            name="collectionTags"
-            setTags={setFieldValue}
-            tagsList={values.collectionTags}
-            setError={setFieldError}
-            onTouch={setFieldTouched}
-            errors={errors}
-            touched={touched}
+            value={values.collectionDescription}
+            error={errors.collectionDescription}
           />
 
+          <SelectTags />
+
+          {/* TODO how to set default image */}
           <CollectionImg name="collectionImg" setImg={setFieldValue} />
 
           <CustomItemQuestion
@@ -131,6 +137,7 @@ const NewCollectionForm = () => {
             }
             errors={errors}
             touched={touched}
+            value={values.customItemTxt}
           />
 
           <CustomItemQuestion
@@ -143,6 +150,7 @@ const NewCollectionForm = () => {
             }
             errors={errors}
             touched={touched}
+            value={values.customItemNum}
           />
 
           <CustomItemQuestion
@@ -155,6 +163,7 @@ const NewCollectionForm = () => {
             }
             errors={errors}
             touched={touched}
+            value={values.customItemMultiTxt}
           />
 
           <CustomItemQuestion
@@ -167,6 +176,7 @@ const NewCollectionForm = () => {
             }
             errors={errors}
             touched={touched}
+            value={values.customItemBool}
           />
 
           <CustomItemQuestion
@@ -179,18 +189,19 @@ const NewCollectionForm = () => {
             }
             errors={errors}
             touched={touched}
+            value={values.customItemDate}
           />
 
           <Button
-            disabled={
-              !(
-                Object.keys(touched).length === Object.keys(values).length &&
-                isValid
-              )
-            }
+            // disabled={
+            //   !(
+            //     Object.keys(touched).length === Object.keys(values).length &&
+            //     isValid
+            //   )
+            // }
             type="submit"
           >
-            CREATE
+            NEXT
           </Button>
           <pre>{JSON.stringify(values, null, 2)}</pre>
           <pre>{JSON.stringify(errors, null, 2)}</pre>

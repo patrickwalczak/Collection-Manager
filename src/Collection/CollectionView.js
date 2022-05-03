@@ -4,16 +4,17 @@ import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
 import Table from "react-bootstrap/Table";
 import Item from "./Item";
+import Heading from "./Heading";
 
 const CollectionView = () => {
   return (
     <Table variant="dark" responsive className="mt-5">
       <thead>
         <tr>
-          <th>#</th>
-          {Array.from({ length: 12 }).map((_, index) => (
-            <th key={index}>Table heading</th>
-          ))}
+          <Heading></Heading>
+          <Heading></Heading>
+          <Heading></Heading>
+          <Heading></Heading>
         </tr>
       </thead>
       <tbody>

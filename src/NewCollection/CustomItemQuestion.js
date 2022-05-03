@@ -9,20 +9,27 @@ const CustomItemQuestion = ({
   question,
   errors,
   touched,
+  value,
 }) => {
   return (
     <Form.Group
       className="mb-3"
       onChange={(e) => {
         setValue(name, e.target.value);
-        setTouched(name, e.target.value);
+        setTouched(name);
       }}
       controlId={name}
     >
       <Form.Label>{question}</Form.Label>
 
-      {options.map((item) => (
-        <Form.Check name={name} key={item.value} {...item} type="radio" />
+      {options.map((item, index) => (
+        <Form.Check
+          defaultChecked={index === +value ? value : ""}
+          name={name}
+          key={item.value}
+          {...item}
+          type="radio"
+        />
       ))}
       {!errors[name] && touched[name] && (
         <div style={{ display: "block" }} className="valid-feedback">

@@ -20,3 +20,8 @@ body::-webkit-scrollbar-thumb {
 body {
   overflow-x: hidden;
 }
+
+.rbt-token .rbt-token-remove-button {
+  background: none;
+  border: none;
+}

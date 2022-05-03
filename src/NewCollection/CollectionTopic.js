@@ -2,37 +2,25 @@ import Form from "react-bootstrap/Form";
 import "bootstrap/dist/css/bootstrap.min.css";
 import SelectTopic from "./SelectTopic";
 
-const CollectionTopic = ({
-  name,
-  errors,
-  touched,
-  setFieldError,
-  setFieldTouched,
-  setFieldValue,
-  value,
-}) => {
+const CollectionTags2 = (props) => {
+  const { error, isTouched, name } = props;
+
   return (
     <Form.Group className="mb-3" controlId={name}>
       <Form.Label>Collection Topic*</Form.Label>
-      <SelectTopic
-        name={name}
-        onBlur={setFieldError}
-        onChange={setFieldValue}
-        value={value}
-        onTouch={setFieldTouched}
-      />
-      {!errors?.collectionTopic && touched.collectionTopic && (
+      <SelectTopic {...props} />
+      {!error && isTouched && (
         <div style={{ display: "block" }} className="valid-feedback">
           Looks good!
         </div>
       )}
-      {errors.collectionTopic && touched.collectionTopic && (
+      {error && isTouched && (
         <div style={{ display: "block" }} className="invalid-feedback">
-          {errors.collectionTopic}
+          {error}
         </div>
       )}
     </Form.Group>
   );
 };
 
-export default CollectionTopic;
+export default CollectionTags2;

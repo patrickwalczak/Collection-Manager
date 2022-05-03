@@ -1,25 +1,12 @@
 import Form from "react-bootstrap/Form";
 import "bootstrap/dist/css/bootstrap.min.css";
 
-const CollectionName = ({
-  name,
-  onChange,
-  onBlur,
-  isInvalid,
-  isValid,
-  error,
-}) => {
+const CollectionName = (props) => {
+  const { name, error } = props;
   return (
     <Form.Group className="mb-3" controlId={name}>
       <Form.Label>Collection Name*</Form.Label>
-      <Form.Control
-        type="text"
-        name={name}
-        onChange={onChange}
-        onBlur={onBlur}
-        isInvalid={isInvalid}
-        isValid={isValid}
-      />
+      <Form.Control type="text" {...props} />
       <Form.Control.Feedback type="invalid">{error}</Form.Control.Feedback>
 
       <Form.Control.Feedback>Looks Good</Form.Control.Feedback>

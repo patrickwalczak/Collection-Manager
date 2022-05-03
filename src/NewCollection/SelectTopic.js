@@ -1,40 +1,55 @@
 import React from "react";
-import { useState } from "react";
 import Select from "react-select";
 import "bootstrap/dist/css/bootstrap.min.css";
 
-const SelectTopic = ({ onChange, onBlur, value, onTouch }) => {
-  const [isDisabled, setDisabled] = useState(false);
-
-  // const toggleDisabled = () => setDisabled(!isDisabled);
-
+const SelectTopic = ({
+  setValue,
+  setError,
+  defValue,
+  setTouched,
+  error,
+  isTouched,
+}) => {
   const options = [
     { value: "Red", label: "Red" },
     { value: "White", label: "White" },
   ];
 
-  const onChangeHandler = (value) => {
+  const changeSelect = (value) => {
+    setTouched("collectionTopic");
     if (!value) {
-      onChange("collectionTopic", "");
+      setValue("collectionTopic", "");
     } else {
-      onChange("collectionTopic", value.label);
+      setValue("collectionTopic", value.label);
     }
   };
 
+  const blurSelect = () => {
+    setTouched("collectionTopic");
+    if (defValue) return;
+    setError("collectionTopic", "Collection topic is required");
+  };
+
+  // defaultValue equals empty string if no option was chosen
+  const defaultValue = !defValue
+    ? ""
+    : options.find((o) => o.label === defValue);
+
+  const isValidClass = defaultValue ? "form-control p-0 is-valid" : "";
+  const isInvalidClass =
+    error && isTouched ? "form-control p-0 is-invalid" : "";
+
   return (
     <Select
+      className={`${isValidClass} ${isInvalidClass}`}
+      defaultValue={defaultValue}
       placeholder="Select collection topic"
-      isDisabled={isDisabled}
       isClearable={true}
       isSearchable={true}
       name="collectionTopic"
       options={options}
-      onChange={onChangeHandler}
-      onBlur={() => {
-        onTouch("collectionTopic", true);
-        if (value) return;
-        onBlur("collectionTopic", "Collection topic is required");
-      }}
+      onChange={changeSelect}
+      onBlur={blurSelect}
     />
   );
 };

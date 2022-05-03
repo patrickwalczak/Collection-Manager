@@ -7,6 +7,7 @@ import Collections from "./Collections/Collections";
 import CollectionView from "./Collection/CollectionView";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
+import NewCollection from "./NewCollection/NewCollection";
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/collection" element={<CollectionView />} />
+        <Route path="/newcollection" element={<NewCollection />} />
         <Route path="*" element={<Navigate replace to="/login" />} />
         <Route path="/:uid/collections" element={<Collections />} />
       </Routes>
