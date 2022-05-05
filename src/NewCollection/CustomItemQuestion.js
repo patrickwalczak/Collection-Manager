@@ -9,34 +9,63 @@ const CustomItemQuestion = ({
   question,
   errors,
   touched,
-  value,
+  value: chosenOption,
+  fieldsNamesId,
+  fieldsNamesList,
 }) => {
-  return (
-    <Form.Group
-      className="mb-3"
-      onChange={(e) => {
-        setValue(name, e.target.value);
-        setTouched(name);
-      }}
-      controlId={name}
-    >
-      <Form.Label>{question}</Form.Label>
+  const changeOption = (e) => {
+    const newChosenOption = +e.target.value;
+    setValue(name, newChosenOption);
+    setTouched(name);
 
+    // chosen option = 0, then returns empty array
+    if (!newChosenOption) return setValue(fieldsNamesId, []);
+
+    // chosen option is zero or empty, then fill array depends on chosen option (init)
+    if (newChosenOption && chosenOption === "") {
+      return setValue(
+        fieldsNamesId,
+        Array.from(new Array(newChosenOption), () => "")
+      );
+    }
+
+    if (newChosenOption > chosenOption) {
+      const numOfNewElements = newChosenOption - fieldsNamesList.length;
+      const newElementsArray = Array.from(
+        new Array(numOfNewElements),
+        () => ""
+      );
+      const newFieldsNamesArray = fieldsNamesList.concat(newElementsArray);
+      return setValue(fieldsNamesId, newFieldsNamesArray);
+    }
+
+    if (newChosenOption < chosenOption) {
+      const numOfItemsToRemove = chosenOption - newChosenOption;
+      fieldsNamesList.splice(numOfItemsToRemove - 1, numOfItemsToRemove);
+      return setValue(fieldsNamesId, fieldsNamesList);
+    }
+  };
+
+  return (
+    <Form.Group className="mb-3" onChange={changeOption} controlId={name}>
+      <Form.Label>{question}</Form.Label>
+      <br></br>
       {options.map((item, index) => (
         <Form.Check
-          defaultChecked={index === +value ? value : ""}
+          inline
+          defaultChecked={index === +chosenOption ? chosenOption : ""}
           name={name}
           key={item.value}
           {...item}
           type="radio"
         />
       ))}
-      {!errors[name] && touched[name] && (
+      {chosenOption !== "" && (
         <div style={{ display: "block" }} className="valid-feedback">
           Looks good!
         </div>
       )}
-      {errors[name] && touched[name] && (
+      {errors[name] && touched[name] && chosenOption === "" && (
         <div style={{ display: "block" }} className="invalid-feedback">
           {errors[name]}
         </div>

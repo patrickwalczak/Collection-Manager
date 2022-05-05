@@ -21,6 +21,7 @@ body {
   overflow-x: hidden;
 }
 
+/* Fixing style error in react-bootstrap-typeahead */
 .rbt-token .rbt-token-remove-button {
   background: none;
   border: none;

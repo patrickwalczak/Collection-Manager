@@ -9,56 +9,93 @@ import CollectionDescription from "./CollectionDescription";
 import CollectionImg from "./CollectionImg";
 import CustomItemQuestion from "./CustomItemQuestion";
 import SelectTags from "./SelectTags";
+import FieldsNames from "./FieldsNames";
 
-const NewCollectionForm = (props) => {
-  const initialValues = props.enteredFormData || {
+const NewCollectionForm = () => {
+  const initialFormValues = {
     collectionName: "",
     collectionTopic: "",
     collectionDescription: "",
-    customItemTxt: "",
-    customItemNum: "",
-    customItemMultiTxt: "",
-    customItemBool: "",
-    customItemDate: "",
+    collectionTags: [],
+    chosenNumberOfCustomTextFields: "",
+    customTextFieldsNames: [],
+    chosenNumberOfCustomNumberFields: "",
+    customNumberFieldsNames: [],
+    chosenNumberOfCustomMultilineTextFields: "",
+    customMultilineTextFieldsNames: [],
+    chosenNumberOfBooleanFields: "",
+    customBooleanFieldsNames: [],
+    chosenNumberOfDateFields: "",
+    customDateFieldsNames: [],
   };
 
-  const customItemErrMsg = "You have to choose one option";
+  const checkQuestionErrorMessage = "You have to choose one option";
+  const isRequiredErrorMessage = "Field is required!";
+  const tooLongErrorMessage = "Input is too long!";
 
   const schema = yup.object().shape({
     collectionName: yup
       .string()
       .trim()
       .min(3, "Collection name is to short")
-      .max(25, "Collection name is too long")
+      .max(25, tooLongErrorMessage)
       .test({
         message: "Collection name cannot contain special characters",
         test: (name) => {
           if (!name) return true;
-          return (
-            name.match(/[`!@#$ %^&*()_+\-=\[\]{};':"\\|,.<>\/? ~]/) === null
-          );
+          return name.match(/[`!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?~]/) === null;
         },
       })
-      .required(),
-    collectionTopic: yup.string().required("Collection topic is required!"),
-    collectionTags: yup
-      .array()
-      .test({
-        message: "Collection tags are required!",
-        test: (arr) => arr.length !== 0,
-      })
-      .required(),
+      .required(isRequiredErrorMessage),
+    collectionTopic: yup.string().required(isRequiredErrorMessage),
+    collectionTags: yup.array().test({
+      message: isRequiredErrorMessage,
+      test: (tags) => tags.length !== 0,
+    }),
     collectionDescription: yup
       .string()
       .trim()
-      .max(300)
-      .min(1, "Description must have at least 1 character!")
-      .required(),
-    customItemTxt: yup.string().min(1, customItemErrMsg).required(),
-    customItemNum: yup.string().min(1, customItemErrMsg).required(),
-    customItemMultiTxt: yup.string().min(1, customItemErrMsg).required(),
-    customItemBool: yup.string().min(1, customItemErrMsg).required(),
-    customItemDate: yup.string().min(1, customItemErrMsg).required(),
+      .min(1, "Description must be at least 1 character!")
+      .max(300, "Description can have max 300 characters!")
+      .required(isRequiredErrorMessage),
+    chosenNumberOfCustomTextFields: yup
+      .string()
+      .required(checkQuestionErrorMessage),
+    chosenNumberOfCustomNumberFields: yup
+      .string()
+      .required(checkQuestionErrorMessage),
+    chosenNumberOfCustomMultilineTextFields: yup
+      .string()
+      .required(checkQuestionErrorMessage),
+    chosenNumberOfBooleanFields: yup
+      .string()
+      .required(checkQuestionErrorMessage),
+    chosenNumberOfDateFields: yup.string().required(checkQuestionErrorMessage),
+    customTextFieldsNames: yup.array().test({
+      message: "Custom fields names cannot be empty!",
+      test: (fieldsNames) =>
+        fieldsNames.every((fieldName) => fieldName !== undefined),
+    }),
+    customNumberFieldsNames: yup.array().test({
+      message: "Custom fields names cannot be empty!",
+      test: (fieldsNames) =>
+        fieldsNames.every((fieldName) => fieldName !== undefined),
+    }),
+    customMultilineTextFieldsNames: yup.array().test({
+      message: "Custom fields names cannot be empty!",
+      test: (fieldsNames) =>
+        fieldsNames.every((fieldName) => fieldName !== undefined),
+    }),
+    customBooleanFieldsNames: yup.array().test({
+      message: "Custom fields names cannot be empty!",
+      test: (fieldsNames) =>
+        fieldsNames.every((fieldName) => fieldName !== undefined),
+    }),
+    customDateFieldsNames: yup.array().test({
+      message: "Custom fields names cannot be empty!",
+      test: (fieldsNames) =>
+        fieldsNames.every((fieldName) => fieldName !== undefined),
+    }),
   });
 
   const customItemOptions = [
@@ -71,8 +108,8 @@ const NewCollectionForm = (props) => {
   return (
     <Formik
       validationSchema={schema}
-      onSubmit={props.getFormData}
-      initialValues={initialValues}
+      onSubmit={(data) => console.log(data)}
+      initialValues={initialFormValues}
     >
       {({
         handleSubmit,
@@ -104,11 +141,10 @@ const NewCollectionForm = (props) => {
             setValue={setFieldValue}
             setError={setFieldError}
             setTouched={setFieldTouched}
-            defValue={values.collectionTopic}
+            value={values.collectionTopic}
           />
 
           <CollectionDescription
-            placeholder="My collection is about..."
             name="collectionDescription"
             onBlur={handleBlur}
             onChange={handleChange}
@@ -122,7 +158,16 @@ const NewCollectionForm = (props) => {
             error={errors.collectionDescription}
           />
 
-          <SelectTags />
+          <SelectTags
+            name="collectionTags"
+            setValue={setFieldValue}
+            setError={setFieldError}
+            onBlur={handleBlur}
+            setTouched={setFieldTouched}
+            value={values.collectionTags}
+            error={errors.collectionTags}
+            isTouched={touched.collectionTags}
+          />
 
           {/* TODO how to set default image */}
           <CollectionImg name="collectionImg" setImg={setFieldValue} />
@@ -130,79 +175,129 @@ const NewCollectionForm = (props) => {
           <CustomItemQuestion
             setValue={setFieldValue}
             setTouched={setFieldTouched}
-            name="customItemTxt"
+            name="chosenNumberOfCustomTextFields"
+            fieldsNamesId="customTextFieldsNames"
+            fieldsNamesList={values.customTextFieldsNames}
             options={customItemOptions}
             question={
               "How many single line text should your collection items have?*"
             }
             errors={errors}
             touched={touched}
-            value={values.customItemTxt}
+            value={values.chosenNumberOfCustomTextFields}
+          />
+
+          <FieldsNames
+            amount={values.chosenNumberOfCustomTextFields}
+            name="customTextFieldsNames"
+            fieldsNamesList={values.customTextFieldsNames}
+            setValue={setFieldValue}
+            setTouched={setFieldTouched}
+            error={errors.customTextFieldsNames}
+            isTouched={touched.customTextFieldsNames}
           />
 
           <CustomItemQuestion
             setValue={setFieldValue}
             setTouched={setFieldTouched}
-            name="customItemNum"
+            name="chosenNumberOfCustomNumberFields"
             options={customItemOptions}
+            fieldsNamesId="customNumberFieldsNames"
+            fieldsNamesList={values.customNumberFieldsNames}
             question={
               "How many number fields should your collection items have?*"
             }
             errors={errors}
             touched={touched}
-            value={values.customItemNum}
+            value={values.chosenNumberOfCustomNumberFields}
+          />
+
+          <FieldsNames
+            amount={values.chosenNumberOfCustomNumberFields}
+            name="customNumberFieldsNames"
+            fieldsNamesList={values.customNumberFieldsNames}
+            setValue={setFieldValue}
+            setTouched={setFieldTouched}
+            error={errors.customNumberFieldsNames}
+            isTouched={touched.customNumberFieldsNames}
           />
 
           <CustomItemQuestion
             setValue={setFieldValue}
             setTouched={setFieldTouched}
-            name="customItemMultiTxt"
+            name="chosenNumberOfCustomMultilineTextFields"
+            fieldsNamesId="customMultilineTextFieldsNames"
+            fieldsNamesList={values.customMultilineTextFieldsNames}
             options={customItemOptions}
             question={
               "How many multiline text fields should your collection items have?*"
             }
             errors={errors}
             touched={touched}
-            value={values.customItemMultiTxt}
+            value={values.chosenNumberOfCustomMultilineTextFields}
+          />
+
+          <FieldsNames
+            amount={values.chosenNumberOfCustomMultilineTextFields}
+            name="customMultilineTextFieldsNames"
+            fieldsNamesList={values.customMultilineTextFieldsNames}
+            setValue={setFieldValue}
+            setTouched={setFieldTouched}
+            error={errors.customMultilineTextFieldsNames}
+            isTouched={touched.customMultilineTextFieldsNames}
           />
 
           <CustomItemQuestion
             setValue={setFieldValue}
             setTouched={setFieldTouched}
-            name="customItemBool"
+            name="chosenNumberOfBooleanFields"
+            fieldsNamesId="customBooleanFieldsNames"
+            fieldsNamesList={values.customBooleanFieldsNames}
             options={customItemOptions}
             question={
               "How many true/false checkboxes should your collection items have?*"
             }
             errors={errors}
             touched={touched}
-            value={values.customItemBool}
+            value={values.chosenNumberOfBooleanFields}
+          />
+
+          <FieldsNames
+            amount={values.chosenNumberOfBooleanFields}
+            name="customBooleanFieldsNames"
+            fieldsNamesList={values.customBooleanFieldsNames}
+            setValue={setFieldValue}
+            setTouched={setFieldTouched}
+            error={errors.customBooleanFieldsNames}
+            isTouched={touched.customBooleanFieldsNames}
           />
 
           <CustomItemQuestion
             setValue={setFieldValue}
             setTouched={setFieldTouched}
-            name="customItemDate"
+            name="chosenNumberOfDateFields"
+            fieldsNamesId="customDateFieldsNames"
+            fieldsNamesList={values.customDateFieldsNames}
             options={customItemOptions}
             question={
               "How many date fields should your collection items have?*"
             }
             errors={errors}
             touched={touched}
-            value={values.customItemDate}
+            value={values.chosenNumberOfDateFields}
           />
 
-          <Button
-            // disabled={
-            //   !(
-            //     Object.keys(touched).length === Object.keys(values).length &&
-            //     isValid
-            //   )
-            // }
-            type="submit"
-          >
-            NEXT
-          </Button>
+          <FieldsNames
+            amount={values.chosenNumberOfDateFields}
+            name="customDateFieldsNames"
+            fieldsNamesList={values.customDateFieldsNames}
+            setValue={setFieldValue}
+            setTouched={setFieldTouched}
+            error={errors.customDateFieldsNames}
+            isTouched={touched.customDateFieldsNames}
+          />
+
+          <Button type="submit">NEXT</Button>
           <pre>{JSON.stringify(values, null, 2)}</pre>
           <pre>{JSON.stringify(errors, null, 2)}</pre>
           <pre>{JSON.stringify(touched, null, 2)}</pre>

@@ -6,7 +6,12 @@ const CollectionName = (props) => {
   return (
     <Form.Group className="mb-3" controlId={name}>
       <Form.Label>Collection Name*</Form.Label>
-      <Form.Control type="text" {...props} />
+      <Form.Control
+        autoFocus
+        placeholder="The greatest collection"
+        type="text"
+        {...props}
+      />
       <Form.Control.Feedback type="invalid">{error}</Form.Control.Feedback>
 
       <Form.Control.Feedback>Looks Good</Form.Control.Feedback>

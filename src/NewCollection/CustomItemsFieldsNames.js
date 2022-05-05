@@ -3,8 +3,6 @@ import * as yup from "yup";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import "bootstrap/dist/css/bootstrap.min.css";
-import FieldsNames from "./FieldsNames";
-import { useState } from "react";
 
 const CustomItemFieldsNames = (props) => {
   const schema = yup.object().shape({});
@@ -28,6 +26,7 @@ const CustomItemFieldsNames = (props) => {
         setFieldValue,
         setFieldError,
         setFieldTouched,
+        set,
       }) => (
         <Form noValidate onSubmit={handleSubmit}>
           <Button

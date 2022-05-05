@@ -1,62 +1,69 @@
-import { useState, Fragment } from "react";
-import { Typeahead, AsyncTypeahead } from "react-bootstrap-typeahead";
+import { useState, useEffect } from "react";
+import { Typeahead } from "react-bootstrap-typeahead";
 import Form from "react-bootstrap/Form";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "react-bootstrap-typeahead/css/Typeahead.css";
 
-const SEARCH_URI = "https://api.github.com/search/users";
-
-const SelectTags = () => {
+const SelectTags = ({
+  setValue,
+  setError,
+  setTouched,
+  value,
+  name,
+  error,
+  isTouched,
+}) => {
+  const [query, setQuery] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [options, setOptions] = useState([]);
 
-  const handleSearch = (query) => {
-    setIsLoading(true);
+  const options = ["Red", "White", "Black", "Yellow"];
 
-    fetch(`${SEARCH_URI}?q=${query}+in:login&page=1&per_page=50`)
-      .then((resp) => resp.json())
-      .then(({ items }) => {
-        const options = items.map((i) => ({
-          avatar_url: i.avatar_url,
-          id: i.id,
-          login: i.login,
-        }));
-
-        setOptions(options);
-        setIsLoading(false);
-      });
+  const changeTags = (t) => {
+    if (!t.length) setError(name, "Collection tags are required!");
+    setTouched(name);
+    setValue(name, t);
   };
 
-  // Bypass client-side filtering by returning `true`. Results are already
-  // filtered by the search endpoint, so no need to do it again.
-  const filterBy = () => true;
+  useEffect(() => {
+    if (!query) return;
+    // get results
+  }, [query]);
+
+  const inputIsInvalid = error && !value.length && isTouched ? true : false;
+  const inputIsValid = !error && value.length ? true : false;
 
   return (
-    <AsyncTypeahead
-      filterBy={filterBy}
-      id="async-example"
-      isLoading={isLoading}
-      labelKey="login"
-      minLength={3}
-      onSearch={handleSearch}
-      options={options}
-      placeholder="Search for a Github user..."
-      multiple
-      renderMenuItemChildren={(option, props) => (
-        <Fragment>
-          <img
-            alt={option.login}
-            src={option.avatar_url}
-            style={{
-              height: "24px",
-              marginRight: "10px",
-              width: "24px",
-            }}
-          />
-          <span>{option.login}</span>
-        </Fragment>
+    <Form.Group className="mb-3" controlId={name}>
+      <Form.Label>Collection Tags</Form.Label>
+      <Typeahead
+        id={name}
+        multiple
+        name="collectionTags"
+        onChange={changeTags}
+        onInputChange={setQuery}
+        onBlur={() => {
+          setTouched(name);
+          if (value.length) return;
+          return setError(name, "Collection tags are required");
+        }}
+        options={options}
+        placeholder="Type and choose your tags..."
+        selected={value}
+        isLoading={isLoading}
+        isInvalid={inputIsInvalid}
+        isValid={inputIsValid}
+      />
+      {inputIsValid && (
+        <div style={{ display: "block" }} className="valid-feedback">
+          Looks good!
+        </div>
       )}
-    />
+      {inputIsInvalid && (
+        <div style={{ display: "block" }} className="invalid-feedback">
+          {error}
+        </div>
+      )}
+    </Form.Group>
   );
 };
 export default SelectTags;

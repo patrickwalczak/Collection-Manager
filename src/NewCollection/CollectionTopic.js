@@ -2,7 +2,7 @@ import Form from "react-bootstrap/Form";
 import "bootstrap/dist/css/bootstrap.min.css";
 import SelectTopic from "./SelectTopic";
 
-const CollectionTags2 = (props) => {
+const CollectionTopic = (props) => {
   const { error, isTouched, name } = props;
 
   return (
@@ -23,4 +23,4 @@ const CollectionTags2 = (props) => {
   );
 };
 
-export default CollectionTags2;
+export default CollectionTopic;

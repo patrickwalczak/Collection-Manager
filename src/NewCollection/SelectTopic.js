@@ -5,7 +5,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 const SelectTopic = ({
   setValue,
   setError,
-  defValue,
+  value,
   setTouched,
   error,
   isTouched,
@@ -13,35 +13,36 @@ const SelectTopic = ({
   const options = [
     { value: "Red", label: "Red" },
     { value: "White", label: "White" },
+    { value: "Yellow", label: "Yellow" },
+    { value: "Black", label: "Black" },
+    { value: "Blue", label: "Blue" },
   ];
 
-  const changeSelect = (value) => {
+  const changeSelect = (selectedTopic) => {
+    console.log(selectedTopic);
     setTouched("collectionTopic");
-    if (!value) {
+    if (!selectedTopic) {
       setValue("collectionTopic", "");
     } else {
-      setValue("collectionTopic", value.label);
+      setValue("collectionTopic", selectedTopic.label);
     }
   };
 
   const blurSelect = () => {
     setTouched("collectionTopic");
-    if (defValue) return;
+    if (value) return;
     setError("collectionTopic", "Collection topic is required");
   };
 
   // defaultValue equals empty string if no option was chosen
-  const defaultValue = !defValue
-    ? ""
-    : options.find((o) => o.label === defValue);
+  const defaultValue = !value ? "" : options.find((o) => o.label === value);
 
-  const isValidClass = defaultValue ? "form-control p-0 is-valid" : "";
-  const isInvalidClass =
-    error && isTouched ? "form-control p-0 is-invalid" : "";
+  const validStyle = defaultValue ? "form-control p-0 is-valid" : "";
+  const invalidStyle = error && isTouched ? "form-control p-0 is-invalid" : "";
 
   return (
     <Select
-      className={`${isValidClass} ${isInvalidClass}`}
+      className={`${validStyle} ${invalidStyle}`}
       defaultValue={defaultValue}
       placeholder="Select collection topic"
       isClearable={true}

@@ -9,6 +9,7 @@ const CollectionDescription = (props) => {
       <Form.Control
         name={name}
         as="textarea"
+        placeholder="My collection is about..."
         style={{ height: "100px" }}
         {...inputProps}
       />
