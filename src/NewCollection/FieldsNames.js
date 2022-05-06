@@ -29,9 +29,7 @@ const FieldsNames = ({
             name={name + i}
             value={fieldsNamesList[i]}
             onChange={changeFieldName.bind(null, i)}
-            isInvalid={
-              fieldsNamesList[i].length > 30 || fieldsNamesList[i].length < 2
-            }
+            isInvalid={fieldsNamesList[i].length > 30}
             isValid={
               fieldsNamesList[i].length < 30 && fieldsNamesList[i].length > 1
             }

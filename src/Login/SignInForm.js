@@ -6,42 +6,27 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import Spinner from "react-bootstrap/Spinner";
 import Alert from "react-bootstrap/Alert";
 import { Link } from "react-router-dom";
+import ReusableFieldName from "../SignUp/ReusableFieldName";
 
 const schema = yup.object().shape({
-  email: yup
-    .string()
-    .trim()
-    .required("Email is required!")
-    .min(4)
-    .max(30)
-    .test({
-      message: "Incorrect email input",
-      test: (email) => {
-        if (!email) return;
-        return (
-          email.match(
-            /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:.[a-zA-Z0-9-]+)*$/
-          ) !== null
-        );
-      },
-    }),
+  email: yup.string().trim().email().required("Field is required!"),
   password: yup
     .string()
     .trim()
-    .min(2, "Password must have at least 2 characters")
-    .max(15)
-    .required("Password is required!"),
+    .min(2, "Too short!")
+    .max(15, "Too long")
+    .required("Field is required!"),
 });
 
 function SignInForm() {
-  const submitHandler = (data) => {
+  const submitForm = (data) => {
     console.log(data);
   };
 
   return (
     <Formik
       validationSchema={schema}
-      onSubmit={submitHandler}
+      onSubmit={submitForm}
       initialValues={{
         email: "",
         password: "",
@@ -49,44 +34,40 @@ function SignInForm() {
     >
       {({
         handleSubmit,
-        handleChange,
         handleBlur,
+        setFieldValue,
+        setFieldTouched,
         values,
         touched,
         isValid,
         errors,
       }) => (
         <Form noValidate onSubmit={handleSubmit}>
-          <Form.Group className="mb-4" controlId="email">
-            <Form.Label>Email</Form.Label>
-            <Form.Control
-              type="email"
-              name="email"
-              onChange={handleChange}
-              onBlur={handleBlur}
-              isInvalid={errors.email && touched.email}
-              isValid={!errors.email && values.email}
-            />
-            <Form.Control.Feedback type="invalid">
-              {errors.email}
-            </Form.Control.Feedback>
-            <Form.Control.Feedback>Looks Good!</Form.Control.Feedback>
-          </Form.Group>
-          <Form.Group className="mb-4" controlId="password">
-            <Form.Label>Password</Form.Label>
-            <Form.Control
-              type="password"
-              name="password"
-              onChange={handleChange}
-              onBlur={handleBlur}
-              isInvalid={errors.password && touched.password}
-              isValid={values.password && !errors.password}
-            />
-            <Form.Control.Feedback type="invalid">
-              {errors.password}
-            </Form.Control.Feedback>
-            <Form.Control.Feedback>Looks Good!</Form.Control.Feedback>
-          </Form.Group>
+          <ReusableFieldName
+            label="Email"
+            name="email"
+            type="email"
+            value={values.email}
+            setValue={setFieldValue}
+            setTouched={setFieldTouched}
+            onBlur={handleBlur}
+            isInvalid={errors.email && touched.email}
+            isValid={!errors.email && values.email}
+            error={errors.email}
+          />
+
+          <ReusableFieldName
+            label="Password"
+            name="password"
+            type="password"
+            value={values.password}
+            setValue={setFieldValue}
+            setTouched={setFieldTouched}
+            onBlur={handleBlur}
+            isInvalid={errors.password && touched.password}
+            isValid={!errors.password && values.password}
+            error={errors.password}
+          />
           {false && (
             <Alert variant="danger" onClose={() => {}} dismissible>
               <Alert.Heading>Error</Alert.Heading>
@@ -94,7 +75,7 @@ function SignInForm() {
             </Alert>
           )}
 
-          <div className="d-grid gap-2">
+          <div className="d-grid gap-2 ">
             <Button type="submit" variant="dark">
               SIGN IN
             </Button>

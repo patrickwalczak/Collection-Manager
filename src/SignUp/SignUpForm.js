@@ -6,11 +6,22 @@ import Alert from "react-bootstrap/Alert";
 import Spinner from "react-bootstrap/Spinner";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Link } from "react-router-dom";
+import ReusableFieldName from "./ReusableFieldName";
 
 const schema = yup.object().shape({
-  username: yup.string().min(3).max(20).required(),
-  email: yup.string().email().required(),
-  password: yup.mixed().required(),
+  username: yup
+    .string()
+    .trim()
+    .min(3)
+    .max(20)
+    .required("Field is required!")
+    .matches(/^[A-Za-z0-9]+$/, "Username cannot contain special characters"),
+  email: yup.string().email().required("Field is required!"),
+  password: yup
+    .string()
+    .min(2, "Too short")
+    .max(15, "Too long")
+    .required("Field is required!"),
 });
 
 function SignUp() {
@@ -30,70 +41,61 @@ function SignUp() {
     >
       {({
         handleSubmit,
-        handleChange,
         handleBlur,
+        setFieldValue,
+        setFieldTouched,
         values,
         touched,
         isValid,
         errors,
       }) => (
         <Form noValidate onSubmit={handleSubmit}>
-          <Form.Group controlId="username">
-            <Form.Label>Username</Form.Label>
-            <Form.Control
-              type="text"
-              name="username"
-              value={values.username}
-              onChange={handleChange}
-              onBlur={handleBlur}
-              isInvalid={errors.username && touched.username}
-              isValid={!errors.username && values.username}
-            />
-            <Form.Control.Feedback type="invalid">
-              {errors.username}
-            </Form.Control.Feedback>
-            <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
-          </Form.Group>
-          <Form.Group controlId="email">
-            <Form.Label>Email</Form.Label>
-            <Form.Control
-              type="email"
-              name="email"
-              value={values.email}
-              onChange={handleChange}
-              onBlur={handleBlur}
-              isInvalid={errors.email && touched.email}
-              isValid={!errors.email && values.email}
-            />
-            <Form.Control.Feedback type="invalid">
-              {errors.email}
-            </Form.Control.Feedback>
-            <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
-          </Form.Group>
-          <Form.Group controlId="password">
-            <Form.Label>Password</Form.Label>
-            <Form.Control
-              type="password"
-              name="password"
-              value={values.password}
-              onChange={handleChange}
-              onBlur={handleBlur}
-              isInvalid={errors.password && touched.password}
-              isValid={!errors.password && values.password}
-            />
-            <Form.Control.Feedback type="invalid">
-              {errors.password}
-            </Form.Control.Feedback>
-            <br></br>
-          </Form.Group>
+          <ReusableFieldName
+            name="username"
+            label="Username"
+            type="text"
+            value={values.username}
+            setValue={setFieldValue}
+            setTouched={setFieldTouched}
+            onBlur={handleBlur}
+            isInvalid={errors.username && touched.username}
+            isValid={!errors.username && values.username}
+            error={errors.username}
+          />
+          <ReusableFieldName
+            label="Email"
+            name="email"
+            type="email"
+            value={values.email}
+            setValue={setFieldValue}
+            setTouched={setFieldTouched}
+            onBlur={handleBlur}
+            isInvalid={errors.email && touched.email}
+            isValid={!errors.email && values.email}
+            error={errors.email}
+          />
+
+          <ReusableFieldName
+            label="Password"
+            name="password"
+            type="password"
+            value={values.password}
+            setValue={setFieldValue}
+            setTouched={setFieldTouched}
+            onBlur={handleBlur}
+            isInvalid={errors.password && touched.password}
+            isValid={!errors.password && values.password}
+            error={errors.password}
+          />
+
           {false && (
             <Alert variant="danger" onClose={() => {}} dismissible>
               <Alert.Heading>Error</Alert.Heading>
               <p></p>
             </Alert>
           )}
-          <div className="d-grid gap-1">
-            <Button type="submit" variant="dark" size="lg">
+          <div className="d-grid gap-1 mt-4">
+            <Button type="submit" variant="dark">
               SIGN UP
             </Button>
             <Link to={"/login"}>
