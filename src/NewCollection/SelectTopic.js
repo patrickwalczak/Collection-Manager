@@ -9,6 +9,7 @@ const SelectTopic = ({
   setTouched,
   error,
   isTouched,
+  name,
 }) => {
   const options = [
     { value: "Red", label: "Red" },
@@ -19,19 +20,12 @@ const SelectTopic = ({
   ];
 
   const changeSelect = (selectedTopic) => {
-    console.log(selectedTopic);
-    setTouched("collectionTopic");
     if (!selectedTopic) {
-      setValue("collectionTopic", "");
+      setValue(name, "");
+      setError(name, "Collection topic is required");
     } else {
-      setValue("collectionTopic", selectedTopic.label);
+      setValue(name, selectedTopic.label);
     }
-  };
-
-  const blurSelect = () => {
-    setTouched("collectionTopic");
-    if (value) return;
-    setError("collectionTopic", "Collection topic is required");
   };
 
   // defaultValue equals empty string if no option was chosen
@@ -42,15 +36,15 @@ const SelectTopic = ({
 
   return (
     <Select
+      name={name}
       className={`${validStyle} ${invalidStyle}`}
       defaultValue={defaultValue}
       placeholder="Select collection topic"
       isClearable={true}
       isSearchable={true}
-      name="collectionTopic"
       options={options}
       onChange={changeSelect}
-      onBlur={blurSelect}
+      onFocus={() => setTouched(name)}
     />
   );
 };

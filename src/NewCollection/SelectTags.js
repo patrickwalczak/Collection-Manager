@@ -24,6 +24,12 @@ const SelectTags = ({
     setValue(name, t);
   };
 
+  const blurTags = () => {
+    setTouched(name);
+    if (value.length) return;
+    return setError(name, "Collection tags are required");
+  };
+
   useEffect(() => {
     if (!query) return;
     // get results
@@ -41,11 +47,7 @@ const SelectTags = ({
         name="collectionTags"
         onChange={changeTags}
         onInputChange={setQuery}
-        onBlur={() => {
-          setTouched(name);
-          if (value.length) return;
-          return setError(name, "Collection tags are required");
-        }}
+        onBlur={blurTags}
         options={options}
         placeholder="Type and choose your tags..."
         selected={value}

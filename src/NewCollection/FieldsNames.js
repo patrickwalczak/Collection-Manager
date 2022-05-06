@@ -30,7 +30,7 @@ const FieldsNames = ({
             value={fieldsNamesList[i]}
             onChange={changeFieldName.bind(null, i)}
             isInvalid={
-              fieldsNamesList[i].length > 30 || fieldsNamesList[i].length === 1
+              fieldsNamesList[i].length > 30 || fieldsNamesList[i].length < 2
             }
             isValid={
               fieldsNamesList[i].length < 30 && fieldsNamesList[i].length > 1
@@ -43,10 +43,13 @@ const FieldsNames = ({
         </Form.Group>
       ))}
 
-      {isTouched && error && (
-        <Form.Text className="d-block mb-3 text-center">
-          Name must have at least 2 and less than 30 characters.
-        </Form.Text>
+      {error && (
+        <div
+          style={{ display: "block" }}
+          className="invalid-feedback text-center mb-3"
+        >
+          Custom fields names must have at least 2 and less than 30 characters.
+        </div>
       )}
     </Fragment>
   );

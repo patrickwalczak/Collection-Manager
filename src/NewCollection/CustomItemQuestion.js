@@ -1,5 +1,6 @@
 import Form from "react-bootstrap/Form";
 import "bootstrap/dist/css/bootstrap.min.css";
+import { useEffect, useState } from "react";
 
 const CustomItemQuestion = ({
   name,
@@ -53,8 +54,9 @@ const CustomItemQuestion = ({
       {options.map((item, index) => (
         <Form.Check
           inline
-          defaultChecked={index === +chosenOption ? chosenOption : ""}
           name={name}
+          checked={index === chosenOption}
+          onChange={() => {}}
           key={item.value}
           {...item}
           type="radio"

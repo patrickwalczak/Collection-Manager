@@ -32,20 +32,26 @@ const NewCollectionForm = () => {
   const checkQuestionErrorMessage = "You have to choose one option";
   const isRequiredErrorMessage = "Field is required!";
   const tooLongErrorMessage = "Input is too long!";
+  const tooShortErrorMessage = "Input is too short!";
+
+  const regexForSpecialCharacters = /[`!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?~]/;
+
+  const customFieldsNamesTest = {
+    message: "Custom fields names cannot be empty!",
+    test: (fieldsNames) =>
+      fieldsNames.every((fieldName) => fieldName !== undefined),
+  };
 
   const schema = yup.object().shape({
     collectionName: yup
       .string()
       .trim()
-      .min(3, "Collection name is to short")
+      .min(3, tooShortErrorMessage)
       .max(25, tooLongErrorMessage)
-      .test({
-        message: "Collection name cannot contain special characters",
-        test: (name) => {
-          if (!name) return true;
-          return name.match(/[`!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?~]/) === null;
-        },
-      })
+      .matches(
+        /^[A-Za-z0-9_.]+$/,
+        "Collection name cannot contain special characters"
+      )
       .required(isRequiredErrorMessage),
     collectionTopic: yup.string().required(isRequiredErrorMessage),
     collectionTags: yup.array().test({
@@ -55,8 +61,8 @@ const NewCollectionForm = () => {
     collectionDescription: yup
       .string()
       .trim()
-      .min(1, "Description must be at least 1 character!")
-      .max(300, "Description can have max 300 characters!")
+      .min(1, tooShortErrorMessage)
+      .max(300, tooLongErrorMessage)
       .required(isRequiredErrorMessage),
     chosenNumberOfCustomTextFields: yup
       .string()
@@ -71,34 +77,14 @@ const NewCollectionForm = () => {
       .string()
       .required(checkQuestionErrorMessage),
     chosenNumberOfDateFields: yup.string().required(checkQuestionErrorMessage),
-    customTextFieldsNames: yup.array().test({
-      message: "Custom fields names cannot be empty!",
-      test: (fieldsNames) =>
-        fieldsNames.every((fieldName) => fieldName !== undefined),
-    }),
-    customNumberFieldsNames: yup.array().test({
-      message: "Custom fields names cannot be empty!",
-      test: (fieldsNames) =>
-        fieldsNames.every((fieldName) => fieldName !== undefined),
-    }),
-    customMultilineTextFieldsNames: yup.array().test({
-      message: "Custom fields names cannot be empty!",
-      test: (fieldsNames) =>
-        fieldsNames.every((fieldName) => fieldName !== undefined),
-    }),
-    customBooleanFieldsNames: yup.array().test({
-      message: "Custom fields names cannot be empty!",
-      test: (fieldsNames) =>
-        fieldsNames.every((fieldName) => fieldName !== undefined),
-    }),
-    customDateFieldsNames: yup.array().test({
-      message: "Custom fields names cannot be empty!",
-      test: (fieldsNames) =>
-        fieldsNames.every((fieldName) => fieldName !== undefined),
-    }),
+    customTextFieldsNames: yup.array().test(customFieldsNamesTest),
+    customNumberFieldsNames: yup.array().test(customFieldsNamesTest),
+    customMultilineTextFieldsNames: yup.array().test(customFieldsNamesTest),
+    customBooleanFieldsNames: yup.array().test(customFieldsNamesTest),
+    customDateFieldsNames: yup.array().test(customFieldsNamesTest),
   });
 
-  const customItemOptions = [
+  const numberOfCustomFieldsOptions = [
     { value: 0, label: "0" },
     { value: 1, label: "1" },
     { value: 2, label: "2" },
@@ -115,6 +101,7 @@ const NewCollectionForm = () => {
         handleSubmit,
         handleChange,
         handleBlur,
+        handleReset,
         values,
         touched,
         isValid,
@@ -123,11 +110,11 @@ const NewCollectionForm = () => {
         setFieldError,
         setFieldTouched,
       }) => (
-        <Form noValidate onSubmit={handleSubmit}>
+        <Form noValidate onSubmit={handleSubmit} className="pb-4">
           <CollectionName
             name="collectionName"
-            onChange={handleChange}
-            onBlur={handleBlur}
+            setValue={setFieldValue}
+            setTouched={setFieldTouched}
             isInvalid={touched.collectionName && errors.collectionName}
             isValid={values.collectionName && !errors.collectionName}
             error={errors.collectionName}
@@ -146,8 +133,8 @@ const NewCollectionForm = () => {
 
           <CollectionDescription
             name="collectionDescription"
-            onBlur={handleBlur}
-            onChange={handleChange}
+            setValue={setFieldValue}
+            setTouched={setFieldTouched}
             isInvalid={
               touched.collectionDescription && errors.collectionDescription
             }
@@ -178,7 +165,7 @@ const NewCollectionForm = () => {
             name="chosenNumberOfCustomTextFields"
             fieldsNamesId="customTextFieldsNames"
             fieldsNamesList={values.customTextFieldsNames}
-            options={customItemOptions}
+            options={numberOfCustomFieldsOptions}
             question={
               "How many single line text should your collection items have?*"
             }
@@ -194,14 +181,13 @@ const NewCollectionForm = () => {
             setValue={setFieldValue}
             setTouched={setFieldTouched}
             error={errors.customTextFieldsNames}
-            isTouched={touched.customTextFieldsNames}
           />
 
           <CustomItemQuestion
             setValue={setFieldValue}
             setTouched={setFieldTouched}
             name="chosenNumberOfCustomNumberFields"
-            options={customItemOptions}
+            options={numberOfCustomFieldsOptions}
             fieldsNamesId="customNumberFieldsNames"
             fieldsNamesList={values.customNumberFieldsNames}
             question={
@@ -219,7 +205,6 @@ const NewCollectionForm = () => {
             setValue={setFieldValue}
             setTouched={setFieldTouched}
             error={errors.customNumberFieldsNames}
-            isTouched={touched.customNumberFieldsNames}
           />
 
           <CustomItemQuestion
@@ -228,7 +213,7 @@ const NewCollectionForm = () => {
             name="chosenNumberOfCustomMultilineTextFields"
             fieldsNamesId="customMultilineTextFieldsNames"
             fieldsNamesList={values.customMultilineTextFieldsNames}
-            options={customItemOptions}
+            options={numberOfCustomFieldsOptions}
             question={
               "How many multiline text fields should your collection items have?*"
             }
@@ -244,7 +229,6 @@ const NewCollectionForm = () => {
             setValue={setFieldValue}
             setTouched={setFieldTouched}
             error={errors.customMultilineTextFieldsNames}
-            isTouched={touched.customMultilineTextFieldsNames}
           />
 
           <CustomItemQuestion
@@ -253,7 +237,7 @@ const NewCollectionForm = () => {
             name="chosenNumberOfBooleanFields"
             fieldsNamesId="customBooleanFieldsNames"
             fieldsNamesList={values.customBooleanFieldsNames}
-            options={customItemOptions}
+            options={numberOfCustomFieldsOptions}
             question={
               "How many true/false checkboxes should your collection items have?*"
             }
@@ -269,7 +253,6 @@ const NewCollectionForm = () => {
             setValue={setFieldValue}
             setTouched={setFieldTouched}
             error={errors.customBooleanFieldsNames}
-            isTouched={touched.customBooleanFieldsNames}
           />
 
           <CustomItemQuestion
@@ -278,7 +261,7 @@ const NewCollectionForm = () => {
             name="chosenNumberOfDateFields"
             fieldsNamesId="customDateFieldsNames"
             fieldsNamesList={values.customDateFieldsNames}
-            options={customItemOptions}
+            options={numberOfCustomFieldsOptions}
             question={
               "How many date fields should your collection items have?*"
             }
@@ -294,14 +277,21 @@ const NewCollectionForm = () => {
             setValue={setFieldValue}
             setTouched={setFieldTouched}
             error={errors.customDateFieldsNames}
-            isTouched={touched.customDateFieldsNames}
           />
 
-          <Button type="submit">NEXT</Button>
-          <pre>{JSON.stringify(values, null, 2)}</pre>
-          <pre>{JSON.stringify(errors, null, 2)}</pre>
-          <pre>{JSON.stringify(touched, null, 2)}</pre>
-          <pre>{JSON.stringify(isValid, null, 2)}</pre>
+          <div className="d-flex justify-content-end gap-3">
+            <Button
+              className="col-2"
+              variant="secondary"
+              onClick={handleReset}
+              type="button"
+            >
+              RESET
+            </Button>
+            <Button className="col-4" variant="success" type="submit">
+              CREATE
+            </Button>
+          </div>
         </Form>
       )}
     </Formik>
