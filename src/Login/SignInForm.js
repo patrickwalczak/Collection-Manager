@@ -35,11 +35,11 @@ function SignInForm() {
       {({
         handleSubmit,
         handleBlur,
-        setFieldValue,
         setFieldTouched,
+        setFieldValue,
         values,
-        touched,
         isValid,
+        touched,
         errors,
       }) => (
         <Form noValidate onSubmit={handleSubmit}>
@@ -48,8 +48,8 @@ function SignInForm() {
             name="email"
             type="email"
             value={values.email}
-            setValue={setFieldValue}
-            setTouched={setFieldTouched}
+            setFieldTouched={setFieldTouched}
+            setFieldValue={setFieldValue}
             onBlur={handleBlur}
             isInvalid={errors.email && touched.email}
             isValid={!errors.email && values.email}
@@ -61,8 +61,8 @@ function SignInForm() {
             name="password"
             type="password"
             value={values.password}
-            setValue={setFieldValue}
-            setTouched={setFieldTouched}
+            setFieldTouched={setFieldTouched}
+            setFieldValue={setFieldValue}
             onBlur={handleBlur}
             isInvalid={errors.password && touched.password}
             isValid={!errors.password && values.password}

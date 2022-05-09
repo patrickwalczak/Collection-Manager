@@ -1,17 +1,18 @@
 import { useReducer, useCallback } from "react";
+import { rejectTooLongRequest } from "../helpers/helpers";
 
 function httpReducer(state, action) {
   if (action.type === "SEND") {
     return {
       data: null,
       error: null,
-      status: "pending",
+      status: "loading",
     };
   }
 
   if (action.type === "SUCCESS") {
     return {
-      data: action.responseData,
+      data: action.rData,
       error: null,
       status: "completed",
     };
@@ -20,41 +21,57 @@ function httpReducer(state, action) {
   if (action.type === "ERROR") {
     return {
       data: null,
-      error: action.errorMessage,
+      error: action.message,
       status: "completed",
+    };
+  }
+
+  if (action.type === "CLEAR") {
+    return {
+      data: null,
+      error: null,
+      status: null,
     };
   }
 
   return state;
 }
 
-function useHttp(requestFunction, startWithPending = false) {
+const useHttp = () => {
   const [httpState, dispatch] = useReducer(httpReducer, {
-    status: startWithPending ? "pending" : null,
+    status: null,
     data: null,
     error: null,
   });
 
-  const sendRequest = useCallback(
-    async function (requestData) {
-      dispatch({ type: "SEND" });
-      try {
-        const responseData = await requestFunction(requestData);
-        dispatch({ type: "SUCCESS", responseData });
-      } catch (error) {
-        dispatch({
-          type: "ERROR",
-          errorMessage: error.message || "Something went wrong!",
-        });
-      }
-    },
-    [requestFunction]
-  );
+  const clearError = () => dispatch({ type: "CLEAR" });
+
+  const sendRequest = useCallback(async (url, methodOptionsObject = {}) => {
+    dispatch({ type: "SEND" });
+    try {
+      const response = await Promise.race([
+        rejectTooLongRequest(),
+        fetch(url, methodOptionsObject),
+      ]);
+
+      const rData = await response.json();
+
+      if (!response.ok) throw rData;
+
+      dispatch({ type: "SUCCESS", rData });
+    } catch ({ message }) {
+      dispatch({
+        type: "ERROR",
+        message,
+      });
+    }
+  }, []);
 
   return {
+    clearError,
     sendRequest,
     ...httpState,
   };
-}
+};
 
 export default useHttp;

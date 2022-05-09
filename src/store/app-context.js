@@ -1,6 +1,6 @@
 import React from "react";
 
-const CartContext = React.createContext({
+const AppContext = React.createContext({
   username: null,
   userId: null,
   token: null,
@@ -9,4 +9,4 @@ const CartContext = React.createContext({
   logout: (id) => {},
 });
 
-export default CartContext;
+export default AppContext;

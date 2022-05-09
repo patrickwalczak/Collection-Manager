@@ -5,10 +5,16 @@ import { Link, NavLink } from "react-router-dom";
 import Button from "react-bootstrap/Button";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
+import AppContext from "../store/app-context";
+import { useContext } from "react";
 
 const AppNavigation = () => {
   const navLinkMargin = "text-white mx-1 mx-md-2  nav-link";
   const navBtnMarPad = "text-white p-1 p-md-2 mx-1 mx-md-2 mx-lg-3";
+
+  const context = useContext(AppContext);
+
+  console.log(context);
 
   return (
     <Row style={{ height: "4rem" }}>
@@ -28,24 +34,28 @@ const AppNavigation = () => {
           <Navbar.Toggle aria-controls="tooglemenu" />
           <Navbar.Collapse className="justify-content-end" id="tooglemenu">
             <Nav className="align-items-center">
-              <NavLink
-                to="/login"
-                className={({ isActive }) =>
-                  `${navLinkMargin}  nav-link` + (isActive ? " active" : "")
-                }
-              >
-                Log In
-              </NavLink>
-              <NavLink
-                to="/signUp"
-                className={({ isActive }) =>
-                  `${navLinkMargin}  nav-link` + (isActive ? " active" : "")
-                }
-              >
-                Sign Up
-              </NavLink>
+              {!context.userId && (
+                <NavLink
+                  to="/login"
+                  className={({ isActive }) =>
+                    `${navLinkMargin}  nav-link` + (isActive ? " active" : "")
+                  }
+                >
+                  Log In
+                </NavLink>
+              )}
+              {!context.userId && (
+                <NavLink
+                  to="/signup"
+                  className={({ isActive }) =>
+                    `${navLinkMargin}  nav-link` + (isActive ? " active" : "")
+                  }
+                >
+                  Sign Up
+                </NavLink>
+              )}
 
-              {true && (
+              {context.userId && (
                 <NavLink
                   to="/1/collections"
                   className={({ isActive }) =>
@@ -56,8 +66,12 @@ const AppNavigation = () => {
                 </NavLink>
               )}
 
-              {false && (
-                <Button variant="dark" className={navBtnMarPad}>
+              {context.userId && (
+                <Button
+                  onClick={context.logout}
+                  variant="dark"
+                  className={navBtnMarPad}
+                >
                   Log Out
                 </Button>
               )}

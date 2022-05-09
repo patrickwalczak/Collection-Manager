@@ -7,32 +7,71 @@ import Spinner from "react-bootstrap/Spinner";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Link } from "react-router-dom";
 import ReusableFieldName from "./ReusableFieldName";
+import useHttp from "../hooks/useHttp";
+import { useEffect, useState } from "react";
+import AppContext from "../store/app-context";
+import { useContext } from "react";
 
 const schema = yup.object().shape({
   username: yup
     .string()
     .trim()
-    .min(3)
-    .max(20)
+    .min(3, "Too short!")
+    .max(20, "Too long!")
     .required("Field is required!")
-    .matches(/^[A-Za-z0-9]+$/, "Username cannot contain special characters"),
+    .test({
+      message: "Username cannot contain special characters!",
+      test: (username) => {
+        if (!username) return;
+        return username.match(/^[A-Za-z0-9]+$/) !== null;
+      },
+    }),
   email: yup.string().email().required("Field is required!"),
   password: yup
     .string()
+    .trim()
     .min(2, "Too short")
     .max(15, "Too long")
     .required("Field is required!"),
 });
 
-function SignUp() {
-  const submitHandler = (data) => {
-    console.log(data);
-  };
+const SignUp = () => {
+  const {
+    error,
+    status,
+    data: createdUserAccount,
+    sendRequest,
+    clearError,
+  } = useHttp();
+  const [formData, setFormData] = useState(null);
+
+  const { login } = useContext(AppContext);
+
+  useEffect(() => {
+    if (!formData) return;
+    sendRequest("http://localhost:5000/api/users/signup", {
+      method: "POST",
+      body: JSON.stringify(formData),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    setFormData(null);
+  }, [formData, sendRequest]);
+
+  useEffect(() => {
+    if (!createdUserAccount) return;
+    console.log(createdUserAccount);
+    login(createdUserAccount);
+    clearError();
+  }, [createdUserAccount, login]);
+
+  const isDisabled = status === "loading" ? true : false;
 
   return (
     <Formik
       validationSchema={schema}
-      onSubmit={submitHandler}
+      onSubmit={setFormData}
       initialValues={{
         username: "",
         email: "",
@@ -42,71 +81,73 @@ function SignUp() {
       {({
         handleSubmit,
         handleBlur,
-        setFieldValue,
         setFieldTouched,
+        setFieldValue,
         values,
         touched,
-        isValid,
         errors,
       }) => (
         <Form noValidate onSubmit={handleSubmit}>
           <ReusableFieldName
             name="username"
-            label="Username"
+            label="Username*"
             type="text"
+            autoFocus
             value={values.username}
-            setValue={setFieldValue}
-            setTouched={setFieldTouched}
+            setFieldTouched={setFieldTouched}
+            setFieldValue={setFieldValue}
             onBlur={handleBlur}
             isInvalid={errors.username && touched.username}
             isValid={!errors.username && values.username}
             error={errors.username}
+            disabled={isDisabled}
           />
           <ReusableFieldName
-            label="Email"
+            label="Email*"
             name="email"
             type="email"
             value={values.email}
-            setValue={setFieldValue}
-            setTouched={setFieldTouched}
+            setFieldTouched={setFieldTouched}
+            setFieldValue={setFieldValue}
             onBlur={handleBlur}
             isInvalid={errors.email && touched.email}
             isValid={!errors.email && values.email}
             error={errors.email}
+            disabled={isDisabled}
           />
 
           <ReusableFieldName
-            label="Password"
+            label="Password*"
             name="password"
             type="password"
             value={values.password}
-            setValue={setFieldValue}
-            setTouched={setFieldTouched}
+            setFieldTouched={setFieldTouched}
+            setFieldValue={setFieldValue}
             onBlur={handleBlur}
             isInvalid={errors.password && touched.password}
             isValid={!errors.password && values.password}
             error={errors.password}
+            disabled={isDisabled}
           />
 
-          {false && (
-            <Alert variant="danger" onClose={() => {}} dismissible>
-              <Alert.Heading>Error</Alert.Heading>
-              <p></p>
+          {error !== null && (
+            <Alert variant="danger" onClose={clearError} dismissible>
+              <Alert.Heading>{error}</Alert.Heading>
             </Alert>
           )}
           <div className="d-grid gap-1 mt-4">
-            <Button type="submit" variant="dark">
-              SIGN UP
+            <Button disabled={isDisabled} type="submit" variant="dark">
+              {!isDisabled && "SIGN UP"}
+              {isDisabled && <Spinner animation="border" />}
             </Button>
             <Link to={"/login"}>
               <Button variant="link">Log in instead</Button>
             </Link>
           </div>
-          {false && <Spinner animation="border" />}
         </Form>
       )}
     </Formik>
   );
-}
+};
 
 export default SignUp;

@@ -1,24 +1,20 @@
-export const rejectRequestAfterSpecifiedTime = (milliseconds = 3000) => {
-  if (!isFinite(milliseconds)) milliseconds = 3000;
-
-  return new Promise((_, reject) =>
-    setTimeout(() => {
-      reject("Problem with internet connection");
-    }, milliseconds)
+export const rejectTooLongRequest = () =>
+  new Promise((_, reject) =>
+    setTimeout(
+      () => reject({ message: "Problem with internet connection!" }),
+      10000
+    )
   );
-};
 
-export const fetchHandler = (url, methodOptionsObject = {}) => {
-  return async () => {
-    try {
-      const response = await fetch(url, methodOptionsObject);
+export const handleRequest = async (url, methodOptionsObject = {}) => {
+  try {
+    const response = await fetch(url, methodOptionsObject);
 
-      if (!response.ok) {
-        throw new Error([response.status, response.statusText, response.url]);
-      }
-      return response.json();
-    } catch (err) {
-      throw err;
+    if (!response.ok) {
+      throw new Error([response.status, response.statusText, response.url]);
     }
-  };
+    return response.json();
+  } catch (err) {
+    throw err;
+  }
 };

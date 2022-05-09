@@ -18,3 +18,12 @@ const SignUp = () => {
 };
 
 export default SignUp;
+
+//https://localhost:5000/api/users/signup, // {  method: "PATCH",
+//   body: JSON.stringify(),
+//   headers: {
+//     "Content-Type": "application/json",
+//   }
+// }
+
+// s@d.dd

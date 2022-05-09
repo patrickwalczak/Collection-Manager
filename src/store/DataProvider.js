@@ -7,14 +7,15 @@ const DataProvider = (props) => {
   const [username, setUsername] = useState(null);
   const [userType, setUserType] = useState(null);
 
-  const login = (token, uid, username, userType) => {
+  const login = ({ token, userId, username, userType }) => {
     setToken(token);
-    setUserId(uid);
+    setUserId(userId);
     setUsername(username);
     setUserType(userType);
   };
 
   const logout = () => {
+    console.log("test");
     setToken(null);
     setUserId(null);
     setUsername(null);
