@@ -14,8 +14,6 @@ const AppNavigation = () => {
 
   const context = useContext(AppContext);
 
-  console.log(context);
-
   return (
     <Row style={{ height: "4rem" }}>
       <Col>

@@ -44,7 +44,7 @@ const useHttp = () => {
     error: null,
   });
 
-  const clearError = () => dispatch({ type: "CLEAR" });
+  const clearError = useCallback(() => dispatch({ type: "CLEAR" }), []);
 
   const sendRequest = useCallback(async (url, methodOptionsObject = {}) => {
     dispatch({ type: "SEND" });

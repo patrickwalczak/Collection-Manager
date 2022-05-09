@@ -1,16 +1,19 @@
-import { Formik } from "formik";
-import * as yup from "yup";
+import "bootstrap/dist/css/bootstrap.min.css";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import Alert from "react-bootstrap/Alert";
 import Spinner from "react-bootstrap/Spinner";
-import "bootstrap/dist/css/bootstrap.min.css";
-import { Link } from "react-router-dom";
-import ReusableFieldName from "./ReusableFieldName";
+
+import { Formik } from "formik";
+import * as yup from "yup";
+
 import useHttp from "../hooks/useHttp";
-import { useEffect, useState } from "react";
 import AppContext from "../store/app-context";
-import { useContext } from "react";
+
+import { useEffect, useState, useContext } from "react";
+import { Link } from "react-router-dom";
+
+import ReusableFieldName from "./ReusableFieldName";
 
 const schema = yup.object().shape({
   username: yup
@@ -61,10 +64,9 @@ const SignUp = () => {
 
   useEffect(() => {
     if (!createdUserAccount) return;
-    console.log(createdUserAccount);
     login(createdUserAccount);
     clearError();
-  }, [createdUserAccount, login]);
+  }, [createdUserAccount, login, clearError]);
 
   const isDisabled = status === "loading" ? true : false;
 
@@ -130,7 +132,7 @@ const SignUp = () => {
             disabled={isDisabled}
           />
 
-          {error !== null && (
+          {error !== null && status !== "loading" && (
             <Alert variant="danger" onClose={clearError} dismissible>
               <Alert.Heading>{error}</Alert.Heading>
             </Alert>

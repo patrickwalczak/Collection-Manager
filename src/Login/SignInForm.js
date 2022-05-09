@@ -1,11 +1,18 @@
-import { Formik } from "formik";
-import * as yup from "yup";
+import "bootstrap/dist/css/bootstrap.min.css";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
-import "bootstrap/dist/css/bootstrap.min.css";
 import Spinner from "react-bootstrap/Spinner";
 import Alert from "react-bootstrap/Alert";
+
+import { Formik } from "formik";
+import * as yup from "yup";
+
+import useHttp from "../hooks/useHttp";
+import AppContext from "../store/app-context";
+
 import { Link } from "react-router-dom";
+import { useEffect, useState, useContext } from "react";
+
 import ReusableFieldName from "../SignUp/ReusableFieldName";
 
 const schema = yup.object().shape({
@@ -19,14 +26,41 @@ const schema = yup.object().shape({
 });
 
 function SignInForm() {
-  const submitForm = (data) => {
-    console.log(data);
-  };
+  const {
+    error,
+    status,
+    data: loggedInUser,
+    sendRequest,
+    clearError,
+  } = useHttp();
+  const [formData, setFormData] = useState(null);
+
+  const { login } = useContext(AppContext);
+
+  useEffect(() => {
+    if (!formData) return;
+    sendRequest("http://localhost:5000/api/users/login", {
+      method: "POST",
+      body: JSON.stringify(formData),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    setFormData(null);
+  }, [formData, sendRequest]);
+
+  useEffect(() => {
+    if (!loggedInUser) return;
+    login(loggedInUser);
+    clearError();
+  }, [loggedInUser, login, clearError]);
+
+  const isDisabled = status === "loading" ? true : false;
 
   return (
     <Formik
       validationSchema={schema}
-      onSubmit={submitForm}
+      onSubmit={setFormData}
       initialValues={{
         email: "",
         password: "",
@@ -38,7 +72,6 @@ function SignInForm() {
         setFieldTouched,
         setFieldValue,
         values,
-        isValid,
         touched,
         errors,
       }) => (
@@ -68,23 +101,20 @@ function SignInForm() {
             isValid={!errors.password && values.password}
             error={errors.password}
           />
-          {false && (
-            <Alert variant="danger" onClose={() => {}} dismissible>
-              <Alert.Heading>Error</Alert.Heading>
-              <p></p>
+          {error !== null && status !== "loading" && (
+            <Alert variant="danger" onClose={clearError} dismissible>
+              <Alert.Heading>{error}</Alert.Heading>
             </Alert>
           )}
-
-          <div className="d-grid gap-2 ">
-            <Button type="submit" variant="dark">
-              SIGN IN
+          <div className="d-grid gap-1 mt-4">
+            <Button disabled={isDisabled} type="submit" variant="dark">
+              {!isDisabled && "SIGN UP"}
+              {isDisabled && <Spinner animation="border" />}
             </Button>
             <Link to={"/signup"}>
-              <Button variant="link">Sign up instead</Button>
+              <Button variant="link">Create an account instead</Button>
             </Link>
           </div>
-
-          {false && <Spinner animation="border" />}
         </Form>
       )}
     </Formik>
