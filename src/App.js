@@ -3,13 +3,17 @@ import AppNavigation from "./AppNavigation/AppNavigation";
 import Login from "./Login/Login";
 import Container from "react-bootstrap/Container";
 import SignUp from "./SignUp/SignUp";
-import Collections from "./Collections/Collections";
+import UserProfile from "./UserProfile/UserProfile";
 import CollectionView from "./Collection/CollectionView";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
 import NewCollection from "./NewCollection/NewCollection";
+import AppContext from "./store/app-context";
+import { useContext } from "react";
 
 function App() {
+  const { userId, userType, token } = useContext(AppContext);
+
   return (
     <Container
       style={{
@@ -25,9 +29,11 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/collection" element={<CollectionView />} />
-        <Route path="/newcollection" element={<NewCollection />} />
+        {!!token && userId && (
+          <Route path="/newcollection" element={<NewCollection />} />
+        )}
         <Route path="*" element={<Navigate replace to="/login" />} />
-        <Route path="/:uid/collections" element={<Collections />} />
+        <Route path="/user/:userId" element={<UserProfile />} />
       </Routes>
     </Container>
   );

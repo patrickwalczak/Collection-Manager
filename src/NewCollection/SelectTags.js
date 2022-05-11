@@ -1,8 +1,10 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { Typeahead } from "react-bootstrap-typeahead";
 import Form from "react-bootstrap/Form";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "react-bootstrap-typeahead/css/Typeahead.css";
+
+import useHttp from "../hooks/useHttp";
 
 const SelectTags = ({
   setValue,
@@ -15,8 +17,35 @@ const SelectTags = ({
 }) => {
   const [query, setQuery] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [tags, setTags] = useState([]);
 
-  const options = ["Red", "White", "Black", "Yellow"];
+  const { requestError, requestStatus, sendRequest, resetHookState } =
+    useHttp();
+
+  const getTags = useCallback(async (query) => {
+    setIsLoading(true);
+    try {
+      const returnedData = await sendRequest(
+        `http://localhost:5000/api/config/tags/${query}`
+      );
+
+      if (!returnedData) throw "";
+
+      const { tags } = returnedData;
+
+      setTags(tags);
+
+      setIsLoading(false);
+    } catch (err) {
+      setTags([]);
+      setIsLoading(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (!query) return;
+    getTags(query);
+  }, [getTags, query]);
 
   const changeTags = (t) => {
     if (!t.length) setError(name, "Collection tags are required!");
@@ -29,11 +58,6 @@ const SelectTags = ({
     if (value.length) return;
     return setError(name, "Collection tags are required");
   };
-
-  useEffect(() => {
-    if (!query) return;
-    // get results
-  }, [query]);
 
   const inputIsInvalid = error && !value.length && isTouched ? true : false;
   const inputIsValid = !error && value.length ? true : false;
@@ -48,12 +72,13 @@ const SelectTags = ({
         onChange={changeTags}
         onInputChange={setQuery}
         onBlur={blurTags}
-        options={options}
+        options={tags}
         placeholder="Type and choose your tags..."
         selected={value}
         isLoading={isLoading}
         isInvalid={inputIsInvalid}
         isValid={inputIsValid}
+        open={!!query}
       />
       {inputIsValid && (
         <div style={{ display: "block" }} className="valid-feedback">

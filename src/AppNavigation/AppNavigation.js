@@ -55,7 +55,7 @@ const AppNavigation = () => {
 
               {context.userId && (
                 <NavLink
-                  to="/1/collections"
+                  to={`/user/${context.userId}`}
                   className={({ isActive }) =>
                     `${navLinkMargin}  nav-link` + (isActive ? " active" : "")
                   }

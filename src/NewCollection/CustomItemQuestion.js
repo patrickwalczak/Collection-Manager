@@ -13,6 +13,7 @@ const CustomItemQuestion = ({
   value: chosenOption,
   fieldsNamesId,
   fieldsNamesList,
+  isDisabled,
 }) => {
   const changeOption = (e) => {
     const newChosenOption = +e.target.value;
@@ -60,6 +61,7 @@ const CustomItemQuestion = ({
           key={item.value}
           {...item}
           type="radio"
+          disabled={isDisabled}
         />
       ))}
       {chosenOption !== "" && (

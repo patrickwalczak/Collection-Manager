@@ -15,7 +15,6 @@ const DataProvider = (props) => {
   };
 
   const logout = () => {
-    console.log("test");
     setToken(null);
     setUserId(null);
     setUsername(null);

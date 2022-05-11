@@ -7,10 +7,6 @@ import Spinner from "react-bootstrap/Spinner";
 import { Formik } from "formik";
 import * as yup from "yup";
 
-import useHttp from "../hooks/useHttp";
-import AppContext from "../store/app-context";
-
-import { useEffect, useState, useContext } from "react";
 import { Link } from "react-router-dom";
 
 import ReusableFieldName from "./ReusableFieldName";
@@ -38,37 +34,13 @@ const schema = yup.object().shape({
     .required("Field is required!"),
 });
 
-const SignUp = () => {
-  const {
-    error,
-    status,
-    data: createdUserAccount,
-    sendRequest,
-    clearError,
-  } = useHttp();
-  const [formData, setFormData] = useState(null);
-
-  const { login } = useContext(AppContext);
-
-  useEffect(() => {
-    if (!formData) return;
-    sendRequest("http://localhost:5000/api/users/signup", {
-      method: "POST",
-      body: JSON.stringify(formData),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-    setFormData(null);
-  }, [formData, sendRequest]);
-
-  useEffect(() => {
-    if (!createdUserAccount) return;
-    login(createdUserAccount);
-    clearError();
-  }, [createdUserAccount, login, clearError]);
-
-  const isDisabled = status === "loading" ? true : false;
+const SignUp = ({
+  setFormData,
+  requestStatus,
+  requestError,
+  resetHookState,
+}) => {
+  const isDisabled = requestStatus === "loading" ? true : false;
 
   return (
     <Formik
@@ -132,9 +104,9 @@ const SignUp = () => {
             disabled={isDisabled}
           />
 
-          {error !== null && status !== "loading" && (
-            <Alert variant="danger" onClose={clearError} dismissible>
-              <Alert.Heading>{error}</Alert.Heading>
+          {!!requestError && requestStatus !== "loading" && (
+            <Alert variant="danger" onClose={resetHookState} dismissible>
+              <Alert.Heading>{requestError}</Alert.Heading>
             </Alert>
           )}
           <div className="d-grid gap-1 mt-4">

@@ -1,6 +1,9 @@
-import React from "react";
 import Select from "react-select";
 import "bootstrap/dist/css/bootstrap.min.css";
+
+import { useEffect, useState, useCallback } from "react";
+
+import useHttp from "../hooks/useHttp";
 
 const SelectTopic = ({
   setValue,
@@ -11,15 +14,30 @@ const SelectTopic = ({
   isTouched,
   name,
 }) => {
-  const options = [
-    { value: "Red", label: "Red" },
-    { value: "White", label: "White" },
-    { value: "Yellow", label: "Yellow" },
-    { value: "Black", label: "Black" },
-    { value: "Blue", label: "Blue" },
-  ];
+  const defaultValue = !value ? "" : { value, label: value };
+  const [topics, setTopics] = useState([]);
+
+  const { requestError, sendRequest } = useHttp();
+
+  const getTopics = useCallback(async () => {
+    try {
+      const returnedData = await sendRequest(
+        "http://localhost:5000/api/config/topics"
+      );
+
+      if (!returnedData) throw "";
+
+      const { topics } = returnedData;
+      setTopics(topics);
+    } catch (err) {}
+  }, []);
+
+  useEffect(() => {
+    getTopics();
+  }, [getTopics]);
 
   const changeSelect = (selectedTopic) => {
+    setTouched(name);
     if (!selectedTopic) {
       setValue(name, "");
       setError(name, "Collection topic is required");
@@ -27,9 +45,6 @@ const SelectTopic = ({
       setValue(name, selectedTopic.label);
     }
   };
-
-  // defaultValue equals empty string if no option was chosen
-  const defaultValue = !value ? "" : options.find((o) => o.label === value);
 
   const validStyle = defaultValue ? "form-control p-0 is-valid" : "";
   const invalidStyle = error && isTouched ? "form-control p-0 is-invalid" : "";
@@ -42,9 +57,10 @@ const SelectTopic = ({
       placeholder="Select collection topic"
       isClearable={true}
       isSearchable={true}
-      options={options}
+      options={topics}
       onChange={changeSelect}
-      onFocus={() => setTouched(name)}
+      onBlur={() => setTouched(name)}
+      noOptionsMessage={() => requestError || "No options"}
     />
   );
 };

@@ -10,6 +10,7 @@ const FieldsNames = ({
   error,
   setTouched,
   isTouched,
+  isDisabled,
 }) => {
   const changeFieldName = (index, event) => {
     setTouched(name);
@@ -24,6 +25,7 @@ const FieldsNames = ({
         <Form.Group key={i} className="mb-3" controlId={name + i}>
           <Form.Label>Custom Field Name*</Form.Label>
           <Form.Control
+            disabled={isDisabled}
             size="sm"
             type="text"
             name={name + i}

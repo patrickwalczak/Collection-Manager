@@ -3,22 +3,60 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import SignUpForm from "./SignUpForm";
 import FormWrapper from "../UI/FormWrapper";
 
+import useHttp from "../hooks/useHttp";
+import AppContext from "../store/app-context";
+
+import { useNavigate } from "react-router-dom";
+import { useEffect, useState, useContext } from "react";
+
 const SignUp = () => {
+  const [submittedFormData, setFormData] = useState(null);
+
+  const { requestError, requestStatus, sendRequest, resetHookState } =
+    useHttp();
+
+  const { login } = useContext(AppContext);
+
+  const navigate = useNavigate();
+
+  const signUpUser = async () => {
+    try {
+      const createdUserAccount = await sendRequest(
+        "http://localhost:5000/api/users/signup",
+        {
+          method: "POST",
+          body: JSON.stringify(submittedFormData),
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      if (!createdUserAccount) throw "";
+
+      login(createdUserAccount);
+      resetHookState();
+      setFormData(null);
+      navigate(`/user/${createdUserAccount.userId}`);
+    } catch (err) {
+      setFormData(null);
+    }
+  };
+
+  useEffect(() => {
+    if (!submittedFormData) return;
+    signUpUser();
+  }, [submittedFormData]);
   return (
     <FormWrapper>
       <h2 className="mb-3 text-center fs-1">SIGN UP</h2>
-      <SignUpForm />
+      <SignUpForm
+        requestError={requestError}
+        requestStatus={requestStatus}
+        resetHookState={resetHookState}
+        setFormData={setFormData}
+      />
     </FormWrapper>
   );
 };
 
 export default SignUp;
-
-//https://localhost:5000/api/users/signup, // {  method: "PATCH",
-//   body: JSON.stringify(),
-//   headers: {
-//     "Content-Type": "application/json",
-//   }
-// }
-
-// s@d.dd

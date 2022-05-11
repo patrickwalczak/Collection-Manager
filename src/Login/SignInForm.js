@@ -7,11 +7,7 @@ import Alert from "react-bootstrap/Alert";
 import { Formik } from "formik";
 import * as yup from "yup";
 
-import useHttp from "../hooks/useHttp";
-import AppContext from "../store/app-context";
-
 import { Link } from "react-router-dom";
-import { useEffect, useState, useContext } from "react";
 
 import ReusableFieldName from "../SignUp/ReusableFieldName";
 
@@ -25,37 +21,13 @@ const schema = yup.object().shape({
     .required("Field is required!"),
 });
 
-function SignInForm() {
-  const {
-    error,
-    status,
-    data: loggedInUser,
-    sendRequest,
-    clearError,
-  } = useHttp();
-  const [formData, setFormData] = useState(null);
-
-  const { login } = useContext(AppContext);
-
-  useEffect(() => {
-    if (!formData) return;
-    sendRequest("http://localhost:5000/api/users/login", {
-      method: "POST",
-      body: JSON.stringify(formData),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-    setFormData(null);
-  }, [formData, sendRequest]);
-
-  useEffect(() => {
-    if (!loggedInUser) return;
-    login(loggedInUser);
-    clearError();
-  }, [loggedInUser, login, clearError]);
-
-  const isDisabled = status === "loading" ? true : false;
+function SignInForm({
+  setFormData,
+  requestStatus,
+  requestError,
+  resetHookState,
+}) {
+  const isDisabled = requestStatus === "loading" ? true : false;
 
   return (
     <Formik
@@ -87,6 +59,7 @@ function SignInForm() {
             isInvalid={errors.email && touched.email}
             isValid={!errors.email && values.email}
             error={errors.email}
+            disabled={isDisabled}
           />
 
           <ReusableFieldName
@@ -100,19 +73,20 @@ function SignInForm() {
             isInvalid={errors.password && touched.password}
             isValid={!errors.password && values.password}
             error={errors.password}
+            disabled={isDisabled}
           />
-          {error !== null && status !== "loading" && (
-            <Alert variant="danger" onClose={clearError} dismissible>
-              <Alert.Heading>{error}</Alert.Heading>
+          {!!requestError && requestStatus !== "loading" && (
+            <Alert variant="danger" onClose={resetHookState} dismissible>
+              <Alert.Heading>{requestError}</Alert.Heading>
             </Alert>
           )}
           <div className="d-grid gap-1 mt-4">
             <Button disabled={isDisabled} type="submit" variant="dark">
-              {!isDisabled && "SIGN UP"}
+              {!isDisabled && "SIGN IN"}
               {isDisabled && <Spinner animation="border" />}
             </Button>
-            <Link to={"/signup"}>
-              <Button variant="link">Create an account instead</Button>
+            <Link className="btn btn-link" to={"/signup"}>
+              Create an account instead
             </Link>
           </div>
         </Form>

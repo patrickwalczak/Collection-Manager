@@ -1,17 +1,25 @@
-import { Formik } from "formik";
-import * as yup from "yup";
+import "bootstrap/dist/css/bootstrap.min.css";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
-import "bootstrap/dist/css/bootstrap.min.css";
-import CollectionName from "./CollectionName";
+import Alert from "react-bootstrap/Alert";
+import Spinner from "react-bootstrap/Spinner";
+
+import { Formik } from "formik";
+import * as yup from "yup";
+
 import CollectionTopic from "./CollectionTopic";
-import CollectionDescription from "./CollectionDescription";
 import CollectionImg from "./CollectionImg";
 import CustomItemQuestion from "./CustomItemQuestion";
 import SelectTags from "./SelectTags";
 import FieldsNames from "./FieldsNames";
+import ReusableFieldName from "../SignUp/ReusableFieldName";
 
-const NewCollectionForm = () => {
+const NewCollectionForm = ({
+  requestError,
+  requestStatus,
+  resetHookState,
+  setFormData,
+}) => {
   const initialFormValues = {
     collectionName: "",
     collectionTopic: "",
@@ -48,10 +56,6 @@ const NewCollectionForm = () => {
       .trim()
       .min(3, tooShortErrorMessage)
       .max(25, tooLongErrorMessage)
-      .matches(
-        /^[A-Za-z0-9_.]+$/,
-        "Collection name cannot contain special characters"
-      )
       .required(isRequiredErrorMessage),
     collectionTopic: yup.string().required(isRequiredErrorMessage),
     collectionTags: yup.array().test({
@@ -91,10 +95,12 @@ const NewCollectionForm = () => {
     { value: 3, label: "3" },
   ];
 
+  const isDisabled = requestStatus === "loading" ? true : false;
+
   return (
     <Formik
       validationSchema={schema}
-      onSubmit={(data) => console.log(data)}
+      onSubmit={setFormData}
       initialValues={initialFormValues}
     >
       {({
@@ -111,14 +117,19 @@ const NewCollectionForm = () => {
         setFieldTouched,
       }) => (
         <Form noValidate onSubmit={handleSubmit} className="pb-4">
-          <CollectionName
+          <ReusableFieldName
+            autoFocus
             name="collectionName"
-            setValue={setFieldValue}
-            setTouched={setFieldTouched}
-            isInvalid={touched.collectionName && errors.collectionName}
-            isValid={values.collectionName && !errors.collectionName}
-            error={errors.collectionName}
+            label="Collection Name*"
+            type="text"
             value={values.collectionName}
+            isInvalid={errors.collectionName && touched.collectionName}
+            isValid={!errors.collectionName && values.collectionName}
+            error={errors.collectionName}
+            disabled={isDisabled}
+            setFieldTouched={setFieldTouched}
+            setFieldValue={setFieldValue}
+            onBlur={handleBlur}
           />
 
           <CollectionTopic
@@ -131,18 +142,24 @@ const NewCollectionForm = () => {
             value={values.collectionTopic}
           />
 
-          <CollectionDescription
+          <ReusableFieldName
             name="collectionDescription"
-            setValue={setFieldValue}
-            setTouched={setFieldTouched}
+            label="Collection Description*"
+            as="textarea"
+            placeholder="My collection is about..."
+            style={{ height: "100px" }}
+            value={values.collectionDescription}
             isInvalid={
-              touched.collectionDescription && errors.collectionDescription
+              errors.collectionDescription && touched.collectionDescription
             }
             isValid={
-              values.collectionDescription && !errors.collectionDescription
+              !errors.collectionDescription && values.collectionDescription
             }
-            value={values.collectionDescription}
             error={errors.collectionDescription}
+            disabled={isDisabled}
+            setFieldTouched={setFieldTouched}
+            setFieldValue={setFieldValue}
+            onBlur={handleBlur}
           />
 
           <SelectTags
@@ -172,6 +189,7 @@ const NewCollectionForm = () => {
             errors={errors}
             touched={touched}
             value={values.chosenNumberOfCustomTextFields}
+            isDisabled={isDisabled}
           />
 
           <FieldsNames
@@ -181,6 +199,7 @@ const NewCollectionForm = () => {
             setValue={setFieldValue}
             setTouched={setFieldTouched}
             error={errors.customTextFieldsNames}
+            isDisabled={isDisabled}
           />
 
           <CustomItemQuestion
@@ -196,6 +215,7 @@ const NewCollectionForm = () => {
             errors={errors}
             touched={touched}
             value={values.chosenNumberOfCustomNumberFields}
+            isDisabled={isDisabled}
           />
 
           <FieldsNames
@@ -205,6 +225,7 @@ const NewCollectionForm = () => {
             setValue={setFieldValue}
             setTouched={setFieldTouched}
             error={errors.customNumberFieldsNames}
+            isDisabled={isDisabled}
           />
 
           <CustomItemQuestion
@@ -220,6 +241,7 @@ const NewCollectionForm = () => {
             errors={errors}
             touched={touched}
             value={values.chosenNumberOfCustomMultilineTextFields}
+            isDisabled={isDisabled}
           />
 
           <FieldsNames
@@ -229,6 +251,7 @@ const NewCollectionForm = () => {
             setValue={setFieldValue}
             setTouched={setFieldTouched}
             error={errors.customMultilineTextFieldsNames}
+            isDisabled={isDisabled}
           />
 
           <CustomItemQuestion
@@ -244,6 +267,7 @@ const NewCollectionForm = () => {
             errors={errors}
             touched={touched}
             value={values.chosenNumberOfBooleanFields}
+            isDisabled={isDisabled}
           />
 
           <FieldsNames
@@ -253,6 +277,7 @@ const NewCollectionForm = () => {
             setValue={setFieldValue}
             setTouched={setFieldTouched}
             error={errors.customBooleanFieldsNames}
+            isDisabled={isDisabled}
           />
 
           <CustomItemQuestion
@@ -268,6 +293,7 @@ const NewCollectionForm = () => {
             errors={errors}
             touched={touched}
             value={values.chosenNumberOfDateFields}
+            isDisabled={isDisabled}
           />
 
           <FieldsNames
@@ -277,7 +303,13 @@ const NewCollectionForm = () => {
             setValue={setFieldValue}
             setTouched={setFieldTouched}
             error={errors.customDateFieldsNames}
+            isDisabled={isDisabled}
           />
+          {requestError !== null && requestStatus !== "loading" && (
+            <Alert variant="danger" onClose={resetHookState} dismissible>
+              <Alert.Heading>{requestError}</Alert.Heading>
+            </Alert>
+          )}
 
           <div className="d-flex justify-content-end gap-3">
             <Button
@@ -285,11 +317,18 @@ const NewCollectionForm = () => {
               variant="secondary"
               onClick={handleReset}
               type="button"
+              disabled={isDisabled}
             >
               RESET
             </Button>
-            <Button className="col-4" variant="success" type="submit">
-              CREATE
+            <Button
+              disabled={isDisabled}
+              className="col-4"
+              variant="success"
+              type="submit"
+            >
+              {!isDisabled && "CREATE"}
+              {isDisabled && <Spinner animation="border" />}
             </Button>
           </div>
         </Form>
