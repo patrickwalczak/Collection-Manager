@@ -3,6 +3,7 @@ import Col from "react-bootstrap/Col";
 import Button from "react-bootstrap/Button";
 import Badge from "react-bootstrap/Badge";
 import Row from "react-bootstrap/Row";
+
 import { Link } from "react-router-dom";
 
 const Collection = ({
@@ -11,8 +12,9 @@ const Collection = ({
   collectionTags,
   collectionTopic,
   id,
-  getCollectionId,
   openEditForm,
+  deleteCollection,
+  displayOperationsButtons,
 }) => {
   return (
     <Row className="col-12 col-md-5 col-xl-12 flex-xl-row text-white mx-0">
@@ -31,19 +33,23 @@ const Collection = ({
         </div>
         <p className="col-11">{collectionDescription}</p>
         <div data-id={id} className="col-12 d-flex p-2 gap-3 flex-wrap">
-          <Link to="/collection" className="btn bg-success text-white">
+          <Link to={`/collection/${id}`} className="btn bg-success text-white">
             OPEN
           </Link>
-          <Button
-            onClick={openEditForm}
-            className="text-white"
-            variant="warning"
-          >
-            EDIT
-          </Button>
-          <Button onClick={getCollectionId} variant="danger">
-            DELETE
-          </Button>
+          {displayOperationsButtons && (
+            <Button
+              onClick={openEditForm}
+              className="text-white"
+              variant="warning"
+            >
+              EDIT
+            </Button>
+          )}
+          {displayOperationsButtons && (
+            <Button onClick={deleteCollection} variant="danger">
+              DELETE
+            </Button>
+          )}
         </div>
       </Col>
       <Col

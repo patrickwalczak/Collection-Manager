@@ -6,14 +6,15 @@ import Table from "react-bootstrap/Table";
 import Item from "./Item";
 import Heading from "./Heading";
 
+import { useParams } from "react-router-dom";
+
 const CollectionView = () => {
+  const { collectionId } = useParams();
+
   return (
     <Table variant="dark" responsive className="mt-5">
       <thead>
         <tr>
-          <Heading></Heading>
-          <Heading></Heading>
-          <Heading></Heading>
           <Heading></Heading>
         </tr>
       </thead>

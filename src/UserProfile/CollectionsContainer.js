@@ -10,12 +10,16 @@ const CollectionsContainer = ({
   requestStatus,
   getCollectionId,
   openEditForm,
+  deleteCollection,
+  displayOperationsButtons,
 }) => {
   let content;
 
   if (collections.length && !requestError && requestStatus === "completed") {
     content = collections.map(({ id, ...restCollectionProps }) => (
       <Collection
+        displayOperationsButtons={displayOperationsButtons}
+        deleteCollection={deleteCollection}
         getCollectionId={getCollectionId}
         openEditForm={openEditForm}
         key={id}

@@ -1,7 +1,6 @@
-import { useEffect, useState, useContext, useCallback } from "react";
+import { useEffect, useState, useCallback } from "react";
 
 import useHttp from "../hooks/useHttp";
-import AppContext from "../store/app-context";
 
 import ModalTemplate from "../UI/ModalTemplate";
 import EditCollectionForm from "./EditCollectionForm";
@@ -11,40 +10,48 @@ const EditCollection = ({
   handleCloseModal,
   collectionData,
   collectionID,
+  setCollections,
+  loggedUserId,
 }) => {
   const [submittedFormData, setFormData] = useState(null);
 
   const { requestError, requestStatus, sendRequest, resetHookState } =
     useHttp();
 
-  const { userId, userType, token } = useContext(AppContext);
-
-  // const {
-  //   collectionDescription,
-  //   collectionName,
-  //   collectionTags,
-  //   collectionTopic,
-  // } = collectionData;
-
-  const editCollection = useCallback(async () => {
+  const editCollection = useCallback(async (formData) => {
     try {
       const returnedData = await sendRequest(
-        `http://localhost:5000/api/collections/${userId}/createCollection`,
+        `http://localhost:5000/api/collections/${collectionID}/editCollection`,
         {
-          method: "POST",
-          body: JSON.stringify(),
+          method: "PATCH",
+          body: JSON.stringify({ userId: loggedUserId, ...formData }),
           headers: {
             "Content-Type": "application/json",
           },
         }
       );
       if (!returnedData) throw "";
-    } catch (err) {}
+
+      const { collection: updatedCollection } = returnedData;
+
+      setCollections((prevState) => {
+        const updatedCollectionIndex = prevState.find(
+          (collection) => collection.id === updatedCollection.id
+        );
+        prevState[updatedCollectionIndex] = updatedCollection;
+        return prevState;
+      });
+      resetHookState();
+      setFormData(null);
+      handleCloseModal();
+    } catch (err) {
+      setFormData(null);
+    }
   }, []);
 
   useEffect(() => {
     if (!submittedFormData) return;
-    editCollection();
+    editCollection(submittedFormData);
   }, [submittedFormData, editCollection]);
 
   return (

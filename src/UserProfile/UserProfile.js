@@ -1,3 +1,8 @@
+import "bootstrap/dist/css/bootstrap.min.css";
+import Alert from "react-bootstrap/Alert";
+import Spinner from "react-bootstrap/Spinner";
+import Button from "react-bootstrap/Spinner";
+
 import { useParams } from "react-router-dom";
 import { useEffect, useContext, useState, useCallback, Fragment } from "react";
 
@@ -21,6 +26,13 @@ const UserProfile = () => {
 
   const { requestError, requestStatus, sendRequest, resetHookState } =
     useHttp();
+
+  const {
+    requestError: deleteError,
+    requestStatus: deleteStatus,
+    sendRequest: sendDeleteRequest,
+    resetHookState: resetDeleteHookState,
+  } = useHttp();
 
   const getCollectionsByUserId = useCallback(async () => {
     try {
@@ -67,31 +79,63 @@ const UserProfile = () => {
     handleShowModal();
   };
 
-  useEffect(() => {
-    if (!userId) return;
-    getCollectionsByUserId();
-  }, [userId, getCollectionsByUserId]);
+  const deleteCollection = async (e) => {
+    const collectionID = getCollectionId(e);
+    try {
+      console.log(collectionID);
+      const returnedData = await sendDeleteRequest(
+        `http://localhost:5000/api/collections/${collectionID}/deleteCollection`,
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
 
-  const isUserOrAdmin =
+      if (!returnedData) throw "";
+    } catch (err) {}
+  };
+
+  useEffect(() => {
+    if (!userId || !!requestStatus) return;
+    getCollectionsByUserId();
+  }, [userId, getCollectionsByUserId, requestStatus]);
+
+  const displayOperationsButtons =
     !!token && (userType === "admin" || userId === loggedUserId);
 
   return (
     <Fragment>
-      <EditCollection
-        modalVisibilityState={modalVisibilityState}
-        handleCloseModal={handleCloseModal}
-        collectionData={collectionData}
-        collectionID={collectionID}
-      />
-      <UserProfileWrapper>
-        <ProfileHeader isUserOrAdmin={isUserOrAdmin} />
-        <CollectionsContainer
-          collections={collections}
-          requestError={requestError}
-          requestStatus={requestStatus}
-          getCollectionId={getCollectionId}
-          openEditForm={openEditForm}
+      {!!collectionID && (
+        <EditCollection
+          modalVisibilityState={modalVisibilityState}
+          handleCloseModal={handleCloseModal}
+          collectionData={collectionData}
+          collectionID={collectionID}
+          setCollections={setCollections}
+          loggedUserId={loggedUserId}
         />
+      )}
+      <UserProfileWrapper>
+        <ProfileHeader displayOperationsButtons={displayOperationsButtons} />
+        {requestStatus === "completed" && !requestError && (
+          <CollectionsContainer
+            collections={collections}
+            requestError={requestError}
+            requestStatus={requestStatus}
+            getCollectionId={getCollectionId}
+            openEditForm={openEditForm}
+            deleteCollection={deleteCollection}
+            displayOperationsButtons={displayOperationsButtons}
+          />
+        )}
+        {!!requestError && requestStatus === "completed" && (
+          <Alert variant="danger" onClose={resetHookState} dismissible>
+            <Alert.Heading>{requestError}</Alert.Heading>
+          </Alert>
+        )}
+        {requestStatus === "loading" && <Spinner animation="border" />}
       </UserProfileWrapper>
     </Fragment>
   );

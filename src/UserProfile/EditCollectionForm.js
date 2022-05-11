@@ -64,7 +64,7 @@ const EditCollectionForm = ({
   return (
     <Formik
       validationSchema={schema}
-      onSubmit={() => {}}
+      onSubmit={setFormData}
       initialValues={initialFormValues}
     >
       {({

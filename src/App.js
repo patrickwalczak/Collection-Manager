@@ -10,6 +10,7 @@ import Row from "react-bootstrap/Row";
 import NewCollection from "./NewCollection/NewCollection";
 import AppContext from "./store/app-context";
 import { useContext } from "react";
+import AdminPanel from "./AdminPanel/AdminPanel";
 
 function App() {
   const { userId, userType, token } = useContext(AppContext);
@@ -28,12 +29,15 @@ function App() {
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />
-        <Route path="/collection" element={<CollectionView />} />
+        <Route path="/collection/:collectionId" element={<CollectionView />} />
         {!!token && userId && (
           <Route path="/newcollection" element={<NewCollection />} />
         )}
         <Route path="*" element={<Navigate replace to="/login" />} />
         <Route path="/user/:userId" element={<UserProfile />} />
+        {!!token && userType === "admin" && (
+          <Route path="/adminpanel" element={<AdminPanel />} />
+        )}
       </Routes>
     </Container>
   );

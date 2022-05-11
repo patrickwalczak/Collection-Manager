@@ -60,7 +60,18 @@ const AppNavigation = () => {
                     `${navLinkMargin}  nav-link` + (isActive ? " active" : "")
                   }
                 >
-                  MyCollections
+                  My Collections
+                </NavLink>
+              )}
+
+              {!!context.token && context.userType === "admin" && (
+                <NavLink
+                  to="/adminpanel"
+                  className={({ isActive }) =>
+                    `${navLinkMargin}  nav-link` + (isActive ? " active" : "")
+                  }
+                >
+                  Admin Panel
                 </NavLink>
               )}
 
