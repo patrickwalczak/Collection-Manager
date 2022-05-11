@@ -24,7 +24,7 @@ const User = ({ user, handleChange }) => {
         />
       </td>
       <td>{user.id}</td>
-      <td>TO DO</td>
+      <td>{user.username}</td>
       <td>{user.email}</td>
       <td>{lastLoginTime}</td>
       <td>{regTime}</td>

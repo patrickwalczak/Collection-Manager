@@ -6,7 +6,7 @@ import Alert from "react-bootstrap/Alert";
 import User from "./User";
 import useHttp from "../hooks/useHttp";
 
-const Users = ({ users, setUsers }) => {
+const Users = ({ users, setUsers, token }) => {
   const { requestStatus, requestError, sendRequest, resetHookState } =
     useHttp();
 
@@ -31,6 +31,7 @@ const Users = ({ users, setUsers }) => {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          Authorization: "Bearer " + token,
         },
       });
       setUsers(data.users);

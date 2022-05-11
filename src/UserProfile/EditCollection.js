@@ -12,6 +12,7 @@ const EditCollection = ({
   collectionID,
   setCollections,
   loggedUserId,
+  token,
 }) => {
   const [submittedFormData, setFormData] = useState(null);
 
@@ -27,6 +28,7 @@ const EditCollection = ({
           body: JSON.stringify({ userId: loggedUserId, ...formData }),
           headers: {
             "Content-Type": "application/json",
+            Authorization: "Bearer " + token,
           },
         }
       );

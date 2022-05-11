@@ -8,8 +8,7 @@ import AppContext from "../store/app-context";
 const AdminPanel = () => {
   const [users, setUsers] = useState([]);
 
-  const context = useContext(AppContext);
-
+  const { userId, userType, token } = useContext(AppContext);
   const blockHandler = async () => {
     try {
       await changeActiveStatus("blocked", true);
@@ -35,6 +34,7 @@ const AdminPanel = () => {
             body: JSON.stringify({ userId: user.id, status }),
             headers: {
               "Content-Type": "application/json",
+              Authorization: "Bearer " + token,
             },
           }
         );
@@ -56,6 +56,7 @@ const AdminPanel = () => {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
+            Authorization: "Bearer " + token,
           },
         }
       );
@@ -77,6 +78,7 @@ const AdminPanel = () => {
           body: JSON.stringify({ userId: user.id }),
           headers: {
             "Content-Type": "application/json",
+            Authorization: "Bearer " + token,
           },
         });
         const data = await res.json();
@@ -101,7 +103,7 @@ const AdminPanel = () => {
           DELETE
         </Button>
       </ButtonGroup>
-      <Users users={users} setUsers={setUsers} />
+      <Users token={token} users={users} setUsers={setUsers} />
     </Fragment>
   );
 };

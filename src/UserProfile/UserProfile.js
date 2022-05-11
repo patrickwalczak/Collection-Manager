@@ -82,13 +82,13 @@ const UserProfile = () => {
   const deleteCollection = async (e) => {
     const collectionID = getCollectionId(e);
     try {
-      console.log(collectionID);
       const returnedData = await sendDeleteRequest(
         `http://localhost:5000/api/collections/${collectionID}/deleteCollection`,
         {
           method: "DELETE",
           headers: {
             "Content-Type": "application/json",
+            Authorization: "Bearer " + token,
           },
         }
       );
@@ -115,6 +115,7 @@ const UserProfile = () => {
           collectionID={collectionID}
           setCollections={setCollections}
           loggedUserId={loggedUserId}
+          token={token}
         />
       )}
       <UserProfileWrapper>
