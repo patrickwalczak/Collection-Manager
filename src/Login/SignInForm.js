@@ -11,15 +11,7 @@ import { Link } from "react-router-dom";
 
 import ReusableFieldName from "../SignUp/ReusableFieldName";
 
-const schema = yup.object().shape({
-  email: yup.string().trim().email().required("Field is required!"),
-  password: yup
-    .string()
-    .trim()
-    .min(2, "Too short!")
-    .max(15, "Too long")
-    .required("Field is required!"),
-});
+import { validationTemplates } from "../helpers/yupHelper";
 
 function SignInForm({
   setFormData,
@@ -27,6 +19,13 @@ function SignInForm({
   requestError,
   resetHookState,
 }) {
+  const { validatePassword, validateEmail } = validationTemplates;
+
+  const schema = yup.object().shape({
+    email: validateEmail,
+    password: validatePassword,
+  });
+
   const isDisabled = requestStatus === "loading" ? true : false;
 
   return (

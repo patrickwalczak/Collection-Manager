@@ -11,28 +11,7 @@ import { Link } from "react-router-dom";
 
 import ReusableFieldName from "./ReusableFieldName";
 
-const schema = yup.object().shape({
-  username: yup
-    .string()
-    .trim()
-    .min(3, "Too short!")
-    .max(20, "Too long!")
-    .required("Field is required!")
-    .test({
-      message: "Username cannot contain special characters!",
-      test: (username) => {
-        if (!username) return;
-        return username.match(/^[A-Za-z0-9]+$/) !== null;
-      },
-    }),
-  email: yup.string().email().required("Field is required!"),
-  password: yup
-    .string()
-    .trim()
-    .min(2, "Too short")
-    .max(15, "Too long")
-    .required("Field is required!"),
-});
+import { validationTemplates } from "../helpers/yupHelper";
 
 const SignUp = ({
   setFormData,
@@ -40,6 +19,15 @@ const SignUp = ({
   requestError,
   resetHookState,
 }) => {
+  const { validateSingleTextField, validatePassword, validateEmail } =
+    validationTemplates;
+
+  const schema = yup.object().shape({
+    username: validateSingleTextField,
+    email: validateEmail,
+    password: validatePassword,
+  });
+
   const isDisabled = requestStatus === "loading" ? true : false;
 
   return (

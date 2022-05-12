@@ -1,8 +1,10 @@
-import { useState, useEffect, useCallback } from "react";
-import { Typeahead } from "react-bootstrap-typeahead";
-import Form from "react-bootstrap/Form";
 import "bootstrap/dist/css/bootstrap.min.css";
+import Form from "react-bootstrap/Form";
+
 import "react-bootstrap-typeahead/css/Typeahead.css";
+import { Typeahead } from "react-bootstrap-typeahead";
+
+import { useState, useEffect, useCallback } from "react";
 
 import useHttp from "../hooks/useHttp";
 
@@ -68,7 +70,6 @@ const SelectTags = ({
       <Typeahead
         id={name}
         multiple
-        name="collectionTags"
         onChange={changeTags}
         onInputChange={setQuery}
         onBlur={blurTags}
@@ -78,7 +79,7 @@ const SelectTags = ({
         isLoading={isLoading}
         isInvalid={inputIsInvalid}
         isValid={inputIsValid}
-        open={!!query}
+        // open={!!query}
       />
       {inputIsValid && (
         <div style={{ display: "block" }} className="valid-feedback">

@@ -14,12 +14,21 @@ import SelectTags from "./SelectTags";
 import FieldsNames from "./FieldsNames";
 import ReusableFieldName from "../SignUp/ReusableFieldName";
 
+import { validationTemplates } from "../helpers/yupHelper";
+
 const NewCollectionForm = ({
   requestError,
   requestStatus,
   resetHookState,
   setFormData,
 }) => {
+  const {
+    validateSingleTextField,
+    validateMultilineTextField,
+    validateRadioField,
+    validateCustomFieldsNames,
+  } = validationTemplates;
+
   const initialFormValues = {
     collectionName: "",
     collectionTopic: "",
@@ -37,55 +46,26 @@ const NewCollectionForm = ({
     customDateFieldsNames: [],
   };
 
-  const checkQuestionErrorMessage = "You have to choose one option";
   const isRequiredErrorMessage = "Field is required!";
-  const tooLongErrorMessage = "Input is too long!";
-  const tooShortErrorMessage = "Input is too short!";
-
-  const regexForSpecialCharacters = /[`!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?~]/;
-
-  const customFieldsNamesTest = {
-    message: "Custom fields names cannot be empty!",
-    test: (fieldsNames) =>
-      fieldsNames.every((fieldName) => fieldName !== undefined),
-  };
 
   const schema = yup.object().shape({
-    collectionName: yup
-      .string()
-      .trim()
-      .min(3, tooShortErrorMessage)
-      .max(25, tooLongErrorMessage)
-      .required(isRequiredErrorMessage),
+    collectionName: validateSingleTextField,
     collectionTopic: yup.string().required(isRequiredErrorMessage),
     collectionTags: yup.array().test({
       message: isRequiredErrorMessage,
       test: (tags) => tags.length !== 0,
     }),
-    collectionDescription: yup
-      .string()
-      .trim()
-      .min(1, tooShortErrorMessage)
-      .max(300, tooLongErrorMessage)
-      .required(isRequiredErrorMessage),
-    chosenNumberOfCustomTextFields: yup
-      .string()
-      .required(checkQuestionErrorMessage),
-    chosenNumberOfCustomNumberFields: yup
-      .string()
-      .required(checkQuestionErrorMessage),
-    chosenNumberOfCustomMultilineTextFields: yup
-      .string()
-      .required(checkQuestionErrorMessage),
-    chosenNumberOfBooleanFields: yup
-      .string()
-      .required(checkQuestionErrorMessage),
-    chosenNumberOfDateFields: yup.string().required(checkQuestionErrorMessage),
-    customTextFieldsNames: yup.array().test(customFieldsNamesTest),
-    customNumberFieldsNames: yup.array().test(customFieldsNamesTest),
-    customMultilineTextFieldsNames: yup.array().test(customFieldsNamesTest),
-    customBooleanFieldsNames: yup.array().test(customFieldsNamesTest),
-    customDateFieldsNames: yup.array().test(customFieldsNamesTest),
+    collectionDescription: validateMultilineTextField,
+    chosenNumberOfCustomTextFields: validateRadioField,
+    chosenNumberOfCustomNumberFields: validateRadioField,
+    chosenNumberOfCustomMultilineTextFields: validateRadioField,
+    chosenNumberOfBooleanFields: validateRadioField,
+    chosenNumberOfDateFields: validateRadioField,
+    customTextFieldsNames: validateCustomFieldsNames,
+    customNumberFieldsNames: validateCustomFieldsNames,
+    customMultilineTextFieldsNames: validateCustomFieldsNames,
+    customBooleanFieldsNames: validateCustomFieldsNames,
+    customDateFieldsNames: validateCustomFieldsNames,
   });
 
   const numberOfCustomFieldsOptions = [

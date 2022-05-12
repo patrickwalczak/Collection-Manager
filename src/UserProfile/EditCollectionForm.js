@@ -11,6 +11,8 @@ import CollectionTopic from "../NewCollection/CollectionTopic";
 import SelectTags from "../NewCollection/SelectTags";
 import ReusableFieldName from "../SignUp/ReusableFieldName";
 
+import { validationTemplates } from "../helpers/yupHelper";
+
 const EditCollectionForm = ({
   requestError,
   requestStatus,
@@ -26,37 +28,17 @@ const EditCollectionForm = ({
     collectionTags: [],
   };
 
-  const checkQuestionErrorMessage = "You have to choose one option";
-  const isRequiredErrorMessage = "Field is required!";
-  const tooLongErrorMessage = "Input is too long!";
-  const tooShortErrorMessage = "Input is too short!";
-
-  const regexForSpecialCharacters = /[`!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?~]/;
-
-  const customFieldsNamesTest = {
-    message: "Custom fields names cannot be empty!",
-    test: (fieldsNames) =>
-      fieldsNames.every((fieldName) => fieldName !== undefined),
-  };
+  const { validateSingleTextField, validateMultilineTextField } =
+    validationTemplates;
 
   const schema = yup.object().shape({
-    collectionName: yup
-      .string()
-      .trim()
-      .min(3, tooShortErrorMessage)
-      .max(25, tooLongErrorMessage)
-      .required(isRequiredErrorMessage),
-    collectionTopic: yup.string().required(isRequiredErrorMessage),
+    collectionName: validateSingleTextField,
+    collectionTopic: yup.string().required("Field is required"),
     collectionTags: yup.array().test({
-      message: isRequiredErrorMessage,
+      message: "Field is required",
       test: (tags) => tags.length !== 0,
     }),
-    collectionDescription: yup
-      .string()
-      .trim()
-      .min(1, tooShortErrorMessage)
-      .max(300, tooLongErrorMessage)
-      .required(isRequiredErrorMessage),
+    collectionDescription: validateMultilineTextField,
   });
 
   const isDisabled = requestStatus === "loading" ? true : false;

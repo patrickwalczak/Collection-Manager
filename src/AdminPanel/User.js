@@ -1,34 +1,29 @@
-const User = ({ user, handleChange }) => {
+const User = ({ user }) => {
   let options = {
     year: "numeric",
     month: "numeric",
     day: "numeric",
   };
 
-  const regTime = new Date(user.registrationTime).toLocaleString("en-US", {
-    options,
-  });
-  const lastLoginTime = new Date(user.lastLoginTime).toLocaleString("en-US", {
+  const registrationTime = new Date(+user.registrationTime).toLocaleString(
+    "en-US",
+    {
+      options,
+    }
+  );
+  const lastLoginTime = new Date(+user.lastLoginTime).toLocaleString("en-US", {
     options,
   });
 
   return (
     <tr>
-      <td>
-        <input
-          type="checkbox"
-          className="form-check-input"
-          name={user.id}
-          checked={user?.isChecked || false}
-          onChange={handleChange}
-        />
-      </td>
       <td>{user.id}</td>
       <td>{user.username}</td>
       <td>{user.email}</td>
       <td>{lastLoginTime}</td>
-      <td>{regTime}</td>
+      <td>{registrationTime}</td>
       <td>{user.status}</td>
+      <td>{user.userType}</td>
     </tr>
   );
 };

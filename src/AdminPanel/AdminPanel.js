@@ -9,35 +9,49 @@ const AdminPanel = () => {
   const [users, setUsers] = useState([]);
 
   const { userId, userType, token } = useContext(AppContext);
-  const blockHandler = async () => {
+
+  const blockUser = async () => {
     try {
-      await changeActiveStatus("blocked", true);
+      await changeUserAccount({ status: "blocked" }, true);
     } catch (err) {}
   };
 
-  const unblockHandler = async () => {
+  const unblockUser = async () => {
     try {
-      await changeActiveStatus("active");
+      await changeUserAccount({ status: "active" });
     } catch (err) {}
   };
 
-  const changeActiveStatus = async (status, doCheck = false) => {
+  const addAdmin = async () => {
+    try {
+      await changeUserAccount({ userType: "admin" });
+    } catch (err) {}
+  };
+
+  const removeAdmin = async () => {
+    try {
+      await changeUserAccount({ userType: "user" });
+    } catch (err) {}
+  };
+
+  const changeUserAccount = async (propertyToUpdate, doCheck = false) => {
     try {
       const selectedUsers = users.filter((u) => u.isChecked);
       if (!selectedUsers.length) return;
 
       for await (const user of selectedUsers) {
         const res = await fetch(
-          `http://localhost:5000/api/admin/changeStatus`,
+          `http://localhost:5000/api/admin/${user.id}/updateUserAccount`,
           {
             method: "PATCH",
-            body: JSON.stringify({ userId: user.id, status }),
+            body: JSON.stringify({ propertyToUpdate }),
             headers: {
               "Content-Type": "application/json",
               Authorization: "Bearer " + token,
             },
           }
         );
+
         const data = await res.json();
         // if (doCheck)
         // auth.checkIfBlocked(data.userId, "Your account has been blocked.");
@@ -61,7 +75,6 @@ const AdminPanel = () => {
         }
       );
       const updatedUsers = await updatedUsersRes.json();
-      // auth.fillUsers(updatedUsers.users);
       setUsers(updatedUsers.users);
     } catch (err) {
       throw err;
@@ -85,25 +98,31 @@ const AdminPanel = () => {
 
         // auth.checkIfBlocked(data.userId, "Your account has been deleted.");
 
-        await updateUsersTable();
+        // await updateUsersTable();
       }
     } catch (err) {}
   };
 
   return (
     <Fragment>
-      <ButtonGroup aria-label="Basic example">
-        <Button onClick={blockHandler} variant="danger">
+      <ButtonGroup>
+        <Button onClick={blockUser} variant="danger">
           BLOCK
         </Button>
-        <Button onClick={unblockHandler} variant="success">
+        <Button onClick={unblockUser} variant="success">
           UNBLOCK
         </Button>
         <Button onClick={deleteHandler} variant="secondary">
           DELETE
         </Button>
+        <Button onClick={addAdmin} variant="light">
+          ADD ADMIN
+        </Button>
+        <Button onClick={removeAdmin}>REMOVE ADMIN</Button>
       </ButtonGroup>
-      <Users token={token} users={users} setUsers={setUsers} />
+      {token && userType === "admin" && (
+        <Users token={token} users={users} setUsers={setUsers} />
+      )}
     </Fragment>
   );
 };
