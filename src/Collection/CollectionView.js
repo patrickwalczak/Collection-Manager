@@ -1,33 +1,50 @@
 import "bootstrap/dist/css/bootstrap.min.css";
-import Container from "react-bootstrap/Container";
-import Col from "react-bootstrap/Col";
-import Row from "react-bootstrap/Row";
 import Button from "react-bootstrap/Button";
-import Table from "react-bootstrap/Table";
-import Item from "./Item";
-import Heading from "./Heading";
+import Spinner from "react-bootstrap/Spinner";
+import Alert from "react-bootstrap/Alert";
+
+import ItemsTable from "./ItemsTable";
+import ItemActionController from "./ItemActionController";
 
 import { useParams } from "react-router-dom";
 import { useEffect, useContext, useState, useCallback, Fragment } from "react";
+
 import AppContext from "../store/app-context";
 import useHttp from "../hooks/useHttp";
-import AddItem from "./AddItem";
+import DeleteController from "./DeleteController";
 
 const CollectionView = () => {
-  const [collectionData, setCollectionData] = useState(null);
-  const [customItemBlueprint, setCustomItemBluePrint] = useState(null);
+  const [collection, setCollection] = useState(null);
+  const [customItemSchema, setCustomItemSchema] = useState(null);
+  const [tableHeadings, setHeadings] = useState([]);
+  const [tableValues, setTableValues] = useState([]);
+  const [itemID, setItemID] = useState(null);
+  const [itemData, setItemData] = useState(null);
+  const [addItemFormVisibility, setAddingItemFormVisibility] = useState(false);
+  const [editItemFormVisibility, setEditItemFormVisibility] = useState(false);
+  const [deleteItemFormVisibility, setDeleteItemFormVisibility] =
+    useState(false);
 
   const { collectionId } = useParams();
 
   const { userId, userType, token } = useContext(AppContext);
 
+  const canBeChanged =
+    !!collection &&
+    token &&
+    (userType === "admin" || userId === collection?.author);
+
   const { requestError, requestStatus, sendRequest, resetHookState } =
     useHttp();
 
-  const [modalVisibilityState, setModalVisibility] = useState(false);
+  const handleClosingAddItemForm = () => setAddingItemFormVisibility(false);
+  const handleOpeningAddItemForm = () => setAddingItemFormVisibility(true);
 
-  const handleCloseModal = () => setModalVisibility(false);
-  const handleShowModal = () => setModalVisibility(true);
+  const handleClosingEditItemForm = () => setEditItemFormVisibility(false);
+  const handleOpeningEditItemForm = () => setEditItemFormVisibility(true);
+
+  const handleClosingDeleteItemForm = () => setDeleteItemFormVisibility(false);
+  const handleOpeningDeleteItemForm = () => setDeleteItemFormVisibility(true);
 
   const getCollectionById = useCallback(async () => {
     try {
@@ -36,40 +53,129 @@ const CollectionView = () => {
       );
       if (!returnedData) throw "";
       const { collection } = returnedData;
-      setCustomItemBluePrint(collection.collectionCustomItem);
-    } catch (err) {
-      console.log(err);
-    }
+      setCollection(collection);
+      setCustomItemSchema(collection.collectionCustomItem);
+
+      if (!collection.items.length) return;
+
+      takeOutTableValues(collection);
+    } catch (err) {}
   }, []);
 
+  const takeOutTableValues = (collection) => {
+    const itemsObjectsArray = collection.items;
+    takeOutHeadings(itemsObjectsArray);
+    takeOutItemsValues(itemsObjectsArray);
+  };
+
+  const takeOutHeadings = (itemsObjectsArray) => {
+    const firstItemInArray = 0;
+    const headings = Object.entries(
+      itemsObjectsArray[firstItemInArray].itemData
+    ).map(([propertyKey, _]) => propertyKey);
+    setHeadings(headings);
+  };
+
+  const takeOutItemsValues = (itemsObjectsArray) => {
+    const itemsValuesArray = itemsObjectsArray.map(({ itemData, id }) => {
+      const itemValuesArray = Object.entries(itemData).map(
+        ([_, propertyValue]) => propertyValue
+      );
+
+      return { itemValuesArray, id };
+    });
+    setTableValues(itemsValuesArray);
+  };
+
+  const openEditForm = (itemId) => {
+    setItemID(itemId);
+    findItemToEdit(itemId);
+    handleOpeningEditItemForm();
+  };
+
+  const openDeleteForm = (itemId) => {
+    setItemID(itemId);
+    handleOpeningDeleteItemForm();
+  };
+
+  const findItemToEdit = (itemId) => {
+    const item = collection.items.find(({ id }) => id === itemId).itemData;
+    if (!item) return;
+    setItemData(item);
+  };
+
   useEffect(() => {
-    if (!collectionId) return;
+    if (!collectionId || !!requestStatus) return;
     getCollectionById();
-  }, [userId, getCollectionById]);
+  }, [collectionId, getCollectionById, requestStatus]);
 
   return (
     <Fragment>
-      {!!customItemBlueprint && (
-        <AddItem
-          modalVisibilityState={modalVisibilityState}
-          handleCloseModal={handleCloseModal}
-          customItemProperties={customItemBlueprint}
-          collectionID={collectionId}
-          loggedUserId={userId}
+      {!!customItemSchema && !!collectionId && !!token && (
+        <ItemActionController
+          heading="Create Item"
+          modalVisibilityState={addItemFormVisibility}
+          handleCloseModal={handleClosingAddItemForm}
+          customItemSchema={customItemSchema}
+          itemData={null}
+          token={token}
+          url={`${collectionId}/createItem`}
+          requestMethod="POST"
+        />
+      )}
+      {!!customItemSchema && !!itemID && !!token && (
+        <ItemActionController
+          heading="Edit Item"
+          modalVisibilityState={editItemFormVisibility}
+          handleCloseModal={handleClosingEditItemForm}
+          customItemSchema={customItemSchema}
+          itemData={itemData}
+          token={token}
+          url={`${itemID}/editItem`}
+          requestMethod="PATCH"
+        />
+      )}
+
+      {!!customItemSchema && !!itemID && !!token && (
+        <DeleteController
+          modalVisibilityState={deleteItemFormVisibility}
+          handleCloseModal={handleClosingDeleteItemForm}
+          itemID={itemID}
           token={token}
         />
       )}
-      <Button onClick={handleShowModal}>Add item</Button>
-      <Table variant="dark" responsive className="mt-5">
-        <thead>
-          <tr>
-            <Heading></Heading>
-          </tr>
-        </thead>
-        <tbody>
-          <Item></Item>
-        </tbody>
-      </Table>
+
+      {canBeChanged && (
+        <Button onClick={handleOpeningAddItemForm}>Add item</Button>
+      )}
+
+      {requestStatus === "completed" &&
+        !requestError &&
+        tableHeadings.length !== 0 && (
+          <ItemsTable
+            tableHeadings={tableHeadings}
+            tableValues={tableValues}
+            openEditForm={openEditForm}
+            openDeleteForm={openDeleteForm}
+            canBeChanged={canBeChanged}
+          />
+        )}
+      {requestStatus === "completed" &&
+        !requestError &&
+        tableHeadings.length === 0 && (
+          <h2 className="text-white text-center">THERE ARE NO ITEMS</h2>
+        )}
+      {!!requestError && requestStatus !== "loading" && (
+        <Alert variant="danger">
+          <Alert.Heading>{requestError}</Alert.Heading>
+          <div className="mt-3 d-flex justify-content-end">
+            <Button variant="outline-danger" onClick={resetHookState}>
+              Try again
+            </Button>
+          </div>
+        </Alert>
+      )}
+      {requestStatus === "loading" && <Spinner animation="border" />}
     </Fragment>
   );
 };

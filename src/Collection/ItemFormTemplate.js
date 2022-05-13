@@ -12,7 +12,7 @@ import { useEffect } from "react";
 
 import { validationTemplates } from "../helpers/yupHelper";
 
-const AddItemForm = ({
+const ItemFormTemplate = ({
   requestError,
   requestStatus,
   resetHookState,
@@ -23,7 +23,9 @@ const AddItemForm = ({
   multilineTextFields,
   dateFields,
   booleanFields,
-  customItemProperties,
+  customItemSchema,
+  itemData,
+  actionButtonText,
 }) => {
   const {
     validateSingleTextField,
@@ -32,19 +34,7 @@ const AddItemForm = ({
     validateNumberField,
   } = validationTemplates;
 
-  const initialFormValues = {};
-
-  const initiateFormValues = () => {
-    for (const names in customItemProperties) {
-      const fieldsNames = customItemProperties[names];
-      if (!fieldsNames.length) continue;
-      fieldsNames.forEach((fieldName) => (initialFormValues[fieldName] = ""));
-    }
-  };
-
   const validationSchema = {};
-
-  const addFieldsNamesToValidationSchema = () => {};
 
   textFields.forEach(
     (fieldName) => (validationSchema[fieldName] = validateSingleTextField)
@@ -62,7 +52,20 @@ const AddItemForm = ({
     (fieldName) => (validationSchema[fieldName] = validateNumberField)
   );
 
+  const initialFormValues = !!itemData ? itemData : {};
+
+  const initiateFormValues = () => {
+    for (const names in customItemSchema) {
+      const fieldsNames = customItemSchema[names];
+      if (!fieldsNames.length) continue;
+      fieldsNames.forEach((fieldName) => (initialFormValues[fieldName] = ""));
+    }
+  };
+
+  const submitButtonText = !!actionButtonText ? actionButtonText : "SUBMIT";
+
   useEffect(() => {
+    if (!!itemData) return;
     initiateFormValues();
   }, []);
 
@@ -80,13 +83,10 @@ const AddItemForm = ({
         handleSubmit,
         handleChange,
         handleBlur,
-        handleReset,
         values,
         touched,
-        isValid,
         errors,
         setFieldValue,
-        setFieldError,
         setFieldTouched,
       }) => (
         <Form noValidate onSubmit={handleSubmit} className="pb-4">
@@ -103,6 +103,7 @@ const AddItemForm = ({
               setFieldTouched={setFieldTouched}
               setFieldValue={setFieldValue}
               onBlur={handleBlur}
+              defaultValue={values[fieldName]}
             />
           ))}
 
@@ -120,6 +121,7 @@ const AddItemForm = ({
               setFieldTouched={setFieldTouched}
               setFieldValue={setFieldValue}
               onBlur={handleBlur}
+              defaultValue={values[fieldName]}
             />
           ))}
 
@@ -136,6 +138,7 @@ const AddItemForm = ({
               setFieldTouched={setFieldTouched}
               setFieldValue={setFieldValue}
               onBlur={handleBlur}
+              defaultValue={values[fieldName]}
             />
           ))}
 
@@ -152,6 +155,7 @@ const AddItemForm = ({
               setFieldTouched={setFieldTouched}
               setFieldValue={setFieldValue}
               onBlur={handleBlur}
+              defaultValue={values[fieldName]}
             />
           ))}
 
@@ -164,14 +168,19 @@ const AddItemForm = ({
                 key={fieldName + index}
                 onChange={handleChange}
                 id={fieldName}
-                defaultValue={false}
+                defaultValue={values[fieldName]}
               />
             </Form.Group>
           ))}
 
           {requestError !== null && requestStatus !== "loading" && (
-            <Alert variant="danger" onClose={resetHookState} dismissible>
+            <Alert variant="danger">
               <Alert.Heading>{requestError}</Alert.Heading>
+              <div className="mt-3 d-flex justify-content-end">
+                <Button variant="outline-danger" onClick={resetHookState}>
+                  Try again
+                </Button>
+              </div>
             </Alert>
           )}
 
@@ -191,17 +200,14 @@ const AddItemForm = ({
               variant="success"
               type="submit"
             >
-              {!isDisabled && "CREATE"}
+              {!isDisabled && submitButtonText}
               {isDisabled && <Spinner animation="border" />}
             </Button>
           </div>
-          <pre>{JSON.stringify(values, null, 2)}</pre>
-          <pre>{JSON.stringify(errors, null, 2)}</pre>
-          <pre>{JSON.stringify(touched, null, 2)}</pre>
         </Form>
       )}
     </Formik>
   );
 };
 
-export default AddItemForm;
+export default ItemFormTemplate;

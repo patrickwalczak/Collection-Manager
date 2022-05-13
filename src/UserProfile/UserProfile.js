@@ -131,9 +131,14 @@ const UserProfile = () => {
             displayOperationsButtons={displayOperationsButtons}
           />
         )}
-        {!!requestError && requestStatus === "completed" && (
-          <Alert variant="danger" onClose={resetHookState} dismissible>
+        {!!requestError && requestStatus !== "loading" && (
+          <Alert variant="danger">
             <Alert.Heading>{requestError}</Alert.Heading>
+            <div className="mt-3 d-flex justify-content-end">
+              <Button variant="outline-danger" onClick={resetHookState}>
+                Try again
+              </Button>
+            </div>
           </Alert>
         )}
         {requestStatus === "loading" && <Spinner animation="border" />}
