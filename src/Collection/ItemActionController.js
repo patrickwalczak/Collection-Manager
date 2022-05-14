@@ -18,6 +18,8 @@ const ItemActionController = ({
   token,
   url,
   requestMethod,
+  clearItemStates,
+  triggerUpdate,
 }) => {
   const [submittedFormData, setFormData] = useState(null);
   const [successMessage, setSuccessMessage] = useState("");
@@ -26,10 +28,11 @@ const ItemActionController = ({
     useHttp();
 
   const resetComponent = () => {
+    handleCloseModal();
     setFormData(null);
+    clearItemStates();
     resetHookState();
     setSuccessMessage("");
-    handleCloseModal();
   };
 
   const createItem = useCallback(async (formData) => {
@@ -48,6 +51,7 @@ const ItemActionController = ({
       if (!returnedData) throw "";
 
       setSuccessMessage(returnedData.message);
+      triggerUpdate();
     } catch (err) {}
   }, []);
 

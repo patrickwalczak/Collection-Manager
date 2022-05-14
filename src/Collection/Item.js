@@ -28,45 +28,30 @@ const Item = ({
       ))}
       {canBeChanged && (
         <td className="text-end d-flex gap-2 justify-content-end">
-          <OverlayTrigger
-            placement="bottom"
-            overlay={<Tooltip id="tooltip-bottom">View</Tooltip>}
+          <Button variant="success" className="py-0">
+            <AiOutlineFolderView />
+          </Button>
+
+          <Button
+            variant="warning"
+            onClick={() => openEditForm(id)}
+            className="py-0 text-white"
           >
-            <Button variant="success" className="py-0">
-              <AiOutlineFolderView />
-            </Button>
-          </OverlayTrigger>
-          <OverlayTrigger
-            placement="bottom"
-            overlay={<Tooltip id="tooltip-bottom">Edit</Tooltip>}
+            <AiFillEdit />
+          </Button>
+
+          <Button
+            variant="danger"
+            onClick={() => openDeleteForm(id)}
+            className="py-0"
           >
-            <Button
-              variant="warning"
-              onClick={() => openEditForm(id)}
-              className="py-0 text-white"
-            >
-              <AiFillEdit />
-            </Button>
-          </OverlayTrigger>
-          <OverlayTrigger
-            placement="bottom"
-            overlay={<Tooltip id={`tooltip-bottom`}>Delete</Tooltip>}
-          >
-            <Button
-              variant="danger"
-              onClick={() => openDeleteForm(id)}
-              className="py-0"
-            >
-              <AiFillDelete />
-            </Button>
-          </OverlayTrigger>
+            <AiFillDelete />
+          </Button>
         </td>
       )}
       {!canBeChanged && (
-        <td>
-          <div className="d-flex p-0 justify-content-center">
-            <Button className="center py-0">VIEW</Button>
-          </div>
+        <td className="text-end">
+          <Button className="center py-0">VIEW</Button>
         </td>
       )}
     </tr>

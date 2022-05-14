@@ -153,7 +153,6 @@ const NewCollectionForm = ({
             isTouched={touched.collectionTags}
           />
 
-          {/* TODO how to set default image */}
           <CollectionImg name="collectionImg" setImg={setFieldValue} />
 
           <CustomItemQuestion

@@ -5,13 +5,13 @@ import Alert from "react-bootstrap/Alert";
 
 import ItemsTable from "./ItemsTable";
 import ItemActionController from "./ItemActionController";
+import DeleteItemController from "./DeleteItemController";
 
 import { useParams } from "react-router-dom";
 import { useEffect, useContext, useState, useCallback, Fragment } from "react";
 
 import AppContext from "../store/app-context";
 import useHttp from "../hooks/useHttp";
-import DeleteController from "./DeleteController";
 
 const CollectionView = () => {
   const [collection, setCollection] = useState(null);
@@ -24,6 +24,7 @@ const CollectionView = () => {
   const [editItemFormVisibility, setEditItemFormVisibility] = useState(false);
   const [deleteItemFormVisibility, setDeleteItemFormVisibility] =
     useState(false);
+  const [isBeingUpdated, setIsBeingUpdated] = useState(false);
 
   const { collectionId } = useParams();
 
@@ -36,6 +37,8 @@ const CollectionView = () => {
 
   const { requestError, requestStatus, sendRequest, resetHookState } =
     useHttp();
+
+  const handleUpdating = () => setIsBeingUpdated(true);
 
   const handleClosingAddItemForm = () => setAddingItemFormVisibility(false);
   const handleOpeningAddItemForm = () => setAddingItemFormVisibility(true);
@@ -88,12 +91,14 @@ const CollectionView = () => {
   };
 
   const openEditForm = (itemId) => {
+    if (!itemId) return;
     setItemID(itemId);
     findItemToEdit(itemId);
     handleOpeningEditItemForm();
   };
 
   const openDeleteForm = (itemId) => {
+    if (!itemId) return;
     setItemID(itemId);
     handleOpeningDeleteItemForm();
   };
@@ -104,10 +109,23 @@ const CollectionView = () => {
     setItemData(item);
   };
 
+  const clearItemStates = () => {
+    setItemData(null);
+    setItemID(null);
+  };
+
   useEffect(() => {
     if (!collectionId || !!requestStatus) return;
     getCollectionById();
   }, [collectionId, getCollectionById, requestStatus]);
+
+  useEffect(() => {
+    if (!isBeingUpdated) return;
+    setCollection(null);
+    setTableValues(null);
+    getCollectionById();
+    setIsBeingUpdated(false);
+  }, [getCollectionById, isBeingUpdated]);
 
   return (
     <Fragment>
@@ -121,6 +139,8 @@ const CollectionView = () => {
           token={token}
           url={`${collectionId}/createItem`}
           requestMethod="POST"
+          clearItemStates={clearItemStates}
+          triggerUpdate={handleUpdating}
         />
       )}
       {!!customItemSchema && !!itemID && !!token && (
@@ -133,15 +153,19 @@ const CollectionView = () => {
           token={token}
           url={`${itemID}/editItem`}
           requestMethod="PATCH"
+          clearItemStates={clearItemStates}
+          triggerUpdate={handleUpdating}
         />
       )}
 
       {!!customItemSchema && !!itemID && !!token && (
-        <DeleteController
+        <DeleteItemController
           modalVisibilityState={deleteItemFormVisibility}
           handleCloseModal={handleClosingDeleteItemForm}
           itemID={itemID}
           token={token}
+          clearItemStates={clearItemStates}
+          triggerUpdate={handleUpdating}
         />
       )}
 

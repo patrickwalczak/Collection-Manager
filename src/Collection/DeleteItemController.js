@@ -7,11 +7,13 @@ import ModalTemplate from "../UI/ModalTemplate";
 import useHttp from "../hooks/useHttp";
 import { useCallback, useEffect, useState } from "react";
 
-const DeleteController = ({
+const DeleteItemController = ({
   modalVisibilityState,
   handleCloseModal,
   token,
   itemID,
+  clearItemStates,
+  triggerUpdate,
 }) => {
   const { requestError, requestStatus, sendRequest, resetHookState } =
     useHttp();
@@ -20,9 +22,10 @@ const DeleteController = ({
   const [isDeleting, setIsDeleting] = useState(false);
 
   const resetComponent = () => {
+    handleCloseModal();
+    clearItemStates();
     resetHookState();
     setSuccessMessage("");
-    handleCloseModal();
   };
 
   const deleteItem = useCallback(async () => {
@@ -41,10 +44,16 @@ const DeleteController = ({
 
       setSuccessMessage(returnedData.message);
       setIsDeleting(false);
+      triggerUpdate();
     } catch (err) {
       setIsDeleting(false);
     }
   }, []);
+
+  const triggerRequestAgain = () => {
+    resetHookState();
+    setIsDeleting(true);
+  };
 
   useEffect(() => {
     if (!isDeleting || !!requestStatus) return;
@@ -64,13 +73,13 @@ const DeleteController = ({
         <Alert variant="danger">
           <Alert.Heading>{requestError}</Alert.Heading>
           <div className="mt-3 d-flex justify-content-end">
-            <Button variant="outline-danger" onClick={resetHookState}>
+            <Button variant="outline-danger" onClick={triggerRequestAgain}>
               Try again
             </Button>
           </div>
         </Alert>
       )}
-      {!successMessage && (
+      {!successMessage && !requestError && (
         <div className="d-flex justify-content-end gap-3">
           <Button
             className="col-2"
@@ -106,4 +115,4 @@ const DeleteController = ({
     </ModalTemplate>
   );
 };
-export default DeleteController;
+export default DeleteItemController;
