@@ -1,4 +1,6 @@
-const User = ({ user }) => {
+import { Link } from "react-router-dom";
+
+const User = ({ user, handleChange }) => {
   let options = {
     year: "numeric",
     month: "numeric",
@@ -17,6 +19,15 @@ const User = ({ user }) => {
 
   return (
     <tr>
+      <td>
+        <input
+          type="checkbox"
+          className="form-check-input"
+          name={user.id}
+          checked={user?.isChecked || false}
+          onChange={handleChange}
+        />
+      </td>
       <td>{user.id}</td>
       <td>{user.username}</td>
       <td>{user.email}</td>
@@ -24,6 +35,9 @@ const User = ({ user }) => {
       <td>{registrationTime}</td>
       <td>{user.status}</td>
       <td>{user.userType}</td>
+      <td>
+        <Link to={`/user/${user.id}`}>VIEW</Link>
+      </td>
     </tr>
   );
 };

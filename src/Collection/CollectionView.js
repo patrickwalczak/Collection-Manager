@@ -158,7 +158,7 @@ const CollectionView = () => {
         />
       )}
 
-      {!!customItemSchema && !!itemID && !!token && (
+      {!!collection && !!itemID && !!token && (
         <DeleteItemController
           modalVisibilityState={deleteItemFormVisibility}
           handleCloseModal={handleClosingDeleteItemForm}

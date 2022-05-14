@@ -12,7 +12,7 @@ const ItemsTable = ({
   canBeChanged,
 }) => {
   return (
-    <Table variant="dark" responsive className="mt-5">
+    <Table variant="dark" responsive striped bordered hover className="mt-5">
       <thead>
         <tr>
           {tableHeadings.map((heading, index) => (

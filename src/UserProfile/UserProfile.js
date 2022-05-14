@@ -13,12 +13,17 @@ import CollectionsContainer from "./CollectionsContainer";
 import UserProfileWrapper from "./UserProfileWrapper";
 import ProfileHeader from "./ProfileHeader";
 import EditCollection from "./EditCollection";
+import DeleteCollectionController from "./DeleteCollectionController";
 
 const UserProfile = () => {
   const [collections, setCollections] = useState([]);
   const [collectionID, setCollectionID] = useState(null);
   const [collectionData, setCollectionData] = useState(null);
   const [modalVisibilityState, setModalVisibility] = useState(false);
+  const [deleteCollectionFormVisibility, setDeleteItemFormVisibility] =
+    useState(false);
+  const handleUpdating = () => setIsBeingUpdated(true);
+  const [isBeingUpdated, setIsBeingUpdated] = useState(false);
 
   const { userId: loggedUserId, userType, token } = useContext(AppContext);
 
@@ -27,12 +32,12 @@ const UserProfile = () => {
   const { requestError, requestStatus, sendRequest, resetHookState } =
     useHttp();
 
-  const {
-    requestError: deleteError,
-    requestStatus: deleteStatus,
-    sendRequest: sendDeleteRequest,
-    resetHookState: resetDeleteHookState,
-  } = useHttp();
+  const handleCloseModal = () => setModalVisibility(false);
+  const handleShowModal = () => setModalVisibility(true);
+
+  const handleClosingDeleteCollectionForm = () =>
+    setDeleteItemFormVisibility(false);
+  const handleOpeningDeleteItemForm = () => setDeleteItemFormVisibility(true);
 
   const getCollectionsByUserId = useCallback(async () => {
     try {
@@ -47,9 +52,6 @@ const UserProfile = () => {
       setCollections([]);
     }
   }, []);
-
-  const handleCloseModal = () => setModalVisibility(false);
-  const handleShowModal = () => setModalVisibility(true);
 
   const getCollectionId = (e) => {
     const clickedCollectionID = e.target.closest("div").dataset.id;
@@ -79,22 +81,15 @@ const UserProfile = () => {
     handleShowModal();
   };
 
-  const deleteCollection = async (e) => {
-    const collectionID = getCollectionId(e);
-    try {
-      const returnedData = await sendDeleteRequest(
-        `http://localhost:5000/api/collections/${collectionID}/deleteCollection`,
-        {
-          method: "DELETE",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: "Bearer " + token,
-          },
-        }
-      );
+  const openDeleteForm = (e) => {
+    const returnedCollectionID = getCollectionId(e);
+    setCollectionID(returnedCollectionID);
+    handleOpeningDeleteItemForm();
+  };
 
-      if (!returnedData) throw "";
-    } catch (err) {}
+  const clearCollectionStates = () => {
+    setCollectionData(null);
+    setCollectionID(null);
   };
 
   useEffect(() => {
@@ -102,24 +97,46 @@ const UserProfile = () => {
     getCollectionsByUserId();
   }, [userId, getCollectionsByUserId, requestStatus]);
 
+  useEffect(() => {
+    if (!isBeingUpdated) return;
+    setCollections([]);
+    getCollectionsByUserId();
+    setIsBeingUpdated(false);
+  }, [getCollectionsByUserId, isBeingUpdated]);
+
   const displayOperationsButtons =
     !!token && (userType === "admin" || userId === loggedUserId);
 
   return (
     <Fragment>
-      {!!collectionID && (
+      {!!collectionID && !!token && (
         <EditCollection
           modalVisibilityState={modalVisibilityState}
           handleCloseModal={handleCloseModal}
           collectionData={collectionData}
           collectionID={collectionID}
-          setCollections={setCollections}
           loggedUserId={loggedUserId}
           token={token}
+          clearCollectionStates={clearCollectionStates}
+          triggerUpdate={handleUpdating}
         />
       )}
+      {!!collections && !!collectionID && !!token && (
+        <DeleteCollectionController
+          modalVisibilityState={deleteCollectionFormVisibility}
+          handleCloseModal={handleClosingDeleteCollectionForm}
+          collectionID={collectionID}
+          token={token}
+          clearCollectionStates={clearCollectionStates}
+          triggerUpdate={handleUpdating}
+        />
+      )}
+
       <UserProfileWrapper>
-        <ProfileHeader displayOperationsButtons={displayOperationsButtons} />
+        <ProfileHeader
+          userId={userId}
+          displayOperationsButtons={displayOperationsButtons}
+        />
         {requestStatus === "completed" && !requestError && (
           <CollectionsContainer
             collections={collections}
@@ -127,15 +144,16 @@ const UserProfile = () => {
             requestStatus={requestStatus}
             getCollectionId={getCollectionId}
             openEditForm={openEditForm}
-            deleteCollection={deleteCollection}
+            deleteCollection={openDeleteForm}
             displayOperationsButtons={displayOperationsButtons}
           />
         )}
+
         {!!requestError && requestStatus !== "loading" && (
           <Alert variant="danger">
             <Alert.Heading>{requestError}</Alert.Heading>
             <div className="mt-3 d-flex justify-content-end">
-              <Button variant="outline-danger" onClick={resetHookState}>
+              <Button variant="danger" onClick={resetHookState}>
                 Try again
               </Button>
             </div>

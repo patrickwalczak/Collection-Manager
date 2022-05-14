@@ -1,3 +1,7 @@
+import "bootstrap/dist/css/bootstrap.min.css";
+import Alert from "react-bootstrap/Alert";
+import Button from "react-bootstrap/Button";
+
 import { useEffect, useState, useCallback } from "react";
 
 import useHttp from "../hooks/useHttp";
@@ -10,14 +14,25 @@ const EditCollection = ({
   handleCloseModal,
   collectionData,
   collectionID,
-  setCollections,
   loggedUserId,
   token,
+  clearCollectionStates,
+  triggerUpdate,
 }) => {
   const [submittedFormData, setFormData] = useState(null);
 
+  const [successMessage, setSuccessMessage] = useState("");
+
   const { requestError, requestStatus, sendRequest, resetHookState } =
     useHttp();
+
+  const resetComponent = () => {
+    handleCloseModal();
+    setFormData(null);
+    clearCollectionStates();
+    resetHookState();
+    setSuccessMessage("");
+  };
 
   const editCollection = useCallback(async (formData) => {
     try {
@@ -34,42 +49,44 @@ const EditCollection = ({
       );
       if (!returnedData) throw "";
 
-      const { collection: updatedCollection } = returnedData;
+      const { collection } = returnedData;
 
-      setCollections((prevState) => {
-        const updatedCollectionIndex = prevState.find(
-          (collection) => collection.id === updatedCollection.id
-        );
-        prevState[updatedCollectionIndex] = updatedCollection;
-        return prevState;
-      });
-      resetHookState();
-      setFormData(null);
-      handleCloseModal();
-    } catch (err) {
-      setFormData(null);
-    }
+      setSuccessMessage(returnedData.message);
+      triggerUpdate();
+    } catch (err) {}
   }, []);
 
   useEffect(() => {
-    if (!submittedFormData) return;
+    if (!submittedFormData || !!requestStatus) return;
     editCollection(submittedFormData);
-  }, [submittedFormData, editCollection]);
+  }, [submittedFormData, editCollection, requestStatus]);
 
   return (
     <ModalTemplate
       modalHeading="Edit Collection"
       modalState={modalVisibilityState}
-      handleCloseModal={handleCloseModal}
+      handleCloseModal={resetComponent}
     >
-      <EditCollectionForm
-        requestError={requestError}
-        requestStatus={requestStatus}
-        resetHookState={resetHookState}
-        setFormData={setFormData}
-        handleCloseModal={handleCloseModal}
-        initialValues={collectionData}
-      />
+      {!successMessage && (
+        <EditCollectionForm
+          requestError={requestError}
+          requestStatus={requestStatus}
+          resetHookState={resetHookState}
+          setFormData={setFormData}
+          handleCloseModal={handleCloseModal}
+          initialValues={collectionData}
+        />
+      )}
+      {!!successMessage && (
+        <Alert variant="success">
+          <Alert.Heading>{successMessage}</Alert.Heading>
+          <div className="d-flex justify-content-end">
+            <Button onClick={resetComponent} variant="outline-success">
+              Great!
+            </Button>
+          </div>
+        </Alert>
+      )}
     </ModalTemplate>
   );
 };

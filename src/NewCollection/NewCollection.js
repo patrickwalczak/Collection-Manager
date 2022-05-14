@@ -7,7 +7,7 @@ import AppContext from "../store/app-context";
 import NewCollectionForm from "./NewCollectionForm";
 
 import { useEffect, useState, useContext } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 function NewCollection() {
   const [submittedFormData, setFormData] = useState(null);
@@ -15,7 +15,9 @@ function NewCollection() {
   const { requestError, requestStatus, sendRequest, resetHookState } =
     useHttp();
 
-  const { userId, userType, token } = useContext(AppContext);
+  const { userId: loggedUserId, userType, token } = useContext(AppContext);
+
+  const { userId } = useParams();
 
   const navigate = useNavigate();
 
@@ -27,7 +29,10 @@ function NewCollection() {
         `http://localhost:5000/api/collections/${userId}/createCollection`,
         {
           method: "POST",
-          body: JSON.stringify(filteredFormObject),
+          body: JSON.stringify({
+            whoCreates: loggedUserId,
+            formObject: filteredFormObject,
+          }),
           headers: {
             "Content-Type": "application/json",
             Authorization: "Bearer " + token,

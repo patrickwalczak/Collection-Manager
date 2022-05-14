@@ -31,7 +31,7 @@ function App() {
         <Route path="/signup" element={<SignUp />} />
         <Route path="/collection/:collectionId" element={<CollectionView />} />
         {!!token && userId && (
-          <Route path="/newcollection" element={<NewCollection />} />
+          <Route path="/:userId/newcollection" element={<NewCollection />} />
         )}
         <Route path="*" element={<Navigate replace to="/login" />} />
         <Route path="/user/:userId" element={<UserProfile />} />
