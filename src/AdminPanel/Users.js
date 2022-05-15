@@ -1,15 +1,18 @@
-import Table from "react-bootstrap/Table";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { Fragment, useEffect } from "react";
+import Table from "react-bootstrap/Table";
 import Spinner from "react-bootstrap/Spinner";
 import Alert from "react-bootstrap/Alert";
+import { Fragment } from "react";
 import User from "./User";
-import useHttp from "../hooks/useHttp";
 
-const Users = ({ users, setUsers, token }) => {
-  const { requestStatus, requestError, sendRequest, resetHookState } =
-    useHttp();
-
+const Users = ({
+  users,
+  setUsers,
+  token,
+  requestError,
+  requestStatus,
+  resetHookState,
+}) => {
   const handleChange = (e) => {
     const { name, checked } = e.target;
     if (name === "allSelect") {
@@ -24,24 +27,6 @@ const Users = ({ users, setUsers, token }) => {
       setUsers(tempUser);
     }
   };
-
-  const getUsers = async () => {
-    try {
-      const data = await sendRequest("http://localhost:5000/api/admin/users", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + token,
-        },
-      });
-      setUsers(data.users);
-    } catch (err) {}
-  };
-
-  useEffect(() => {
-    if (users.length) return;
-    getUsers();
-  }, [users]);
 
   return (
     <Fragment>

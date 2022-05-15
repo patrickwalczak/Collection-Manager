@@ -31,7 +31,7 @@ function NewCollection() {
           method: "POST",
           body: JSON.stringify({
             whoCreates: loggedUserId,
-            formObject: filteredFormObject,
+            ...filteredFormObject,
           }),
           headers: {
             "Content-Type": "application/json",

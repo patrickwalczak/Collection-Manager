@@ -35,8 +35,10 @@ const User = ({ user, handleChange }) => {
       <td>{registrationTime}</td>
       <td>{user.status}</td>
       <td>{user.userType}</td>
-      <td>
-        <Link to={`/user/${user.id}`}>VIEW</Link>
+      <td className="text-center">
+        <Link className="btn btn-primary py-0" to={`/user/${user.id}`}>
+          VIEW
+        </Link>
       </td>
     </tr>
   );

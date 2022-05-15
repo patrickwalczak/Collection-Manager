@@ -14,7 +14,6 @@ const EditCollection = ({
   handleCloseModal,
   collectionData,
   collectionID,
-  loggedUserId,
   token,
   clearCollectionStates,
   triggerUpdate,
@@ -40,7 +39,7 @@ const EditCollection = ({
         `http://localhost:5000/api/collections/${collectionID}/editCollection`,
         {
           method: "PATCH",
-          body: JSON.stringify({ userId: loggedUserId, ...formData }),
+          body: JSON.stringify({ ...formData }),
           headers: {
             "Content-Type": "application/json",
             Authorization: "Bearer " + token,

@@ -6,6 +6,8 @@ const DataProvider = (props) => {
   const [userId, setUserId] = useState(null);
   const [username, setUsername] = useState(null);
   const [userType, setUserType] = useState(null);
+  const [modalText, setModalText] = useState("");
+  const [showModal, setShowModal] = useState(false);
 
   const login = ({ token, userId, username, userType }) => {
     setToken(token);
@@ -21,6 +23,13 @@ const DataProvider = (props) => {
     setUserType(null);
   };
 
+  const checkUser = (uid, msg) => {
+    if (uid !== userId) return;
+    logout();
+    setShowModal(true);
+    setModalText(msg);
+  };
+
   const appContext = {
     username,
     userId,
@@ -28,6 +37,7 @@ const DataProvider = (props) => {
     userType,
     login,
     logout,
+    checkUser,
   };
 
   return (
