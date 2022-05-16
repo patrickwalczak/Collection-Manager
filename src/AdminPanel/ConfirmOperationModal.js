@@ -16,7 +16,7 @@ const ConfirmOperationModal = ({
   clearState,
   url,
   method,
-  modalHeading,
+  modalQuestion,
 }) => {
   const { requestError, requestStatus, sendRequest, resetHookState } =
     useHttp();
@@ -72,7 +72,7 @@ const ConfirmOperationModal = ({
       modalState={modalVisibilityState}
       handleCloseModal={resetComponent}
     >
-      {!successMessage && <h2>{modalHeading}</h2>}
+      {!successMessage && <h2>{modalQuestion}</h2>}
       {requestError !== null && requestStatus !== "loading" && (
         <Alert variant="danger">
           <Alert.Heading>{requestError}</Alert.Heading>

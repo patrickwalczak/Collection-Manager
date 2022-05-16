@@ -12,7 +12,7 @@ const AdminPanel = () => {
   const [selectedUsers, setSelectedUsers] = useState([]);
   const [url, setUrl] = useState("");
   const [method, setMethod] = useState("");
-  const [modalHeading, setModalHeading] = useState("");
+  const [modalQuestion, setModalQuestion] = useState("");
 
   const [additionalRequestBodyProperty, setAdditionalRequestBodyProperty] =
     useState({});
@@ -69,7 +69,7 @@ const AdminPanel = () => {
     setUsers([]);
     setSelectedUsers([]);
     setMethod("");
-    setModalHeading("");
+    setModalQuestion("");
   };
 
   const getSelectedUsers = () => {
@@ -88,7 +88,7 @@ const AdminPanel = () => {
 
   const handleOpeningOperationModal = (objectWithProperty, heading) => {
     setMethod("PATCH");
-    setModalHeading(heading);
+    setModalQuestion(heading);
     handleSelectedUsers();
     setUrl("updateUsersAccounts");
     setAdditionalRequestBodyProperty(objectWithProperty);
@@ -97,7 +97,7 @@ const AdminPanel = () => {
 
   const openDeleteUsersModal = () => {
     setMethod("DELETE");
-    setModalHeading("Are you sure you want to delete user(s)?");
+    setModalQuestion("Are you sure you want to delete user(s)?");
     handleSelectedUsers();
     setUrl("delete");
     handleOpeningModal();
@@ -158,6 +158,7 @@ const AdminPanel = () => {
           token={token}
           users={users}
           setUsers={setUsers}
+          modalQuestion={modalQuestion}
         />
       )}
     </Fragment>
