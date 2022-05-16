@@ -5,109 +5,50 @@ import { Fragment, useState, useContext, useEffect, useCallback } from "react";
 import Users from "./Users";
 import AppContext from "../store/app-context";
 import useHttp from "../hooks/useHttp";
+import ConfirmOperationModal from "./ConfirmOperationModal";
 
 const AdminPanel = () => {
   const [users, setUsers] = useState([]);
+  const [selectedUsers, setSelectedUsers] = useState([]);
+  const [url, setUrl] = useState("");
+  const [method, setMethod] = useState("");
+  const [modalHeading, setModalHeading] = useState("");
+
+  const [additionalRequestBodyProperty, setAdditionalRequestBodyProperty] =
+    useState({});
+
+  const [isBeingUpdated, setIsBeingUpdated] = useState(false);
+  const [deleteUsersModalVisibility, setModalVisibility] = useState(false);
 
   const { userType, token, checkUser } = useContext(AppContext);
 
   const { requestStatus, requestError, sendRequest, resetHookState } =
     useHttp();
 
-  const blockUser = async () => {
-    try {
-      await changeUserAccount({ status: "blocked" }, true);
-    } catch (err) {}
-  };
+  const handleClosingModal = () => setModalVisibility(false);
+  const handleOpeningModal = () => setModalVisibility(true);
+  const handleUpdating = () => setIsBeingUpdated(true);
 
-  const unblockUser = async () => {
-    try {
-      await changeUserAccount({ status: "active" });
-    } catch (err) {}
-  };
-
-  const addAdmin = async () => {
-    try {
-      await changeUserAccount({ userType: "admin" });
-    } catch (err) {}
-  };
-
-  const removeAdmin = async () => {
-    try {
-      await changeUserAccount({ userType: "user" });
-    } catch (err) {}
-  };
-
-  const changeUserAccount = async (propertyToUpdate, doCheck = false) => {
-    try {
-      const selectedUsers = users.filter((u) => u.isChecked);
-      if (!selectedUsers.length) return;
-
-      for await (const user of selectedUsers) {
-        const res = await fetch(
-          `http://localhost:5000/api/admin/${user.id}/updateUserAccount`,
-          {
-            method: "PATCH",
-            body: JSON.stringify({ propertyToUpdate }),
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: "Bearer " + token,
-            },
-          }
-        );
-
-        const data = await res.json();
-
-        if (doCheck) {
-          checkUser(data.userId, "Your account has been blocked.");
-        }
-      }
-      await updateUsersTable();
-    } catch (err) {
-      throw err;
-    }
-  };
-
-  const updateUsersTable = async () => {
-    try {
-      const updatedUsersRes = await fetch(
-        `http://localhost:5000/api/admin/users`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: "Bearer " + token,
-          },
-        }
-      );
-      const updatedUsers = await updatedUsersRes.json();
-      setUsers(updatedUsers.users);
-    } catch (err) {
-      throw err;
-    }
-  };
-
-  const deleteHandler = async () => {
-    try {
-      const selectedUsers = users.filter((u) => u.isChecked);
-      if (!selectedUsers.length) return;
-      for await (const user of selectedUsers) {
-        const res = await fetch(`http://localhost:5000/api/admin/delete`, {
-          method: "DELETE",
-          body: JSON.stringify({ userId: user.id }),
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: "Bearer " + token,
-          },
-        });
-        const data = await res.json();
-
-        checkUser(data.userId, "Your account has been deleted.");
-
-        await updateUsersTable();
-      }
-    } catch (err) {}
-  };
+  const openRemoveAdminModal = () =>
+    handleOpeningOperationModal(
+      { userType: "user" },
+      "Are you sure you want to remove admin(s)?"
+    );
+  const openAddAdminModal = () =>
+    handleOpeningOperationModal(
+      { userType: "admin" },
+      "Are you sure you want to add admin(s)?"
+    );
+  const openUnblockUserModal = () =>
+    handleOpeningOperationModal(
+      { status: "active" },
+      "Are you sure you want to block user(s)?"
+    );
+  const openBlockUserModal = () =>
+    handleOpeningOperationModal(
+      { status: "block" },
+      "Are you sure you want to remove user(s)?"
+    );
 
   const getUsers = useCallback(async () => {
     try {
@@ -122,27 +63,92 @@ const AdminPanel = () => {
     } catch (err) {}
   }, []);
 
+  const clearAdminPanelStates = () => {
+    setUrl("");
+    setAdditionalRequestBodyProperty({});
+    setUsers([]);
+    setSelectedUsers([]);
+    setMethod("");
+    setModalHeading("");
+  };
+
+  const getSelectedUsers = () => {
+    if (!users.length) return [];
+    const filteredAndSelectedUsers = users
+      .filter((user) => user.isChecked)
+      .map((user) => user.id);
+    return filteredAndSelectedUsers;
+  };
+
+  const handleSelectedUsers = () => {
+    const selectedUsers = getSelectedUsers();
+    if (!selectedUsers.length) return;
+    setSelectedUsers(selectedUsers);
+  };
+
+  const handleOpeningOperationModal = (objectWithProperty, heading) => {
+    setMethod("PATCH");
+    setModalHeading(heading);
+    handleSelectedUsers();
+    setUrl("updateUsersAccounts");
+    setAdditionalRequestBodyProperty(objectWithProperty);
+    handleOpeningModal();
+  };
+
+  const openDeleteUsersModal = () => {
+    setMethod("DELETE");
+    setModalHeading("Are you sure you want to delete user(s)?");
+    handleSelectedUsers();
+    setUrl("delete");
+    handleOpeningModal();
+  };
+
   useEffect(() => {
     if (users.length) return;
     getUsers();
   }, [users, getUsers]);
 
+  useEffect(() => {
+    if (!isBeingUpdated) return;
+    getUsers();
+    setIsBeingUpdated(false);
+  }, [getUsers, isBeingUpdated]);
+
   return (
     <Fragment>
+      {!!token &&
+        !!selectedUsers.length &&
+        !!url &&
+        (!!Object.keys(additionalRequestBodyProperty).length ||
+          method === "DELETE") && (
+          <ConfirmOperationModal
+            modalVisibilityState={deleteUsersModalVisibility}
+            handleCloseModal={handleClosingModal}
+            triggerUpdate={handleUpdating}
+            token={token}
+            clearState={clearAdminPanelStates}
+            url={url}
+            requestBodyObject={{
+              users: selectedUsers,
+              ...additionalRequestBodyProperty,
+            }}
+            method={method}
+          />
+        )}
       <ButtonGroup>
-        <Button onClick={blockUser} variant="danger">
+        <Button onClick={openBlockUserModal} variant="danger">
           BLOCK
         </Button>
-        <Button onClick={unblockUser} variant="success">
+        <Button onClick={openUnblockUserModal} variant="success">
           UNBLOCK
         </Button>
-        <Button onClick={deleteHandler} variant="secondary">
+        <Button onClick={openDeleteUsersModal} variant="secondary">
           DELETE
         </Button>
-        <Button onClick={addAdmin} variant="light">
+        <Button onClick={openAddAdminModal} variant="light">
           ADD ADMIN
         </Button>
-        <Button onClick={removeAdmin}>REMOVE ADMIN</Button>
+        <Button onClick={openRemoveAdminModal}>REMOVE ADMIN</Button>
       </ButtonGroup>
       {token && userType === "admin" && (
         <Users
