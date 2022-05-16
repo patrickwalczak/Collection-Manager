@@ -8,6 +8,7 @@ const DataProvider = (props) => {
   const [userType, setUserType] = useState(null);
   const [modalText, setModalText] = useState("");
   const [showModal, setShowModal] = useState(false);
+  const [theme, setTheme] = useState("dark");
 
   const login = ({ token, userId, username, userType }) => {
     setToken(token);
@@ -30,14 +31,20 @@ const DataProvider = (props) => {
     setModalText(msg);
   };
 
+  const changeTheme = (theme) => {
+    setTheme(theme);
+  };
+
   const appContext = {
     username,
     userId,
     token,
     userType,
+    theme,
     login,
     logout,
     checkUser,
+    changeTheme,
   };
 
   return (

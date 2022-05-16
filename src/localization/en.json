@@ -1,0 +1,11 @@
+{
+    "app-navigation.home.button": "HOME",
+    "app-navigation.login.button": "Log In",
+    "app-navigation.signup.button": "Sign Up",
+    "app-navigation.logout.button": "Log Out",
+    "app-navigation.darkmode.button": "Dark Mode",
+    "app-navigation.language.button": "xx",
+    "app-navigation.collections.button": "My Collections",
+    "app-navigation.adminpanel.button": "Admin Panel"
+
+}

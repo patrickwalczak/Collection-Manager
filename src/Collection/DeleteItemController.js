@@ -22,10 +22,10 @@ const DeleteItemController = ({
   const [isDeleting, setIsDeleting] = useState(false);
 
   const resetComponent = () => {
-    handleCloseModal();
     clearItemStates();
     resetHookState();
     setSuccessMessage("");
+    handleCloseModal();
   };
 
   const deleteItem = useCallback(async () => {

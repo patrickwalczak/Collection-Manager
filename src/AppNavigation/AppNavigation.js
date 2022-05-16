@@ -7,12 +7,16 @@ import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
 import AppContext from "../store/app-context";
 import { useContext } from "react";
+import SwitchThemeButton from "./SwitchThemeButton";
+import { FormattedMessage } from "react-intl";
+import SelectLanguage from "./SelectLanguage";
 
 const AppNavigation = () => {
   const navLinkMargin = "text-white mx-1 mx-md-2  nav-link";
   const navBtnMarPad = "text-white p-1 p-md-2 mx-1 mx-md-2 mx-lg-3";
 
-  const context = useContext(AppContext);
+  const { logout, userId, token, userType, changeTheme, theme } =
+    useContext(AppContext);
 
   return (
     <Row style={{ height: "4rem" }}>
@@ -26,72 +30,68 @@ const AppNavigation = () => {
           expand="sm"
         >
           <Link to="/home" className="navbar-brand text-white">
-            HOME
+            <FormattedMessage id="app-navigation.home.button" />
           </Link>
 
           <Navbar.Toggle aria-controls="tooglemenu" />
           <Navbar.Collapse className="justify-content-end" id="tooglemenu">
             <Nav className="align-items-center">
-              {!context.userId && (
+              {!userId && (
                 <NavLink
                   to="/login"
                   className={({ isActive }) =>
                     `${navLinkMargin}  nav-link` + (isActive ? " active" : "")
                   }
                 >
-                  Log In
+                  <FormattedMessage id="app-navigation.login.button" />
                 </NavLink>
               )}
-              {!context.userId && (
+              {!userId && (
                 <NavLink
                   to="/signup"
                   className={({ isActive }) =>
                     `${navLinkMargin}  nav-link` + (isActive ? " active" : "")
                   }
                 >
-                  Sign Up
+                  <FormattedMessage id="app-navigation.signup.button" />
                 </NavLink>
               )}
 
-              {context.userId && (
+              {userId && (
                 <NavLink
-                  to={`/user/${context.userId}`}
+                  to={`/user/${userId}`}
                   className={({ isActive }) =>
                     `${navLinkMargin}  nav-link` + (isActive ? " active" : "")
                   }
                 >
-                  My Collections
+                  <FormattedMessage id="app-navigation.collections.button" />
                 </NavLink>
               )}
 
-              {!!context.token && context.userType === "admin" && (
+              {!!token && userType === "admin" && (
                 <NavLink
                   to="/adminpanel"
                   className={({ isActive }) =>
                     `${navLinkMargin}  nav-link` + (isActive ? " active" : "")
                   }
                 >
-                  Admin Panel
+                  <FormattedMessage id="app-navigation.adminpanel.button" />
                 </NavLink>
               )}
 
-              {context.userId && (
+              {userId && (
                 <Button
-                  onClick={context.logout}
+                  onClick={logout}
                   variant="dark"
                   className={navBtnMarPad}
                 >
-                  Log Out
+                  <FormattedMessage id="app-navigation.logout.button" />
                 </Button>
               )}
 
-              <Button variant="dark" className={navBtnMarPad}>
-                Dark/Light
-              </Button>
+              <SwitchThemeButton changeTheme={changeTheme} theme={theme} />
 
-              <Button variant="outline-dark" className={navBtnMarPad}>
-                Language
-              </Button>
+              <SelectLanguage />
             </Nav>
           </Navbar.Collapse>
         </Navbar>

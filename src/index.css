@@ -19,10 +19,19 @@ body::-webkit-scrollbar-thumb {
 
 body {
   overflow-x: hidden;
+  background-color: var(--appBackground);
 }
 
 /* Fixing style error in react-bootstrap-typeahead */
 .rbt-token .rbt-token-remove-button {
   background: none;
   border: none;
+}
+
+:root {
+  --appBackground: white;
+}
+
+[data-theme="dark"] {
+  --appBackground: #00203fff;
 }
