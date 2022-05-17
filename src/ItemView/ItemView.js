@@ -23,7 +23,7 @@ const ItemView = () => {
 
   const { itemId } = useParams();
 
-  const { userId, userType, token } = useContext(AppContext);
+  const { userId, token } = useContext(AppContext);
 
   const { requestError, requestStatus, sendRequest, resetHookState } =
     useHttp();
@@ -87,7 +87,7 @@ const ItemView = () => {
             token={token}
           />
 
-          <Comments />
+          <Comments comments={collectionItem.comments} />
         </Container>
       )}
       {/* {!!requestError && requestStatus !== "loading" && (

@@ -11,6 +11,7 @@ import { useContext, useEffect, useState } from "react";
 import AdminPanel from "./AdminPanel/AdminPanel";
 import ItemView from "./ItemView/ItemView";
 import { IntlProvider } from "react-intl";
+import MainPage from "./MainPage/MainPage";
 
 function App() {
   const {
@@ -56,7 +57,8 @@ function App() {
           {!!token && userId && (
             <Route path="/:userId/newcollection" element={<NewCollection />} />
           )}
-          <Route path="*" element={<Navigate replace to="/login" />} />
+          <Route path="*" element={<Navigate replace to="/mainPage" />} />
+          <Route path="/mainPage" element={<MainPage />} />
           <Route path="/user/:userId" element={<UserProfile />} />
           <Route path="/item/:itemId" element={<ItemView />} />
           {!!token && userType === "admin" && (
