@@ -14,6 +14,7 @@ import AppContext from "../store/app-context";
 import useHttp from "../hooks/useHttp";
 
 import UserProfileWrapper from "../UserProfile/UserProfileWrapper";
+import Comments from "./Comments";
 
 const ItemView = () => {
   const [collectionItem, setCollectionItem] = useState(null);
@@ -78,12 +79,7 @@ const ItemView = () => {
             </Row>
           )}
 
-          <Row className="mb-5 rounded col-12">
-            <Col className="rounded p-2 p-md-3 p-xl-2 text-white bg-dark">
-              <div>Add comment form</div>
-              <div>Comments</div>
-            </Col>
-          </Row>
+          <Comments />
         </Container>
       )}
       {/* {!!requestError && requestStatus !== "loading" && (

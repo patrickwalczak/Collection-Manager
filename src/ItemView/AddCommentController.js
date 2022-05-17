@@ -2,48 +2,52 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import Alert from "react-bootstrap/Alert";
 import Button from "react-bootstrap/Button";
 
-import { useEffect, useState, useCallback, Fragment } from "react";
+import { useEffect, useState, useCallback, Fragment, useContext } from "react";
 
 import useHttp from "../hooks/useHttp";
 
-import ModalTemplate from "../UI/ModalTemplate";
-import ItemFormTemplate from "./ItemFormTemplate";
+import AddCommentForm from "./AddCommentForm";
 
-const ItemActionController = ({
+import AppContext from "../store/app-context";
+
+import { useParams, Link } from "react-router-dom";
+
+const AddCommentController = ({
   heading,
   modalVisibilityState,
   handleCloseModal,
   customItemSchema,
-  itemData,
-  token,
   url,
-  requestMethod,
   clearItemStates,
   triggerUpdate,
 }) => {
   const [submittedFormData, setFormData] = useState(null);
   const [successMessage, setSuccessMessage] = useState("");
 
+  const { username, token } = useContext(AppContext);
+
+  const { itemId } = useParams();
+
   const { requestError, requestStatus, sendRequest, resetHookState } =
     useHttp();
 
   const resetComponent = () => {
-    handleCloseModal();
-    setFormData(null);
-    clearItemStates();
-    resetHookState();
-    setSuccessMessage("");
+    // handleCloseModal();
+    // setFormData(null);
+    // clearItemStates();
+    // resetHookState();
+    // setSuccessMessage("");
   };
 
-  const createItem = useCallback(async (formData) => {
+  const addComment = useCallback(async (formData) => {
     try {
       const returnedData = await sendRequest(
-        `http://localhost:5000/api/collections/${url}`,
+        `http://localhost:5000/api/collections/${itemId}/addComment`,
         {
-          method: requestMethod,
+          method: "POST",
           body: JSON.stringify({
             ...formData,
-            tags: formData.tags.map(({ value }) => value),
+            author: username,
           }),
           headers: {
             "Content-Type": "application/json",
@@ -54,42 +58,24 @@ const ItemActionController = ({
       if (!returnedData) throw "";
 
       setSuccessMessage(returnedData.message);
-      triggerUpdate();
+      //   triggerUpdate();
     } catch (err) {}
   }, []);
 
   useEffect(() => {
     if (!submittedFormData || !!requestStatus) return;
-    createItem(submittedFormData);
-  }, [submittedFormData, createItem, requestStatus]);
-
-  const submitButtonText = !!itemData ? "SAVE" : "CREATE";
-
-  const {
-    textFields,
-    numberFields,
-    multilineTextFields,
-    dateFields,
-    booleanFields,
-  } = customItemSchema;
+    addComment(submittedFormData);
+  }, [submittedFormData, addComment, requestStatus]);
 
   return (
     <Fragment>
       {!successMessage && (
-        <ItemFormTemplate
+        <AddCommentForm
           requestError={requestError}
           requestStatus={requestStatus}
           resetHookState={resetHookState}
           setFormData={setFormData}
           handleCloseModal={handleCloseModal}
-          textFields={textFields}
-          numberFields={numberFields}
-          multilineTextFields={multilineTextFields}
-          dateFields={dateFields}
-          booleanFields={booleanFields}
-          customItemSchema={customItemSchema}
-          itemData={itemData}
-          actionButtonText={submitButtonText}
         />
       )}
       {!!successMessage && (
@@ -105,4 +91,4 @@ const ItemActionController = ({
     </Fragment>
   );
 };
-export default ItemActionController;
+export default AddCommentController;

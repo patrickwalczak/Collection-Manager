@@ -55,7 +55,7 @@ const AddCommentForm = ({
             label=""
             as="textarea"
             placeholder="Leave comment..."
-            style={{ minHeight: "60px" }}
+            style={{ minHeight: "100px" }}
             value={values.comment}
             isInvalid={errors.comment && touched.comment}
             isValid={!errors.comment && values.comment}
@@ -72,7 +72,7 @@ const AddCommentForm = ({
             </Alert>
           )}
 
-          <div className="d-flex justify-content-end gap-3">
+          <div className="d-flex justify-content-end gap-2">
             <Button
               className="col-2"
               variant="secondary"
@@ -84,7 +84,7 @@ const AddCommentForm = ({
             </Button>
             <Button
               disabled={isDisabled}
-              className="col-4"
+              className="col-2"
               variant="success"
               type="submit"
             >
