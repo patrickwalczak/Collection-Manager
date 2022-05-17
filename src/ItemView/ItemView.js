@@ -15,10 +15,11 @@ import useHttp from "../hooks/useHttp";
 
 import Comments from "./Comments";
 import ItemData from "./ItemData";
+import LikeItem from "./LikeItem";
 
 const ItemView = () => {
-  const [collectionItem, setCollectionItem] = useState(null);
   const [isBeingUpdated, setIsBeingUpdated] = useState(false);
+  const [collectionItem, setCollectionItem] = useState(null);
 
   const { itemId } = useParams();
 
@@ -52,6 +53,12 @@ const ItemView = () => {
     setIsBeingUpdated(false);
   }, [getItemById, isBeingUpdated]);
 
+  const isLikedByLoggedUser = !!collectionItem?.likes.find(
+    (id) => id === userId
+  )
+    ? true
+    : false;
+
   return (
     <Fragment>
       {!!collectionItem && (
@@ -73,9 +80,12 @@ const ItemView = () => {
           {!!collectionItem && collectionItem.itemData && (
             <ItemData itemData={collectionItem.itemData} />
           )}
-          <div className="col-12 d-grid justify-content-start align-items-start">
-            <Button variant="outline-primary">Like</Button>
-          </div>
+
+          <LikeItem
+            itemId={itemId}
+            isLikedByLoggedUser={isLikedByLoggedUser}
+            token={token}
+          />
 
           <Comments />
         </Container>

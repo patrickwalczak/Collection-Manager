@@ -56,7 +56,6 @@ const CollectionView = () => {
       );
       if (!returnedData) throw "";
       const { collection } = returnedData;
-      console.log(collection);
       setCollection(collection);
       setCustomItemSchema(collection.collectionCustomItem);
 
