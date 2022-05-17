@@ -9,6 +9,7 @@ import NewCollection from "./NewCollection/NewCollection";
 import AppContext from "./store/app-context";
 import { useContext, useEffect, useState } from "react";
 import AdminPanel from "./AdminPanel/AdminPanel";
+import ItemView from "./ItemView/ItemView";
 import { IntlProvider } from "react-intl";
 
 function App() {
@@ -57,6 +58,7 @@ function App() {
           )}
           <Route path="*" element={<Navigate replace to="/login" />} />
           <Route path="/user/:userId" element={<UserProfile />} />
+          <Route path="/item/:itemId" element={<ItemView />} />
           {!!token && userType === "admin" && (
             <Route path="/adminpanel" element={<AdminPanel />} />
           )}

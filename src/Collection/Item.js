@@ -5,6 +5,7 @@ import Badge from "react-bootstrap/Badge";
 import { AiFillDelete } from "react-icons/ai";
 import { AiFillEdit } from "react-icons/ai";
 import { AiOutlineFolderView } from "react-icons/ai";
+import { Link } from "react-router-dom";
 
 const Item = ({
   id,
@@ -31,9 +32,9 @@ const Item = ({
       ))}
       {canBeChanged && (
         <td className="text-end d-flex gap-2 justify-content-end">
-          <Button variant="success" className="py-0">
+          <Link to={`/item/${id}`} className="btn btn-primary px-1 py-0">
             <AiOutlineFolderView />
-          </Button>
+          </Link>
 
           <Button
             variant="warning"
@@ -53,8 +54,10 @@ const Item = ({
         </td>
       )}
       {!canBeChanged && (
-        <td className="text-end">
-          <Button className="center py-0">VIEW</Button>
+        <td width="7%" className="text-end">
+          <Link to={`/item/${id}`} className="btn btn-primary px-1 py-0">
+            VIEW
+          </Link>
         </td>
       )}
     </tr>
