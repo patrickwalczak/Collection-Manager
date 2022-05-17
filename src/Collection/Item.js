@@ -1,19 +1,15 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import Button from "react-bootstrap/Button";
-import Popover from "react-bootstrap/Popover";
-import OverlayTrigger from "react-bootstrap/OverlayTrigger";
-import Collapse from "react-bootstrap/Collapse";
-import Card from "react-bootstrap/Card";
-import Tooltip from "react-bootstrap/Tooltip";
+import Badge from "react-bootstrap/Badge";
 
 import { AiFillDelete } from "react-icons/ai";
 import { AiFillEdit } from "react-icons/ai";
 import { AiOutlineFolderView } from "react-icons/ai";
 
-import { useState } from "react";
-
 const Item = ({
   id,
+  name,
+  tags,
   itemValues,
   openEditForm,
   openDeleteForm,
@@ -21,6 +17,13 @@ const Item = ({
 }) => {
   return (
     <tr className=" position-relative">
+      <td className="text-break">{id}</td>
+      <td className="text-break">{name}</td>
+      <td className="text-break">
+        {tags.map((tag, index) => (
+          <Badge key={index}>{tag}</Badge>
+        ))}
+      </td>
       {itemValues.map((itemValue, index) => (
         <td key={index} className="text-break">
           {itemValue}

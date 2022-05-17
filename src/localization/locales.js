@@ -1,6 +1,6 @@
 const locales = {
-  EN: "en",
-  PL: "pl",
+  EN: "EN",
+  PL: "PL",
 };
 
 export default locales;

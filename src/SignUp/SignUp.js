@@ -15,7 +15,7 @@ const SignUp = () => {
   const { requestError, requestStatus, sendRequest, resetHookState } =
     useHttp();
 
-  const { login } = useContext(AppContext);
+  const { logIn } = useContext(AppContext);
 
   const navigate = useNavigate();
 
@@ -33,7 +33,7 @@ const SignUp = () => {
       );
       if (!createdUserAccount) throw "";
 
-      login(createdUserAccount);
+      logIn(createdUserAccount);
       resetHookState();
       setFormData(null);
       navigate(`/user/${createdUserAccount.userId}`);

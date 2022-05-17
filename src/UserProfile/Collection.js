@@ -1,7 +1,6 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import Col from "react-bootstrap/Col";
 import Button from "react-bootstrap/Button";
-import Badge from "react-bootstrap/Badge";
 import Row from "react-bootstrap/Row";
 
 import { Link } from "react-router-dom";
@@ -9,7 +8,6 @@ import { Link } from "react-router-dom";
 const Collection = ({
   collectionDescription,
   collectionName,
-  collectionTags,
   collectionTopic,
   id,
   openEditForm,
@@ -24,13 +22,6 @@ const Collection = ({
       >
         <h3>{collectionName}</h3>
         <span className="d-flex mb-2">{collectionTopic}</span>
-        <div className="col-8 mb-2 d-flex gap-2 flex-wrap">
-          {collectionTags.map(({ id, title }) => (
-            <Badge key={id} bg="secondary" className="text-uppercase">
-              {title}
-            </Badge>
-          ))}
-        </div>
         <p className="col-11">{collectionDescription}</p>
         <div data-id={id} className="col-12 d-flex p-2 gap-3 flex-wrap">
           <Link to={`/collection/${id}`} className="btn bg-success text-white">

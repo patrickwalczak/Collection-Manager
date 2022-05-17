@@ -60,7 +60,6 @@ const CollectionView = () => {
       setCustomItemSchema(collection.collectionCustomItem);
 
       if (!collection.items.length) return;
-
       takeOutTableValues(collection);
     } catch (err) {}
   }, []);
@@ -72,21 +71,32 @@ const CollectionView = () => {
   };
 
   const takeOutHeadings = (itemsObjectsArray) => {
-    const firstItemInArray = 0;
-    const headings = Object.entries(
-      itemsObjectsArray[firstItemInArray].itemData
-    ).map(([propertyKey, _]) => propertyKey);
+    const firstItemInArrayIndex = 0;
+    const firstItemInArray = itemsObjectsArray[firstItemInArrayIndex].itemData;
+    const fixedHeadings = ["ID", "Name", "Tags"];
+    const itemAdditionalFieldsHeadings = [];
+    if (firstItemInArray) {
+      itemAdditionalFieldsHeadings = Object.entries(
+        itemsObjectsArray[firstItemInArrayIndex].itemData
+      ).map(([propertyKey, _]) => propertyKey);
+    }
+    const headings = [...fixedHeadings, ...itemAdditionalFieldsHeadings];
     setHeadings(headings);
   };
 
   const takeOutItemsValues = (itemsObjectsArray) => {
-    const itemsValuesArray = itemsObjectsArray.map(({ itemData, id }) => {
-      const itemValuesArray = Object.entries(itemData).map(
-        ([_, propertyValue]) => propertyValue
-      );
+    const itemsValuesArray = itemsObjectsArray.map(
+      ({ itemData, id, name, tags }) => {
+        let itemValuesArray = [];
+        if (itemData) {
+          const itemValuesArray = Object.entries(itemData).map(
+            ([_, propertyValue]) => propertyValue
+          );
+        }
 
-      return { itemValuesArray, id };
-    });
+        return { itemValuesArray, id, name, tags };
+      }
+    );
     setTableValues(itemsValuesArray);
   };
 

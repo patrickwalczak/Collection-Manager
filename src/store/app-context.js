@@ -6,10 +6,13 @@ const AppContext = React.createContext({
   token: null,
   userType: null,
   theme: null,
-  login: (item) => {},
+  language: null,
+  messages: null,
+  logIn: (item) => {},
   logout: (id) => {},
   checkUser: () => {},
   changeTheme: () => {},
+  changeLanguage: () => {},
 });
 
 export default AppContext;

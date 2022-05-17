@@ -8,6 +8,8 @@ import { Formik } from "formik";
 import * as yup from "yup";
 
 import ReusableFieldName from "../SignUp/ReusableFieldName";
+import SelectTags from "../NewCollection/SelectTags";
+
 import { useEffect } from "react";
 
 import { validationTemplates } from "../helpers/yupHelper";
@@ -34,7 +36,13 @@ const ItemFormTemplate = ({
     validateNumberField,
   } = validationTemplates;
 
-  const validationSchema = {};
+  const validationSchema = {
+    name: validateSingleTextField,
+    tags: yup.array().test({
+      message: "Tags are required!",
+      test: (tags) => tags.length !== 0,
+    }),
+  };
 
   textFields.forEach(
     (fieldName) => (validationSchema[fieldName] = validateSingleTextField)
@@ -52,7 +60,7 @@ const ItemFormTemplate = ({
     (fieldName) => (validationSchema[fieldName] = validateNumberField)
   );
 
-  const initialFormValues = !!itemData ? itemData : {};
+  const initialFormValues = !!itemData ? itemData : { name: "", tags: [] };
 
   const initiateFormValues = () => {
     for (const names in customItemSchema) {
@@ -88,8 +96,35 @@ const ItemFormTemplate = ({
         errors,
         setFieldValue,
         setFieldTouched,
+        setFieldError,
       }) => (
         <Form noValidate onSubmit={handleSubmit} className="pb-4">
+          <ReusableFieldName
+            autoFocus
+            name="name"
+            label="Item Name*"
+            type="text"
+            value={values.name}
+            isInvalid={errors.name && touched.name}
+            isValid={!errors.name && values.name}
+            error={errors.name}
+            disabled={isDisabled}
+            setFieldTouched={setFieldTouched}
+            setFieldValue={setFieldValue}
+            onBlur={handleBlur}
+          />
+
+          <SelectTags
+            name="tags"
+            setValue={setFieldValue}
+            setError={setFieldError}
+            onBlur={handleBlur}
+            setTouched={setFieldTouched}
+            value={values.tags}
+            error={errors.tags}
+            isTouched={touched.tags}
+          />
+
           {textFields.map((fieldName, index) => (
             <ReusableFieldName
               key={fieldName + index}
@@ -113,7 +148,7 @@ const ItemFormTemplate = ({
               name={fieldName}
               label={fieldName}
               as="textarea"
-              style={{ height: "100px" }}
+              style={{ minHeight: "100px" }}
               isInvalid={errors[fieldName] && touched[fieldName]}
               isValid={!errors[fieldName] && values[fieldName]}
               error={errors[fieldName]}

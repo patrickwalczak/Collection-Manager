@@ -1,21 +1,16 @@
 import "bootstrap/dist/css/bootstrap.min.css";
-import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
-import Alert from "react-bootstrap/Alert";
-import Spinner from "react-bootstrap/Spinner";
 
-const SelectLanguage = () => {
-  const handleChangingTheme = (e) => {
-    const isChecked = e.target.checked;
-    if (isChecked);
-    else {
-    }
-  };
-
+const SelectLanguage = ({ changeLanguage, language }) => {
   return (
-    <Form.Select style={{ maxWidth: "max-content" }} className="py-0">
-      <option value="PL">PL</option>
+    <Form.Select
+      onChange={(e) => changeLanguage(e.target.value)}
+      style={{ maxWidth: "max-content" }}
+      className="py-0"
+      defaultValue={language}
+    >
       <option value="EN">EN</option>
+      <option value="PL">PL</option>
     </Form.Select>
   );
 };

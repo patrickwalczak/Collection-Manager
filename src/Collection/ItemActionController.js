@@ -41,7 +41,10 @@ const ItemActionController = ({
         `http://localhost:5000/api/collections/${url}`,
         {
           method: requestMethod,
-          body: JSON.stringify({ formData }),
+          body: JSON.stringify({
+            ...formData,
+            tags: formData.tags.map(({ value }) => value),
+          }),
           headers: {
             "Content-Type": "application/json",
             Authorization: "Bearer " + token,

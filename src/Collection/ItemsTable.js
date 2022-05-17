@@ -23,11 +23,13 @@ const ItemsTable = ({
       </thead>
       <tbody>
         {!!tableValues &&
-          tableValues.map(({ id, itemValuesArray }) => (
+          tableValues.map(({ id, itemValuesArray, name, tags }) => (
             <Item
               openEditForm={openEditForm}
               openDeleteForm={openDeleteForm}
               key={id}
+              name={name}
+              tags={tags}
               id={id}
               itemValues={itemValuesArray}
               canBeChanged={canBeChanged}

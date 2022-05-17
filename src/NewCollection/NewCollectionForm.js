@@ -33,7 +33,7 @@ const NewCollectionForm = ({
     collectionName: "",
     collectionTopic: "",
     collectionDescription: "",
-    collectionTags: [],
+    // collectionTags: [],
     chosenNumberOfCustomTextFields: "",
     customTextFieldsNames: [],
     chosenNumberOfCustomNumberFields: "",
@@ -51,10 +51,10 @@ const NewCollectionForm = ({
   const schema = yup.object().shape({
     collectionName: validateSingleTextField,
     collectionTopic: yup.string().required(isRequiredErrorMessage),
-    collectionTags: yup.array().test({
-      message: isRequiredErrorMessage,
-      test: (tags) => tags.length !== 0,
-    }),
+    // collectionTags: yup.array().test({
+    //   message: isRequiredErrorMessage,
+    //   test: (tags) => tags.length !== 0,
+    // }),
     collectionDescription: validateMultilineTextField,
     chosenNumberOfCustomTextFields: validateRadioField,
     chosenNumberOfCustomNumberFields: validateRadioField,
@@ -127,7 +127,7 @@ const NewCollectionForm = ({
             label="Collection Description*"
             as="textarea"
             placeholder="My collection is about..."
-            style={{ height: "100px" }}
+            style={{ minHeight: "100px" }}
             value={values.collectionDescription}
             isInvalid={
               errors.collectionDescription && touched.collectionDescription
@@ -142,7 +142,7 @@ const NewCollectionForm = ({
             onBlur={handleBlur}
           />
 
-          <SelectTags
+          {/* <SelectTags
             name="collectionTags"
             setValue={setFieldValue}
             setError={setFieldError}
@@ -151,7 +151,7 @@ const NewCollectionForm = ({
             value={values.collectionTags}
             error={errors.collectionTags}
             isTouched={touched.collectionTags}
-          />
+          /> */}
 
           <CollectionImg name="collectionImg" setImg={setFieldValue} />
 

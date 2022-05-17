@@ -15,7 +15,7 @@ const Login = () => {
   const { requestError, requestStatus, sendRequest, resetHookState } =
     useHttp();
 
-  const { login } = useContext(AppContext);
+  const { logIn } = useContext(AppContext);
 
   const navigate = useNavigate();
 
@@ -33,7 +33,7 @@ const Login = () => {
       );
       if (!loggedUserAccount) throw "";
 
-      login(loggedUserAccount);
+      logIn(loggedUserAccount);
       resetHookState();
       setFormData(null);
       navigate(`/user/${loggedUserAccount.userId}`);

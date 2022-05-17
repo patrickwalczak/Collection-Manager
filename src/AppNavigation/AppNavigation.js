@@ -1,17 +1,17 @@
 import "bootstrap/dist/css/bootstrap.min.css";
+import Col from "react-bootstrap/Col";
+import Row from "react-bootstrap/Row";
 import Navbar from "react-bootstrap/Navbar";
 import Nav from "react-bootstrap/Nav";
 import { Link, NavLink } from "react-router-dom";
 import Button from "react-bootstrap/Button";
-import Col from "react-bootstrap/Col";
-import Row from "react-bootstrap/Row";
 import AppContext from "../store/app-context";
 import { useContext } from "react";
 import SwitchThemeButton from "./SwitchThemeButton";
 import { FormattedMessage } from "react-intl";
 import SelectLanguage from "./SelectLanguage";
 
-const AppNavigation = () => {
+const AppNavigation = ({ changeLanguage, language }) => {
   const navLinkMargin = "text-white mx-1 mx-md-2  nav-link";
   const navBtnMarPad = "text-white p-1 p-md-2 mx-1 mx-md-2 mx-lg-3";
 
@@ -91,7 +91,10 @@ const AppNavigation = () => {
 
               <SwitchThemeButton changeTheme={changeTheme} theme={theme} />
 
-              <SelectLanguage />
+              <SelectLanguage
+                language={language}
+                changeLanguage={changeLanguage}
+              />
             </Nav>
           </Navbar.Collapse>
         </Navbar>

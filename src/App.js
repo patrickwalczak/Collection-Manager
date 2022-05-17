@@ -10,21 +10,18 @@ import AppContext from "./store/app-context";
 import { useContext, useEffect, useState } from "react";
 import AdminPanel from "./AdminPanel/AdminPanel";
 import { IntlProvider } from "react-intl";
-import locales from "./localization/locales";
-import enMessages from "./localization/en.json";
-import plMessages from "./localization/pl.json";
-import { Form } from "react-bootstrap";
-
-const messages = {
-  [locales.EN]: enMessages,
-  [locales.PL]: plMessages,
-};
 
 function App() {
-  const [language, setLanguage] = useState(locales.EN);
-
-  const { userId, userType, token, theme, changeTheme } =
-    useContext(AppContext);
+  const {
+    userId,
+    userType,
+    token,
+    theme,
+    changeTheme,
+    language,
+    messages,
+    changeLanguage,
+  } = useContext(AppContext);
 
   useEffect(() => {
     changeTheme("dark");
@@ -46,7 +43,7 @@ function App() {
         data-theme={theme}
         className="position-relative gap-5 pb-5"
       >
-        <AppNavigation />
+        <AppNavigation language={language} changeLanguage={changeLanguage} />
 
         <Routes>
           <Route path="/login" element={<Login />} />

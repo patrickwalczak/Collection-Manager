@@ -25,7 +25,7 @@ const EditCollectionForm = ({
     collectionName: "",
     collectionTopic: "",
     collectionDescription: "",
-    collectionTags: [],
+    // collectionTags: [],
   };
 
   const { validateSingleTextField, validateMultilineTextField } =
@@ -34,10 +34,10 @@ const EditCollectionForm = ({
   const schema = yup.object().shape({
     collectionName: validateSingleTextField,
     collectionTopic: yup.string().required("Field is required"),
-    collectionTags: yup.array().test({
-      message: "Field is required",
-      test: (tags) => tags.length !== 0,
-    }),
+    // collectionTags: yup.array().test({
+    //   message: "Field is required",
+    //   test: (tags) => tags.length !== 0,
+    // }),
     collectionDescription: validateMultilineTextField,
   });
 
@@ -93,7 +93,7 @@ const EditCollectionForm = ({
             label="Collection Description*"
             as="textarea"
             placeholder="My collection is about..."
-            style={{ height: "100px" }}
+            style={{ minHeight: "100px" }}
             value={values.collectionDescription}
             isInvalid={
               errors.collectionDescription && touched.collectionDescription
@@ -108,7 +108,7 @@ const EditCollectionForm = ({
             onBlur={handleBlur}
           />
 
-          <SelectTags
+          {/* <SelectTags
             name="collectionTags"
             setValue={setFieldValue}
             setError={setFieldError}
@@ -117,7 +117,7 @@ const EditCollectionForm = ({
             value={values.collectionTags}
             error={errors.collectionTags}
             isTouched={touched.collectionTags}
-          />
+          /> */}
 
           {requestError !== null && requestStatus !== "loading" && (
             <Alert variant="danger" onClose={resetHookState} dismissible>

@@ -30,7 +30,6 @@ function NewCollection() {
         {
           method: "POST",
           body: JSON.stringify({
-            whoCreates: loggedUserId,
             ...filteredFormObject,
           }),
           headers: {
