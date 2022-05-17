@@ -66,9 +66,14 @@ const AddCommentForm = ({
             onBlur={handleBlur}
           />
 
-          {requestError !== null && requestStatus !== "loading" && (
-            <Alert variant="danger" onClose={resetHookState} dismissible>
+          {!!requestError && requestStatus !== "loading" && (
+            <Alert variant="danger">
               <Alert.Heading>{requestError}</Alert.Heading>
+              <div className="mt-3 d-flex justify-content-end">
+                <Button variant="outline-danger" onClick={resetHookState}>
+                  Try again
+                </Button>
+              </div>
             </Alert>
           )}
 
@@ -88,7 +93,7 @@ const AddCommentForm = ({
               variant="success"
               type="submit"
             >
-              {!isDisabled && "SAVE"}
+              {!isDisabled && "SUBMIT"}
               {isDisabled && <Spinner animation="border" />}
             </Button>
           </div>

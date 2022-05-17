@@ -37,13 +37,16 @@ const ItemActionController = ({
 
   const createItem = useCallback(async (formData) => {
     try {
+      console.log(formData);
       const returnedData = await sendRequest(
         `http://localhost:5000/api/collections/${url}`,
         {
           method: requestMethod,
           body: JSON.stringify({
             ...formData,
-            tags: formData.tags.map(({ value }) => value),
+            tags: formData.tags[0]?.value
+              ? formData.tags.map(({ value }) => value)
+              : formData.tags,
           }),
           headers: {
             "Content-Type": "application/json",

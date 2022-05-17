@@ -56,6 +56,7 @@ const CollectionView = () => {
       );
       if (!returnedData) throw "";
       const { collection } = returnedData;
+      console.log(collection);
       setCollection(collection);
       setCustomItemSchema(collection.collectionCustomItem);
 
@@ -112,9 +113,11 @@ const CollectionView = () => {
   };
 
   const findItemToEdit = (itemId) => {
-    const item = collection.items.find(({ id }) => id === itemId).itemData;
+    // const item = collection.items.find(({ id }) => id === itemId).itemData;
+    const item = collection.items.find(({ id }) => id === itemId);
+    const itemData = item.itemData;
     if (!item) return;
-    setItemData(item);
+    setItemData({ ...itemData, name: item.name, tags: item.tags });
   };
 
   const clearItemStates = () => {

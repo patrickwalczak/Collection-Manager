@@ -13,8 +13,8 @@ import { useEffect, useContext, useState, useCallback, Fragment } from "react";
 import AppContext from "../store/app-context";
 import useHttp from "../hooks/useHttp";
 
-import UserProfileWrapper from "../UserProfile/UserProfileWrapper";
 import Comments from "./Comments";
+import ItemData from "./ItemData";
 
 const ItemView = () => {
   const [collectionItem, setCollectionItem] = useState(null);
@@ -36,7 +36,6 @@ const ItemView = () => {
       );
       if (!returnedData) throw "";
       const { item } = returnedData;
-      console.log(item);
       setCollectionItem(item);
     } catch (err) {}
   }, []);
@@ -72,12 +71,11 @@ const ItemView = () => {
             </Col>
           </Row>
           {!!collectionItem && collectionItem.itemData && (
-            <Row className="mb-5 rounded col-12">
-              <Col className="rounded p-2 p-md-3 p-xl-2 text-white bg-dark">
-                <div>Item Data</div>
-              </Col>
-            </Row>
+            <ItemData itemData={collectionItem.itemData} />
           )}
+          <div className="col-12 d-grid justify-content-start align-items-start">
+            <Button variant="outline-primary">Like</Button>
+          </div>
 
           <Comments />
         </Container>

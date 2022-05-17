@@ -1,6 +1,7 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import Alert from "react-bootstrap/Alert";
 import Button from "react-bootstrap/Button";
+import Collapse from "react-bootstrap/Collapse";
 
 import { useEffect, useState, useCallback, Fragment, useContext } from "react";
 
@@ -10,19 +11,13 @@ import AddCommentForm from "./AddCommentForm";
 
 import AppContext from "../store/app-context";
 
-import { useParams, Link } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
-const AddCommentController = ({
-  heading,
-  modalVisibilityState,
-  handleCloseModal,
-  customItemSchema,
-  url,
-  clearItemStates,
-  triggerUpdate,
-}) => {
+const AddCommentController = () => {
   const [submittedFormData, setFormData] = useState(null);
   const [successMessage, setSuccessMessage] = useState("");
+  const [addCommentFormVisibility, setAddCommentFormVisibility] =
+    useState(false);
 
   const { username, token } = useContext(AppContext);
 
@@ -32,11 +27,10 @@ const AddCommentController = ({
     useHttp();
 
   const resetComponent = () => {
-    // handleCloseModal();
-    // setFormData(null);
-    // clearItemStates();
-    // resetHookState();
-    // setSuccessMessage("");
+    setAddCommentFormVisibility(!addCommentFormVisibility);
+    setFormData(null);
+    resetHookState();
+    setSuccessMessage("");
   };
 
   const addComment = useCallback(async (formData) => {
@@ -58,7 +52,6 @@ const AddCommentController = ({
       if (!returnedData) throw "";
 
       setSuccessMessage(returnedData.message);
-      //   triggerUpdate();
     } catch (err) {}
   }, []);
 
@@ -69,25 +62,32 @@ const AddCommentController = ({
 
   return (
     <Fragment>
-      {!successMessage && (
-        <AddCommentForm
-          requestError={requestError}
-          requestStatus={requestStatus}
-          resetHookState={resetHookState}
-          setFormData={setFormData}
-          handleCloseModal={handleCloseModal}
-        />
-      )}
-      {!!successMessage && (
-        <Alert variant="success">
-          <Alert.Heading>{successMessage}</Alert.Heading>
-          <div className="d-flex justify-content-end">
-            <Button onClick={resetComponent} variant="outline-success">
-              Great!
-            </Button>
-          </div>
-        </Alert>
-      )}
+      <Button onClick={resetComponent} aria-expanded={addCommentFormVisibility}>
+        Add Comment
+      </Button>
+      <Collapse in={addCommentFormVisibility}>
+        <div>
+          {!successMessage && (
+            <AddCommentForm
+              requestError={requestError}
+              requestStatus={requestStatus}
+              resetHookState={resetHookState}
+              setFormData={setFormData}
+              handleCloseModal={resetComponent}
+            />
+          )}
+          {!!successMessage && (
+            <Alert variant="success">
+              <Alert.Heading>{successMessage}</Alert.Heading>
+              <div className="d-flex justify-content-end">
+                <Button onClick={resetComponent} variant="outline-success">
+                  Great!
+                </Button>
+              </div>
+            </Alert>
+          )}
+        </div>
+      </Collapse>
     </Fragment>
   );
 };

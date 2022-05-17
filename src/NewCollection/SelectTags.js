@@ -34,7 +34,7 @@ const SelectTags = ({
       if (!returnedData) throw "";
 
       const { tags } = returnedData;
-
+      console.log(tags);
       setTags(tags);
 
       setIsLoading(false);
@@ -50,7 +50,7 @@ const SelectTags = ({
   }, [getTags, query]);
 
   const changeTags = (t) => {
-    if (!t.length) setError(name, "Collection tags are required!");
+    if (!t.length) setError(name, "Item tags are required!");
     setTouched(name);
     setValue(name, t);
   };
@@ -58,11 +58,16 @@ const SelectTags = ({
   const blurTags = () => {
     setTouched(name);
     if (value.length) return;
-    return setError(name, "Collection tags are required");
+    return setError(name, "Item tags are required");
   };
 
   const inputIsInvalid = error && !value.length && isTouched ? true : false;
   const inputIsValid = !error && value.length ? true : false;
+
+  const defaultValue =
+    !!value.length && !value[0].label
+      ? value.map((tag) => ({ value: tag, label: tag }))
+      : value;
 
   return (
     <Form.Group className="mb-3" controlId={name}>
@@ -75,7 +80,7 @@ const SelectTags = ({
         onBlur={blurTags}
         options={tags}
         placeholder="Type and choose your tags..."
-        selected={value}
+        selected={defaultValue}
         isLoading={isLoading}
         isInvalid={inputIsInvalid}
         isValid={inputIsValid}

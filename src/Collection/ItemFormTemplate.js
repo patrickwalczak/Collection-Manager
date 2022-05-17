@@ -208,7 +208,7 @@ const ItemFormTemplate = ({
             </Form.Group>
           ))}
 
-          {requestError !== null && requestStatus !== "loading" && (
+          {!!requestError && requestStatus !== "loading" && (
             <Alert variant="danger">
               <Alert.Heading>{requestError}</Alert.Heading>
               <div className="mt-3 d-flex justify-content-end">
@@ -239,6 +239,7 @@ const ItemFormTemplate = ({
               {isDisabled && <Spinner animation="border" />}
             </Button>
           </div>
+          <pre>{JSON.stringify(values, null, 2)}</pre>
         </Form>
       )}
     </Formik>
