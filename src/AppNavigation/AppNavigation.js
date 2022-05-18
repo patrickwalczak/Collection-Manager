@@ -29,7 +29,7 @@ const AppNavigation = ({ changeLanguage, language }) => {
           }}
           expand="sm"
         >
-          <Link to="/home" className="navbar-brand text-white">
+          <Link to="/mainPage" className="navbar-brand text-white">
             <FormattedMessage id="app-navigation.home.button" />
           </Link>
 

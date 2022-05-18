@@ -7,7 +7,9 @@ const CommentList = ({ comments }) => {
   }
 
   if (comments.length) {
-    content = comments.map((comment) => <Comment {...comment} />);
+    content = comments.map((comment, index) => (
+      <Comment key={index} {...comment} />
+    ));
   }
 
   return <div>{content}</div>;

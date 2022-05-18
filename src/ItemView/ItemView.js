@@ -87,7 +87,7 @@ const ItemView = () => {
             token={token}
           />
 
-          <Comments comments={collectionItem.comments} />
+          <Comments itemComments={collectionItem.comments} />
         </Container>
       )}
       {/* {!!requestError && requestStatus !== "loading" && (
