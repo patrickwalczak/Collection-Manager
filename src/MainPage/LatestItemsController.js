@@ -18,15 +18,7 @@ const LatestItemsController = () => {
       if (!returnedData) throw "";
       const { latestItems } = returnedData;
 
-      const convertedLatestItems = latestItems.map(
-        ({ name, id, belongsToCollection }) => ({
-          firstHeading: name,
-          secondHeading: belongsToCollection.collectionName,
-          id,
-        })
-      );
-
-      setLatestItems(convertedLatestItems);
+      setLatestItems(latestItems);
     } catch (err) {}
   }, []);
 

@@ -32,29 +32,31 @@ const TableTemplate = ({
   }
 
   if (dataList.length && requestStatus === "completed") {
-    content = dataList.map(({ id, firstHeading, secondHeading }, index) => (
-      <tr
-        key={index}
-        className="shadow d-flex col-12 backColor fs-5 rounded text-white border p-1 mb-3"
-      >
-        <th className="col-3 text-center text-break">{firstHeading}</th>
-        <th className="col-4 text-center text-break">{secondHeading}</th>
-        <th className="col-3 text-center text-break">Author</th>
-        <th className="col-2 text-center text-break">
-          <Link to={`/item/${id}`} className="btn btn-success">
-            OPEN
-          </Link>
-        </th>
-      </tr>
-    ));
+    content = dataList.map(
+      ({ id, firstHeading, collectionName, author }, index) => (
+        <tr
+          key={index}
+          className="shadow d-flex col-12 backColor fs-5 rounded text-white border p-1 mb-3"
+        >
+          <th className="col-3 text-center text-break">{firstHeading}</th>
+          <th className="col-4 text-center text-break">{collectionName}</th>
+          <th className="col-3 text-center text-break">{author}</th>
+          <th className="col-2 text-center text-break">
+            <Link to={`/item/${id}`} className="btn btn-success py-0">
+              OPEN
+            </Link>
+          </th>
+        </tr>
+      )
+    );
   }
 
   return (
     <Row className="mb-5 col-12 rounded p-0 p-lg-3">
       <Table
-        style={{ minWidth: "590px", minHeight: "40rem" }}
+        style={{ minWidth: "590px" }}
         responsive
-        className="scrollBar reset position-relative"
+        className="scrollBar reset"
       >
         <thead className="itemsHeading text-uppercase text-white mb-4 rounded">
           <tr>
@@ -69,7 +71,10 @@ const TableTemplate = ({
             <th className="col-2 text-center">Link</th>
           </tr>
         </thead>
-        <tbody style={{ borderTop: "none", cursor: "pointer" }}>
+        <tbody
+          className="position-relative"
+          style={{ borderTop: "none", cursor: "pointer", minHeight: "14rem" }}
+        >
           {content}
         </tbody>
       </Table>

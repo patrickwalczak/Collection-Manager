@@ -5,42 +5,34 @@ import { useEffect, useState, useCallback, Fragment } from "react";
 import useHttp from "../hooks/useHttp";
 
 const LargestCollectionsController = () => {
-  const [latestItems, setLatestItems] = useState([]);
+  const [largestCollections, setLargestCollections] = useState([]);
 
   const { requestError, requestStatus, sendRequest, resetHookState } =
     useHttp();
 
-  const getLatestItems = useCallback(async () => {
+  const getLargestCollections = useCallback(async () => {
     try {
       const returnedData = await sendRequest(
-        `http://localhost:5000/api/items/getLatestItems`
+        `http://localhost:5000/api/collections/getLargestCollections`
       );
       if (!returnedData) throw "";
-      const { latestItems } = returnedData;
+      const { largestCollections } = returnedData;
 
-      const convertedLatestItems = latestItems.map(
-        ({ name, id, belongsToCollection }) => ({
-          firstHeading: name,
-          secondHeading: belongsToCollection.collectionName,
-          id,
-        })
-      );
-
-      setLatestItems(convertedLatestItems);
+      setLargestCollections(largestCollections);
     } catch (err) {}
   }, []);
 
   useEffect(() => {
-    if (!!latestItems.length || !!requestStatus) return;
-    getLatestItems();
-  }, [getLatestItems, requestStatus]);
+    if (!!largestCollections.length || !!requestStatus) return;
+    getLargestCollections();
+  }, [getLargestCollections, requestStatus]);
 
   return (
     <Fragment>
       <TableTemplate
         tableHeading="Largest collections"
         firstHeading="Number of items"
-        dataList={[]}
+        dataList={largestCollections}
         requestStatus={requestStatus}
       />
     </Fragment>
