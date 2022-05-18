@@ -34,7 +34,6 @@ const SelectTags = ({
       if (!returnedData) throw "";
 
       const { tags } = returnedData;
-      console.log(tags);
       setTags(tags);
 
       setIsLoading(false);

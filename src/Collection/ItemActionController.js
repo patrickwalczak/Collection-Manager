@@ -37,7 +37,6 @@ const ItemActionController = ({
 
   const createItem = useCallback(async (formData) => {
     try {
-      console.log(formData);
       const returnedData = await sendRequest(
         `${process.env.REACT_APP_BACKEND_URL}/items/${url}`,
         {
