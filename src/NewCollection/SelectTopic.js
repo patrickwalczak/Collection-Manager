@@ -22,7 +22,7 @@ const SelectTopic = ({
   const getTopics = useCallback(async () => {
     try {
       const returnedData = await sendRequest(
-        "http://localhost:5000/api/config/topics"
+        `${process.env.REACT_APP_BACKEND_URL}/config/topics`
       );
 
       if (!returnedData) throw "";

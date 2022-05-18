@@ -13,7 +13,7 @@ const LatestItemsController = () => {
   const getLatestItems = useCallback(async () => {
     try {
       const returnedData = await sendRequest(
-        `http://localhost:5000/api/items/getLatestItems`
+        `${process.env.REACT_APP_BACKEND_URL}/items/getLatestItems`
       );
       if (!returnedData) throw "";
       const { latestItems } = returnedData;

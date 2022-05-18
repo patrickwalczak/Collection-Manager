@@ -52,7 +52,7 @@ const CollectionView = () => {
   const getCollectionById = useCallback(async () => {
     try {
       const returnedData = await sendRequest(
-        `http://localhost:5000/api/collections/collection/${collectionId}`
+        `${process.env.REACT_APP_BACKEND_URL}/collections/collection/${collectionId}`
       );
       if (!returnedData) throw "";
       const { collection } = returnedData;

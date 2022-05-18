@@ -31,7 +31,7 @@ const DeleteCollectionController = ({
   const deleteCollection = useCallback(async () => {
     try {
       const returnedData = await sendRequest(
-        `http://localhost:5000/api/collections/${collectionID}/deleteCollection`,
+        `${process.env.REACT_APP_BACKEND_URL}/collections/${collectionID}/deleteCollection`,
         {
           method: "DELETE",
           headers: {

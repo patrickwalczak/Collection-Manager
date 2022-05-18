@@ -13,7 +13,7 @@ const LargestCollectionsController = () => {
   const getLargestCollections = useCallback(async () => {
     try {
       const returnedData = await sendRequest(
-        `http://localhost:5000/api/collections/getLargestCollections`
+        `${process.env.REACT_APP_BACKEND_URL}/collections/getLargestCollections`
       );
       if (!returnedData) throw "";
       const { largestCollections } = returnedData;

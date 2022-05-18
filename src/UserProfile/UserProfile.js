@@ -42,7 +42,7 @@ const UserProfile = () => {
   const getCollectionsByUserId = useCallback(async () => {
     try {
       const returnedData = await sendRequest(
-        `http://localhost:5000/api/collections/user/${userId}`
+        `${process.env.REACT_APP_BACKEND_URL}/collections/user/${userId}`
       );
       if (!returnedData) throw "";
       const { collections } = returnedData;

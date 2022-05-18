@@ -22,7 +22,7 @@ const Login = () => {
   const signInUser = async () => {
     try {
       const loggedUserAccount = await sendRequest(
-        "http://localhost:5000/api/users/login",
+        `${process.env.REACT_APP_BACKEND_URL}/users/login`,
         {
           method: "POST",
           body: JSON.stringify(submittedFormData),

@@ -39,7 +39,7 @@ const ItemActionController = ({
     try {
       console.log(formData);
       const returnedData = await sendRequest(
-        `http://localhost:5000/api/items/${url}`,
+        `${process.env.REACT_APP_BACKEND_URL}/items/${url}`,
         {
           method: requestMethod,
           body: JSON.stringify({

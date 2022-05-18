@@ -33,7 +33,7 @@ const ItemView = () => {
   const getItemById = useCallback(async () => {
     try {
       const returnedData = await sendRequest(
-        `http://localhost:5000/api/items/item/${itemId}`
+        `${process.env.REACT_APP_BACKEND_URL}/items/item/${itemId}`
       );
       if (!returnedData) throw "";
       const { item } = returnedData;

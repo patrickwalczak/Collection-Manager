@@ -15,7 +15,7 @@ const LikeItem = ({ token, itemId, isLikedByLoggedUser }) => {
   const handleLike = useCallback(async (action, changeLikedState) => {
     try {
       const returnedData = await sendRequest(
-        `http://localhost:5000/api/items/${itemId}/${action}`,
+        `${process.env.REACT_APP_BACKEND_URL}/items/${itemId}/${action}`,
         {
           method: "PATCH",
           headers: {

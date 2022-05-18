@@ -26,7 +26,7 @@ function NewCollection() {
 
     try {
       const returnedData = await sendRequest(
-        `http://localhost:5000/api/collections/${userId}/createCollection`,
+        `${process.env.REACT_APP_BACKEND_URL}/collections/${userId}/createCollection`,
         {
           method: "POST",
           body: JSON.stringify({

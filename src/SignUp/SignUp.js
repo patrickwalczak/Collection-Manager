@@ -22,7 +22,7 @@ const SignUp = () => {
   const signUpUser = async () => {
     try {
       const createdUserAccount = await sendRequest(
-        "http://localhost:5000/api/users/signup",
+        `${process.env.REACT_APP_BACKEND_URL}/users/signup`,
         {
           method: "POST",
           body: JSON.stringify(submittedFormData),

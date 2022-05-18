@@ -73,7 +73,7 @@ const TableTemplate = ({
         </thead>
         <tbody
           className="position-relative"
-          style={{ borderTop: "none", cursor: "pointer", minHeight: "14rem" }}
+          style={{ borderTop: "none", cursor: "pointer", minHeight: "8rem" }}
         >
           {content}
         </tbody>

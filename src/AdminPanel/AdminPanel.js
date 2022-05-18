@@ -52,13 +52,16 @@ const AdminPanel = () => {
 
   const getUsers = useCallback(async () => {
     try {
-      const data = await sendRequest("http://localhost:5000/api/admin/users", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + token,
-        },
-      });
+      const data = await sendRequest(
+        `${process.env.REACT_APP_BACKEND_URL}/admin/users`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + token,
+          },
+        }
+      );
       setUsers(data.users);
     } catch (err) {}
   }, []);

@@ -28,7 +28,7 @@ const SelectTags = ({
     setIsLoading(true);
     try {
       const returnedData = await sendRequest(
-        `http://localhost:5000/api/config/tags/${query}`
+        `${process.env.REACT_APP_BACKEND_URL}/config/tags/${query}`
       );
 
       if (!returnedData) throw "";

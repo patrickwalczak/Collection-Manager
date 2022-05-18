@@ -38,7 +38,7 @@ const AddCommentController = () => {
   const addComment = useCallback(async (formData) => {
     try {
       const returnedData = await sendRequest(
-        `http://localhost:5000/api/items/${itemId}/addComment`,
+        `${process.env.REACT_APP_BACKEND_URL}/items/${itemId}/addComment`,
         {
           method: "POST",
           body: JSON.stringify({

@@ -36,7 +36,7 @@ const EditCollection = ({
   const editCollection = useCallback(async (formData) => {
     try {
       const returnedData = await sendRequest(
-        `http://localhost:5000/api/collections/${collectionID}/editCollection`,
+        `${process.env.REACT_APP_BACKEND_URL}/collections/${collectionID}/editCollection`,
         {
           method: "PATCH",
           body: JSON.stringify({ ...formData }),

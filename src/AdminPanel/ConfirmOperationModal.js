@@ -34,7 +34,7 @@ const ConfirmOperationModal = ({
   const deleteUsers = useCallback(async () => {
     try {
       const returnedData = await sendRequest(
-        `http://localhost:5000/api/admin/${url}`,
+        `${process.env.REACT_APP_BACKEND_URL}/admin/${url}`,
         {
           method,
           body: JSON.stringify(requestBodyObject),
