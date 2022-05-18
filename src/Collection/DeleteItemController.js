@@ -31,7 +31,7 @@ const DeleteItemController = ({
   const deleteItem = useCallback(async () => {
     try {
       const returnedData = await sendRequest(
-        `http://localhost:5000/api/collections/${itemID}/deleteItem`,
+        `http://localhost:5000/api/items/${itemID}/deleteItem`,
         {
           method: "DELETE",
           headers: {

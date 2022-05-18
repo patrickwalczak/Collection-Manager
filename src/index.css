@@ -17,9 +17,49 @@ body::-webkit-scrollbar-thumb {
   border-radius: 0.5rem;
 }
 
+.table-responsive::-webkit-scrollbar {
+  width: 0.5rem;
+  height: 0.5rem;
+}
+
+.table-responsive::-webkit-scrollbar-thumb {
+  background-color: rgb(158, 158, 158);
+  border-radius: 0.5rem;
+}
+
 body {
-  overflow-x: hidden;
   background-color: var(--appBackground);
+}
+
+ul,
+ul li,
+ul ul li {
+  margin: 0;
+  padding: 0;
+  text-indent: 0;
+  list-style-type: none;
+}
+
+.reset table,
+.reset thead,
+.reset tbody,
+.reset tfoot,
+.reset tr,
+.reset th,
+.reset td {
+  display: block;
+  height: auto;
+  margin: 0;
+  padding: 0;
+  border: none;
+  border-collapse: inherit;
+  border-spacing: 0;
+  border-color: inherit;
+  vertical-align: inherit;
+  text-align: left;
+  font-weight: inherit;
+  -webkit-border-horizontal-spacing: 0;
+  -webkit-border-vertical-spacing: 0;
 }
 
 /* Fixing style error in react-bootstrap-typeahead */
@@ -34,4 +74,16 @@ body {
 
 [data-theme="dark"] {
   --appBackground: #00203fff;
+}
+
+.backColor {
+  background-color: rgb(27, 49, 46);
+}
+
+[data-theme="light"] .backColor {
+  background-color: rgb(106, 160, 153);
+}
+
+.itemsHeading {
+  background-color: rgb(133, 206, 173);
 }
