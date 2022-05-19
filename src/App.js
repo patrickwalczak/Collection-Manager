@@ -7,32 +7,22 @@ import UserProfile from "./UserProfile/UserProfile";
 import CollectionView from "./Collection/CollectionView";
 import NewCollection from "./NewCollection/NewCollection";
 import AppContext from "./store/app-context";
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import AdminPanel from "./AdminPanel/AdminPanel";
 import ItemView from "./ItemView/ItemView";
 import { IntlProvider } from "react-intl";
 import MainPage from "./MainPage/MainPage";
+import SearchModal from "./Search/SearchModal";
 
 function App() {
-  const {
-    userId,
-    userType,
-    token,
-    theme,
-    changeTheme,
-    language,
-    messages,
-    changeLanguage,
-  } = useContext(AppContext);
+  const [searchModalVisibility, setSearchModalVisibility] = useState(true);
 
-  useEffect(() => {
-    changeTheme("dark");
-    if (theme) return;
-    const defaultTheme = localStorage.getItem("theme");
-    if (!defaultTheme || (defaultTheme !== "dark" && defaultTheme !== "light"))
-      changeTheme("dark");
-    changeTheme(defaultTheme);
-  }, []);
+  const { userId, userType, token, theme, language, messages, changeLanguage } =
+    useContext(AppContext);
+
+  const openSearchModal = () => setSearchModalVisibility(true);
+
+  const closeSearchModal = () => setSearchModalVisibility(false);
 
   return (
     <IntlProvider locale={language} messages={messages[language]}>
@@ -46,6 +36,10 @@ function App() {
         className="position-relative gap-5 pb-5"
       >
         <AppNavigation language={language} changeLanguage={changeLanguage} />
+        <SearchModal
+          modalVisibility={searchModalVisibility}
+          closeModal={closeSearchModal}
+        />
 
         <Routes>
           <Route path="/login" element={<Login />} />

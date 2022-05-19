@@ -59,6 +59,15 @@ const DataProvider = (props) => {
   const changeLanguage = (language) => setAppLanguage(language);
 
   useEffect(() => {
+    changeTheme("dark");
+    if (theme) return;
+    const defaultTheme = localStorage.getItem("theme");
+    if (!defaultTheme || (defaultTheme !== "dark" && defaultTheme !== "light"))
+      changeTheme("dark");
+    changeTheme(defaultTheme);
+  }, []);
+
+  useEffect(() => {
     const defaultLanguage = JSON.parse(localStorage.getItem("language"));
     if (!defaultLanguage) return;
     if (defaultLanguage === "EN") setLanguage(locales.EN);

@@ -83,7 +83,6 @@ const SelectTags = ({
         isLoading={isLoading}
         isInvalid={inputIsInvalid}
         isValid={inputIsValid}
-        // open={!!query}
       />
       {inputIsValid && (
         <div style={{ display: "block" }} className="valid-feedback">

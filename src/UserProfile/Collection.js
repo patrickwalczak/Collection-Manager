@@ -3,6 +3,8 @@ import Col from "react-bootstrap/Col";
 import Button from "react-bootstrap/Button";
 import Row from "react-bootstrap/Row";
 
+import ReactMarkdown from "react-markdown";
+
 import { Link } from "react-router-dom";
 
 const Collection = ({
@@ -22,7 +24,9 @@ const Collection = ({
       >
         <h3>{collectionName}</h3>
         <span className="d-flex mb-2">{collectionTopic}</span>
-        <p className="col-11">{collectionDescription}</p>
+        <ReactMarkdown className="col-11">
+          {collectionDescription}
+        </ReactMarkdown>
         <div data-id={id} className="col-12 d-flex p-2 gap-3 flex-wrap">
           <Link to={`/collection/${id}`} className="btn bg-success text-white">
             OPEN
