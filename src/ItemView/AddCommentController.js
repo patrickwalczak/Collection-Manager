@@ -13,6 +13,8 @@ import AppContext from "../store/app-context";
 
 import { useParams } from "react-router-dom";
 
+import { socket } from "../socket/socket";
+
 const AddCommentController = () => {
   const [submittedFormData, setFormData] = useState(null);
   const [successMessage, setSuccessMessage] = useState("");
@@ -52,6 +54,11 @@ const AddCommentController = () => {
       if (!returnedData) throw "";
 
       setSuccessMessage(returnedData.message);
+
+      socket.emit("new_comment", {
+        ...formData,
+        author: username,
+      });
     } catch (err) {}
   }, []);
 

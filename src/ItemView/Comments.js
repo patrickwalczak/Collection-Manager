@@ -4,8 +4,14 @@ import AddCommentController from "./AddCommentController";
 import CommentList from "./CommentList";
 import { useState, useEffect } from "react";
 
+import { socket } from "../socket/socket";
+
 const Comments = ({ itemComments }) => {
   const [comments, setComments] = useState(itemComments);
+
+  useEffect(() => {
+    socket.on("receive_comment", (data) => setComments([...comments, data]));
+  }, [socket]);
 
   return (
     <Row className="mb-5 rounded col-12">
