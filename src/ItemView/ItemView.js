@@ -7,18 +7,17 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Badge from "react-bootstrap/Badge";
 
-import { useParams, Link } from "react-router-dom";
-import { useEffect, useContext, useState, useCallback, Fragment } from "react";
-
-import AppContext from "../store/app-context";
-import useHttp from "../hooks/useHttp";
-
 import Comments from "./Comments";
 import ItemData from "./ItemData";
 import LikeItem from "./LikeItem";
 
+import { useEffect, useContext, useState, useCallback, Fragment } from "react";
+import { useParams, Link } from "react-router-dom";
+
+import AppContext from "../store/app-context";
+import useHttp from "../hooks/useHttp";
+
 const ItemView = () => {
-  const [isBeingUpdated, setIsBeingUpdated] = useState(false);
   const [collectionItem, setCollectionItem] = useState(null);
 
   const { itemId } = useParams();
@@ -27,8 +26,6 @@ const ItemView = () => {
 
   const { requestError, requestStatus, sendRequest, resetHookState } =
     useHttp();
-
-  const handleUpdating = () => setIsBeingUpdated(true);
 
   const getItemById = useCallback(async () => {
     try {
@@ -46,13 +43,6 @@ const ItemView = () => {
     getItemById();
   }, [itemId, getItemById, requestStatus]);
 
-  useEffect(() => {
-    if (!isBeingUpdated) return;
-    setCollectionItem(null);
-    getItemById();
-    setIsBeingUpdated(false);
-  }, [getItemById, isBeingUpdated]);
-
   const isLikedByLoggedUser = !!collectionItem?.likes.find(
     (id) => id === userId
   )
@@ -62,45 +52,29 @@ const ItemView = () => {
   return (
     <Fragment>
       {!!collectionItem && (
-        <Container
-          style={{ minHeight: "60vh" }}
-          className="d-flex align-items-center flex-column col-10 col-sm-7 col-md-11 col-lg-9 col-xl-8 col-xll-7 mx-auto pb-3 mt-4 p-4"
-        >
-          <Row className="border mb-5 rounded col-12 ">
-            <Col className="rounded p-2 p-md-3 p-xl-2 text-center text-white bg-dark">
-              <h1>Item name</h1>
-              <div className="d-flex">
-                <span>Tags</span>
-                {collectionItem.tags.map((tag, index) => (
-                  <Badge key={index}>{tag}</Badge>
-                ))}
-              </div>
-            </Col>
+        <Container className="d-flex align-items-center flex-column col-10 col-sm-7 col-md-11 col-lg-9 col-xl-8 col-xll-7 mx-auto pb-3 mt-4 p-4">
+          <Row className="bg-dark mb-2 col-12 text-white pt-5 pb-5 px-4">
+            <h1 className="border-bottom pb-4 px-0">{collectionItem.name}</h1>
+            <div className="d-flex gap-2 my-3">
+              <span className="text-secondary fs-5">Tags</span>
+              {collectionItem.tags.map((tag, index) => (
+                <Badge className="bg-light text-dark fs-6" key={index}>
+                  {tag}
+                </Badge>
+              ))}
+            </div>
+            {!!collectionItem && collectionItem.itemData && (
+              <ItemData itemData={collectionItem.itemData} />
+            )}
+            <LikeItem
+              itemId={itemId}
+              isLikedByLoggedUser={isLikedByLoggedUser}
+              token={token}
+            />
           </Row>
-          {!!collectionItem && collectionItem.itemData && (
-            <ItemData itemData={collectionItem.itemData} />
-          )}
-
-          <LikeItem
-            itemId={itemId}
-            isLikedByLoggedUser={isLikedByLoggedUser}
-            token={token}
-          />
-
           <Comments itemComments={collectionItem.comments} />
         </Container>
       )}
-      {/* {!!requestError && requestStatus !== "loading" && (
-        <Alert variant="danger">
-          <Alert.Heading>{requestError}</Alert.Heading>
-          <div className="mt-3 d-flex justify-content-end">
-            <Button variant="outline-danger" onClick={resetHookState}>
-              Try again
-            </Button>
-          </div>
-        </Alert>
-      )}
-      {requestStatus === "loading" && <Spinner animation="border" />} */}
     </Fragment>
   );
 };

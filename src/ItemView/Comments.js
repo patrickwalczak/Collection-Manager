@@ -9,6 +9,8 @@ import { useState, useEffect } from "react";
 
 import { socket } from "../socket/socket";
 
+import { AiOutlineComment } from "react-icons/ai";
+
 const Comments = ({ itemComments }) => {
   const [comments, setComments] = useState(itemComments);
 
@@ -17,12 +19,13 @@ const Comments = ({ itemComments }) => {
   }, [socket]);
 
   return (
-    <Row className="mb-5 rounded col-12 mt-4">
-      <h3 className="text-white fs-2 mb-3">Comments</h3>
-      <Col className="text-white">
-        <AddCommentController />
-        <CommentList comments={comments} />
-      </Col>
+    <Row className="mt-4 col-12 d-flex justify-content-start">
+      <h3 className="px-0 pb-4 text-white fs-3 mb-3 fw-normal border-bottom">
+        Comments <AiOutlineComment />
+      </h3>
+
+      <AddCommentController />
+      <CommentList comments={comments} />
     </Row>
   );
 };

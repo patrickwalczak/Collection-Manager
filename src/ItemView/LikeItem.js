@@ -2,20 +2,23 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import Button from "react-bootstrap/Button";
 import Spinner from "react-bootstrap/Spinner";
 
-import { useEffect, useState, useCallback, Fragment, useContext } from "react";
+import { AiFillLike } from "react-icons/ai";
+
+import { useEffect, useState, useCallback, Fragment } from "react";
+
 import useHttp from "../hooks/useHttp";
 
 const LikeItem = ({ token, itemId, isLikedByLoggedUser }) => {
   const [isSending, setSending] = useState(false);
-  const [isLiked, setLiked] = useState(isLikedByLoggedUser);
+  const [itemIsLiked, setLikedItem] = useState(isLikedByLoggedUser);
 
   const { requestError, requestStatus, sendRequest, resetHookState } =
     useHttp();
 
-  const handleLike = useCallback(async (action, changeLikedState) => {
+  const handleLike = useCallback(async (requestOperation, changeLikedState) => {
     try {
       const returnedData = await sendRequest(
-        `${process.env.REACT_APP_BACKEND_URL}/items/${itemId}/${action}`,
+        `${process.env.REACT_APP_BACKEND_URL}/items/${itemId}/${requestOperation}`,
         {
           method: "PATCH",
           headers: {
@@ -26,7 +29,7 @@ const LikeItem = ({ token, itemId, isLikedByLoggedUser }) => {
       );
       if (!returnedData) throw "";
       setSending(false);
-      setLiked(changeLikedState);
+      setLikedItem(changeLikedState);
     } catch (err) {
       setSending(false);
     }
@@ -34,22 +37,35 @@ const LikeItem = ({ token, itemId, isLikedByLoggedUser }) => {
 
   useEffect(() => {
     if (!isSending) return;
-    if (!isLiked) {
+    if (!itemIsLiked) {
       handleLike("likeItem", true);
     } else {
       handleLike("removeLike", false);
     }
     setSending(false);
-  }, [isSending, handleLike, isLiked]);
+  }, [isSending, handleLike, itemIsLiked]);
 
-  const btnClass = isLiked ? "primary" : "outline-primary";
+  useEffect(() => {
+    if (!requestError) return;
+    setTimeout(() => resetHookState(), 1000);
+  });
+
+  const btnClass = itemIsLiked ? "light" : "outline-light";
+
   return (
-    <div className="col-12 d-grid justify-content-start align-items-start">
-      <Button onClick={() => setSending(true)} variant={btnClass}>
-        {requestStatus !== "loading" && "LIKE"}
-        {requestStatus === "loading" && <Spinner animation="border" />}
-      </Button>
-    </div>
+    <Fragment>
+      <div className="col-12 d-grid justify-content-start">
+        <Button
+          className="fs-5 mb-3"
+          onClick={() => setSending(true)}
+          variant={btnClass}
+        >
+          {requestStatus !== "loading" && <AiFillLike />}
+          {requestStatus === "loading" && <Spinner animation="border" />}
+        </Button>
+      </div>
+      {!!requestError && <p className="text-danger">{requestError}</p>}
+    </Fragment>
   );
 };
 export default LikeItem;
