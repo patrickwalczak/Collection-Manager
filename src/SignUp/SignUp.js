@@ -9,6 +9,8 @@ import AppContext from "../store/app-context";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState, useContext } from "react";
 
+import { FormattedMessage } from "react-intl";
+
 const SignUp = () => {
   const [submittedFormData, setFormData] = useState(null);
 
@@ -48,7 +50,9 @@ const SignUp = () => {
   }, [submittedFormData]);
   return (
     <FormWrapper>
-      <h2 className="mb-3 text-center fs-1">SIGN UP</h2>
+      <h2 className="mb-3 text-center fs-1">
+        <FormattedMessage id="app-navigation.signup.button" />
+      </h2>
       <SignUpForm
         requestError={requestError}
         requestStatus={requestStatus}

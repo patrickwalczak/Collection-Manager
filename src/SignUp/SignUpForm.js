@@ -13,6 +13,8 @@ import ReusableFieldName from "./ReusableFieldName";
 
 import { validationTemplates } from "../helpers/yupHelper";
 
+import { FormattedMessage } from "react-intl";
+
 const SignUp = ({
   setFormData,
   requestStatus,
@@ -52,7 +54,7 @@ const SignUp = ({
         <Form noValidate onSubmit={handleSubmit}>
           <ReusableFieldName
             name="username"
-            label="Username*"
+            label={<FormattedMessage id="form.username" />}
             type="text"
             autoFocus
             value={values.username}
@@ -65,7 +67,7 @@ const SignUp = ({
             disabled={isDisabled}
           />
           <ReusableFieldName
-            label="Email*"
+            label="Email"
             name="email"
             type="email"
             value={values.email}
@@ -79,7 +81,7 @@ const SignUp = ({
           />
 
           <ReusableFieldName
-            label="Password*"
+            label={<FormattedMessage id="form.password" />}
             name="password"
             type="password"
             value={values.password}
@@ -99,7 +101,9 @@ const SignUp = ({
           )}
           <div className="d-grid gap-1 mt-4">
             <Button disabled={isDisabled} type="submit" variant="dark">
-              {!isDisabled && "SIGN UP"}
+              {!isDisabled && (
+                <FormattedMessage id="app-navigation.signup.button" />
+              )}
               {isDisabled && <Spinner animation="border" />}
             </Button>
             <Link to={"/login"}>

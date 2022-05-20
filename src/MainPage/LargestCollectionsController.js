@@ -36,6 +36,7 @@ const LargestCollectionsController = () => {
         firstHeading={<FormattedMessage id="main-page.number.of.items" />}
         dataList={largestCollections}
         requestStatus={requestStatus}
+        path="/collection"
       />
     </Fragment>
   );

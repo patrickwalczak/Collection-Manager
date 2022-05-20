@@ -15,5 +15,8 @@
     "main-page.item.name": "Nazwa przedmiotu",
     "main-page.no.item.found": "Nie znaleziono żadnego przedmiotu!",
     "main-page.largest.collections": "Największe kolekcje",
-    "main-page.number.of.items": "Liczba przedmiotów"
+    "main-page.number.of.items": "Liczba przedmiotów",
+    "form.username": "Nazwa użytkownika",
+    "form.password": "Hasło"
+
 }

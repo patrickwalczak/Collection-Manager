@@ -15,5 +15,7 @@
     "main-page.item.name": "Item name",
     "main-page.no.item.found": "No item found!",
     "main-page.largest.collections": "Largest collections",
-    "main-page.number.of.items": "Number of items"
+    "main-page.number.of.items": "Number of items",
+    "form.username": "Username",
+    "form.password": "Password"
 }

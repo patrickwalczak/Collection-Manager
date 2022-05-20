@@ -12,6 +12,7 @@ const TableTemplate = ({
   firstHeading,
   dataList,
   requestStatus,
+  path,
 }) => {
   let content;
 
@@ -44,7 +45,7 @@ const TableTemplate = ({
           <th className="col-4 text-center text-break">{collectionName}</th>
           <th className="col-3 text-center text-break">{author}</th>
           <th className="col-2 text-center text-break">
-            <Link to={`/item/${id}`} className="btn btn-success py-0">
+            <Link to={`${path}/${id}`} className="btn btn-success py-0">
               <FormattedMessage id="open.item" />
             </Link>
           </th>
@@ -63,7 +64,7 @@ const TableTemplate = ({
         <thead className="itemsHeading text-uppercase text-white mb-4 rounded">
           <tr>
             <th>
-              <h2 className=" text-center p-3 pb-0 fs-1">{tableHeading}</h2>
+              <h2 className="text-center p-3 pb-0 fs-1">{tableHeading}</h2>
             </th>
           </tr>
           <tr className="shadow d-flex col-12 fs-6 fw-bolder">

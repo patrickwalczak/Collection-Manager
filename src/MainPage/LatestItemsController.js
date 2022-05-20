@@ -36,6 +36,7 @@ const LatestItemsController = () => {
         firstHeading={<FormattedMessage id="main-page.item.name" />}
         dataList={latestItems}
         requestStatus={requestStatus}
+        path="/item"
       />
     </Fragment>
   );

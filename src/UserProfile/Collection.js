@@ -17,9 +17,9 @@ const Collection = ({
   displayOperationsButtons,
 }) => {
   return (
-    <Row className="col-12 col-md-5 col-xl-12 flex-xl-row text-white mx-0">
+    <Row className="border col-12 col-md-5 col-lg-12 flex-xl-row text-white mx-0">
       <Col
-        className="rounded col-12 col-xl-8 p-3 p-xl-4 order-2 order-xl-1"
+        className="bg-dark rounded col-12 col-lg-8 p-3 p-xl-4 order-2 order-lg-1"
         style={{ minHeight: "12rem", backgroundColor: "#00203FFF" }}
       >
         <h3>{collectionName}</h3>
@@ -48,7 +48,7 @@ const Collection = ({
         </div>
       </Col>
       <Col
-        className="rounded col-12 col-xl-4 order-1 order-xl-2 pr-0"
+        className="bg-dark rounded col-12 col-lg-4 order-1 order-lg-2 pr-0"
         style={{
           backgroundImage:
             "url(https://images.unsplash.com/photo-1649771174243-ca0b50ea6647?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1740&q=80)",

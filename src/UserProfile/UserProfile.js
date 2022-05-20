@@ -20,6 +20,7 @@ const UserProfile = () => {
   const [collectionID, setCollectionID] = useState(null);
   const [collectionData, setCollectionData] = useState(null);
   const [modalVisibilityState, setModalVisibility] = useState(false);
+  const [username, setUsername] = useState("");
   const [deleteCollectionFormVisibility, setDeleteItemFormVisibility] =
     useState(false);
   const handleUpdating = () => setIsBeingUpdated(true);
@@ -45,8 +46,9 @@ const UserProfile = () => {
         `${process.env.REACT_APP_BACKEND_URL}/collections/user/${userId}`
       );
       if (!returnedData) throw "";
-      const { collections } = returnedData;
+      const { collections, username } = returnedData;
 
+      setUsername(username);
       setCollections(collections);
     } catch (err) {
       setCollections([]);
@@ -134,6 +136,7 @@ const UserProfile = () => {
 
       <UserProfileWrapper>
         <ProfileHeader
+          username={username}
           userId={userId}
           displayOperationsButtons={displayOperationsButtons}
         />

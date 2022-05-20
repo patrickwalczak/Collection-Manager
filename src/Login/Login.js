@@ -9,6 +9,8 @@ import AppContext from "../store/app-context";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState, useContext } from "react";
 
+import { FormattedMessage } from "react-intl";
+
 const Login = () => {
   const [submittedFormData, setFormData] = useState(null);
 
@@ -49,7 +51,9 @@ const Login = () => {
 
   return (
     <FormWrapper>
-      <h2 className="mb-3 text-center fs-1">SIGN IN</h2>
+      <h2 className="mb-3 text-center fs-1">
+        <FormattedMessage id="app-navigation.login.button" />
+      </h2>
       <SignInForm
         requestError={requestError}
         requestStatus={requestStatus}

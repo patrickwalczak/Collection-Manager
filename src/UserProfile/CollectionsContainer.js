@@ -37,7 +37,7 @@ const CollectionsContainer = ({
     content = <p>There is no collection, maybe create one.</p>;
   }
   return (
-    <Col className="d-flex flex-xl-column flex-wrap gap-4 gap-md-0 gap-xl-3 justify-content-around ">
+    <Col className="d-flex flex-xl-column flex-wrap gap-4 gap-md-0 gap-xl-3">
       {content}
     </Col>
   );
