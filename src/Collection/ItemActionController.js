@@ -27,6 +27,16 @@ const ItemActionController = ({
   const { requestError, requestStatus, sendRequest, resetHookState } =
     useHttp();
 
+  const submitButtonText = !!itemData ? "SAVE" : "CREATE";
+
+  const {
+    textFields,
+    numberFields,
+    multilineTextFields,
+    dateFields,
+    booleanFields,
+  } = customItemSchema;
+
   const resetComponent = () => {
     handleCloseModal();
     setFormData(null);
@@ -35,8 +45,16 @@ const ItemActionController = ({
     setSuccessMessage("");
   };
 
+  const convertBooleanValuesToString = (formData) => {
+    booleanFields.forEach(
+      (booleanField) =>
+        (formData[booleanField] = formData[booleanField].toString())
+    );
+  };
+
   const createItem = useCallback(async (formData) => {
     try {
+      convertBooleanValuesToString(formData);
       const returnedData = await sendRequest(
         `${process.env.REACT_APP_BACKEND_URL}/items/${url}`,
         {
@@ -64,16 +82,6 @@ const ItemActionController = ({
     if (!submittedFormData || !!requestStatus) return;
     createItem(submittedFormData);
   }, [submittedFormData, createItem, requestStatus]);
-
-  const submitButtonText = !!itemData ? "SAVE" : "CREATE";
-
-  const {
-    textFields,
-    numberFields,
-    multilineTextFields,
-    dateFields,
-    booleanFields,
-  } = customItemSchema;
 
   return (
     <ModalTemplate
