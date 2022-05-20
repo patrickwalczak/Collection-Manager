@@ -1,23 +1,22 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import Form from "react-bootstrap/Form";
+import Spinner from "react-bootstrap/Spinner";
 
-import "react-bootstrap-typeahead/css/Typeahead.css";
+import { useState, useEffect, useCallback, Fragment } from "react";
 
-import { useState, useEffect, useCallback } from "react";
+import { useNavigate } from "react-router-dom";
 
-import useHttp from "../hooks/useHttp";
 import { TextField } from "@mui/material";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemText from "@mui/material/ListItemText";
-import { useNavigate } from "react-router-dom";
+
+import useHttp from "../hooks/useHttp";
 
 const SearchController = ({ closeModal }) => {
   const [query, setQuery] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
   const [items, setItems] = useState([]);
-  const [selectedItem, setSelectedItem] = useState([]);
 
   const { requestError, requestStatus, sendRequest, resetHookState } =
     useHttp();
@@ -25,7 +24,6 @@ const SearchController = ({ closeModal }) => {
   const navigate = useNavigate();
 
   const getItems = useCallback(async (query) => {
-    setIsLoading(true);
     try {
       const returnedData = await sendRequest(
         `${process.env.REACT_APP_BACKEND_URL}/items/getFullTextSearchResults/${query}`
@@ -34,16 +32,9 @@ const SearchController = ({ closeModal }) => {
       if (!returnedData) throw "";
 
       const { results } = returnedData;
-      const convertedResults = results.map(({ id, name }) => ({
-        id,
-        name,
-      }));
-      console.log(convertedResults);
-      setItems(convertedResults);
-      setIsLoading(false);
+      setItems(results);
     } catch (err) {
       setItems([]);
-      setIsLoading(false);
     }
   }, []);
 
@@ -61,15 +52,29 @@ const SearchController = ({ closeModal }) => {
   };
 
   return (
-    <Form.Group className="mb-3 col-12" controlId="searchItems">
-      <TextField
-        onChange={(e) => setQuery(e.target.value)}
-        value={query}
-        fullWidth
-        hiddenLabel
-        id="filled-hidden-label-normal"
-        variant="filled"
-      />
+    <Fragment>
+      <Form.Group
+        className="mb-3 col-12 position-relative d-flex align-items-center"
+        controlId="searchItems"
+      >
+        <TextField
+          className="pl-4"
+          onChange={(e) => setQuery(e.target.value)}
+          value={query}
+          fullWidth
+          hiddenLabel
+          id="filled-hidden-label-normal"
+          variant="filled"
+        />
+
+        {requestStatus === "loading" && (
+          <Spinner
+            animation="border"
+            size="sm"
+            className="ps position-absolute"
+          />
+        )}
+      </Form.Group>
       {!!items.length && (
         <List sx={{ width: "100%", bgcolor: "background.paper" }}>
           {items.map((item, index) => (
@@ -86,7 +91,7 @@ const SearchController = ({ closeModal }) => {
           ))}
         </List>
       )}
-    </Form.Group>
+    </Fragment>
   );
 };
 export default SearchController;

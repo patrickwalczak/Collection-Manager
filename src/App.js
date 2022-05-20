@@ -15,7 +15,7 @@ import MainPage from "./MainPage/MainPage";
 import SearchModal from "./Search/SearchModal";
 
 function App() {
-  const [searchModalVisibility, setSearchModalVisibility] = useState(true);
+  const [searchModalVisibility, setSearchModalVisibility] = useState(false);
 
   const { userId, userType, token, theme, language, messages, changeLanguage } =
     useContext(AppContext);
@@ -35,7 +35,11 @@ function App() {
         data-theme={theme}
         className="position-relative gap-5 pb-5"
       >
-        <AppNavigation language={language} changeLanguage={changeLanguage} />
+        <AppNavigation
+          openSearchModal={openSearchModal}
+          language={language}
+          changeLanguage={changeLanguage}
+        />
         <SearchModal
           modalVisibility={searchModalVisibility}
           closeModal={closeSearchModal}

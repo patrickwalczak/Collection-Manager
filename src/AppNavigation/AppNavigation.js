@@ -11,7 +11,9 @@ import SwitchThemeButton from "./SwitchThemeButton";
 import { FormattedMessage } from "react-intl";
 import SelectLanguage from "./SelectLanguage";
 
-const AppNavigation = ({ changeLanguage, language }) => {
+import { AiOutlineSearch } from "react-icons/ai";
+
+const AppNavigation = ({ changeLanguage, language, openSearchModal }) => {
   const navLinkMargin = "text-white mx-1 mx-md-2  nav-link";
   const navBtnMarPad = "text-white p-1 p-md-2 mx-1 mx-md-2 mx-lg-3";
 
@@ -36,6 +38,14 @@ const AppNavigation = ({ changeLanguage, language }) => {
           <Navbar.Toggle aria-controls="tooglemenu" />
           <Navbar.Collapse className="justify-content-end" id="tooglemenu">
             <Nav className="align-items-center">
+              <Button
+                onClick={openSearchModal}
+                variant="light py-0 px-1 d-flex gap-4 align-items-center"
+              >
+                <FormattedMessage id="app-navigation.search.button" />
+                <AiOutlineSearch />
+              </Button>
+
               {!userId && (
                 <NavLink
                   to="/login"

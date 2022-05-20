@@ -62,6 +62,10 @@ ul ul li {
   -webkit-border-vertical-spacing: 0;
 }
 
+.ps {
+  right: 2%;
+}
+
 /* Fixing style error in react-bootstrap-typeahead */
 .rbt-token .rbt-token-remove-button {
   background: none;

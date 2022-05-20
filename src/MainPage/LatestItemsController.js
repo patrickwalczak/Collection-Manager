@@ -4,6 +4,8 @@ import { useEffect, useState, useCallback, Fragment } from "react";
 
 import useHttp from "../hooks/useHttp";
 
+import { FormattedMessage } from "react-intl";
+
 const LatestItemsController = () => {
   const [latestItems, setLatestItems] = useState([]);
 
@@ -30,8 +32,8 @@ const LatestItemsController = () => {
   return (
     <Fragment>
       <TableTemplate
-        tableHeading="Latest items"
-        firstHeading="Item name"
+        tableHeading={<FormattedMessage id="main-page.latest.heading" />}
+        firstHeading={<FormattedMessage id="main-page.item.name" />}
         dataList={latestItems}
         requestStatus={requestStatus}
       />

@@ -1,11 +1,19 @@
 {
-    "app-navigation.home.button": "STRONA GŁÓWNA",
+    "open.item": "Otwórz",
+    "collection.name": "Nazwa Kolekcji",
+    "author": "Autor",
+    "link": "Link",
+    "app-navigation.home.button": "Strona Główna",
     "app-navigation.login.button": "Zaloguj się",
     "app-navigation.signup.button": "Otwórz konto",
     "app-navigation.logout.button": "Wyloguj się",
     "app-navigation.darkmode.button": "Tryb nocny",
-    "app-navigation.language.button": "xx",
+    "app-navigation.search.button": "Szukaj",
     "app-navigation.collections.button": "Moje Kolekcje",
-    "app-navigation.adminpanel.button": "Panel administratora"
-
+    "app-navigation.adminpanel.button": "Panel administratora",
+    "main-page.latest.heading": "Ostatnio dodane",
+    "main-page.item.name": "Nazwa przedmiotu",
+    "main-page.no.item.found": "Nie znaleziono żadnego przedmiotu!",
+    "main-page.largest.collections": "Największe kolekcje",
+    "main-page.number.of.items": "Liczba przedmiotów"
 }

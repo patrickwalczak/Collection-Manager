@@ -5,6 +5,8 @@ import Spinner from "react-bootstrap/Spinner";
 
 import { Link } from "react-router-dom";
 
+import { FormattedMessage } from "react-intl";
+
 const TableTemplate = ({
   tableHeading,
   firstHeading,
@@ -25,7 +27,7 @@ const TableTemplate = ({
     content = (
       <tr className="shadow d-flex col-12 backColor fs-5 rounded text-white border p-5 mb-3">
         <th className="col-12 text-center text-break text-uppercase">
-          No item found
+          <FormattedMessage id="main-page.no.item.found" />
         </th>
       </tr>
     );
@@ -43,7 +45,7 @@ const TableTemplate = ({
           <th className="col-3 text-center text-break">{author}</th>
           <th className="col-2 text-center text-break">
             <Link to={`/item/${id}`} className="btn btn-success py-0">
-              OPEN
+              <FormattedMessage id="open.item" />
             </Link>
           </th>
         </tr>
@@ -66,9 +68,15 @@ const TableTemplate = ({
           </tr>
           <tr className="shadow d-flex col-12 fs-6 fw-bolder">
             <th className="col-3 text-center">{firstHeading}</th>
-            <th className="col-4 text-center">Collection Name</th>
-            <th className="col-3 text-center">Author</th>
-            <th className="col-2 text-center">Link</th>
+            <th className="col-4 text-center">
+              <FormattedMessage id="collection.name" />
+            </th>
+            <th className="col-3 text-center">
+              <FormattedMessage id="author" />
+            </th>
+            <th className="col-2 text-center">
+              <FormattedMessage id="link" />
+            </th>
           </tr>
         </thead>
         <tbody

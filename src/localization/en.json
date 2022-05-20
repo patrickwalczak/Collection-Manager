@@ -1,11 +1,19 @@
 {
-    "app-navigation.home.button": "HOME",
+    "open.item": "OPEN",
+    "collection.name": "Collection Name",
+    "author": "Author",
+    "link": "Link",
+    "app-navigation.home.button": "Home",
     "app-navigation.login.button": "Log In",
     "app-navigation.signup.button": "Sign Up",
     "app-navigation.logout.button": "Log Out",
     "app-navigation.darkmode.button": "Dark Mode",
-    "app-navigation.language.button": "xx",
+    "app-navigation.search.button": "Search",
     "app-navigation.collections.button": "My Collections",
-    "app-navigation.adminpanel.button": "Admin Panel"
-
+    "app-navigation.adminpanel.button": "Admin Panel",
+    "main-page.latest.heading": "Latest Items",
+    "main-page.item.name": "Item name",
+    "main-page.no.item.found": "No item found!",
+    "main-page.largest.collections": "Largest collections",
+    "main-page.number.of.items": "Number of items"
 }

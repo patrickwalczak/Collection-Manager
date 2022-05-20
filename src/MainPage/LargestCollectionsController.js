@@ -4,6 +4,8 @@ import { useEffect, useState, useCallback, Fragment } from "react";
 
 import useHttp from "../hooks/useHttp";
 
+import { FormattedMessage } from "react-intl";
+
 const LargestCollectionsController = () => {
   const [largestCollections, setLargestCollections] = useState([]);
 
@@ -30,8 +32,8 @@ const LargestCollectionsController = () => {
   return (
     <Fragment>
       <TableTemplate
-        tableHeading="Largest collections"
-        firstHeading="Number of items"
+        tableHeading={<FormattedMessage id="main-page.largest.collections" />}
+        firstHeading={<FormattedMessage id="main-page.number.of.items" />}
         dataList={largestCollections}
         requestStatus={requestStatus}
       />

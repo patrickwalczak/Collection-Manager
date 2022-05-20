@@ -2,6 +2,8 @@ import Switch from "@mui/material/Switch";
 import FormGroup from "@mui/material/FormGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 
+import { FormattedMessage } from "react-intl";
+
 const SwitchThemeButton = ({ theme, changeTheme }) => {
   const handleChangingTheme = (e) => {
     const isChecked = e.target.checked;
@@ -14,8 +16,9 @@ const SwitchThemeButton = ({ theme, changeTheme }) => {
   return (
     <FormGroup>
       <FormControlLabel
+        className="text-white"
         control={<Switch onChange={handleChangingTheme} />}
-        label="Dark mode"
+        label={<FormattedMessage id="app-navigation.darkmode.button" />}
       />
     </FormGroup>
   );
