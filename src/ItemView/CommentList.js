@@ -12,6 +12,6 @@ const CommentList = ({ comments }) => {
     ));
   }
 
-  return <div>{content}</div>;
+  return <div className="mt-4">{content}</div>;
 };
 export default CommentList;

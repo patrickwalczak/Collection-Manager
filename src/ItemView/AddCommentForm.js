@@ -1,27 +1,15 @@
 import "bootstrap/dist/css/bootstrap.min.css";
-import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
-import Alert from "react-bootstrap/Alert";
 import Spinner from "react-bootstrap/Spinner";
+
+import { AiOutlineSend } from "react-icons/ai";
 
 import { Formik } from "formik";
 import * as yup from "yup";
 
-import ReusableFieldName from "../SignUp/ReusableFieldName";
-
 import { validationTemplates } from "../helpers/yupHelper";
 
-const AddCommentForm = ({
-  requestError,
-  requestStatus,
-  resetHookState,
-  setFormData,
-  handleCloseModal,
-}) => {
-  const initialFormValues = {
-    comment: "",
-  };
-
+const AddCommentForm = ({ setFormData, requestStatus, commentInputRef }) => {
   const { validateMultilineTextField } = validationTemplates;
 
   const schema = yup.object().shape({
@@ -34,69 +22,34 @@ const AddCommentForm = ({
     <Formik
       validationSchema={schema}
       onSubmit={setFormData}
-      initialValues={initialFormValues}
+      initialValues={{ comment: "" }}
     >
-      {({
-        handleSubmit,
-        handleChange,
-        handleBlur,
-        handleReset,
-        values,
-        touched,
-        isValid,
-        errors,
-        setFieldValue,
-        setFieldError,
-        setFieldTouched,
-      }) => (
-        <Form noValidate onSubmit={handleSubmit} className="pb-4">
-          <ReusableFieldName
-            name="comment"
-            label=""
-            as="textarea"
-            placeholder="Leave comment..."
-            style={{ minHeight: "100px" }}
-            value={values.comment}
-            isInvalid={errors.comment && touched.comment}
-            isValid={!errors.comment && values.comment}
-            error={errors.comment}
+      {({ handleSubmit, handleChange, touched, errors, values }) => (
+        <Form noValidate onSubmit={handleSubmit} className="col-12 d-flex mb-2">
+          <Form.Group className="col-11" controlId="comment">
+            <Form.Control
+              disabled={isDisabled}
+              isInvalid={errors.comment && touched.comment}
+              isValid={!errors.comment && values.comment}
+              name="comment"
+              onChange={handleChange}
+              as="textarea"
+              style={{ height: "40px" }}
+              placeholder="Write a comment..."
+              className="bg-dark text-white"
+              autoFocus
+              ref={commentInputRef}
+            />
+          </Form.Group>
+
+          <button
             disabled={isDisabled}
-            setFieldTouched={setFieldTouched}
-            setFieldValue={setFieldValue}
-            onBlur={handleBlur}
-          />
-
-          {!!requestError && requestStatus !== "loading" && (
-            <Alert variant="danger">
-              <Alert.Heading>{requestError}</Alert.Heading>
-              <div className="mt-3 d-flex justify-content-end">
-                <Button variant="outline-danger" onClick={resetHookState}>
-                  Try again
-                </Button>
-              </div>
-            </Alert>
-          )}
-
-          <div className="d-flex justify-content-end gap-2">
-            <Button
-              className="col-2"
-              variant="secondary"
-              type="button"
-              disabled={isDisabled}
-              onClick={handleCloseModal}
-            >
-              Cancel
-            </Button>
-            <Button
-              disabled={isDisabled}
-              className="col-2"
-              variant="success"
-              type="submit"
-            >
-              {!isDisabled && "SUBMIT"}
-              {isDisabled && <Spinner animation="border" />}
-            </Button>
-          </div>
+            className="px-0 py-0 col-1 fs-4 btn text-white"
+            type="submit"
+          >
+            {!isDisabled && <AiOutlineSend />}
+            {isDisabled && <Spinner animation="border" varint="light" />}
+          </button>
         </Form>
       )}
     </Formik>

@@ -1,7 +1,10 @@
+import "bootstrap/dist/css/bootstrap.min.css";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
+
 import AddCommentController from "./AddCommentController";
 import CommentList from "./CommentList";
+
 import { useState, useEffect } from "react";
 
 import { socket } from "../socket/socket";
@@ -14,8 +17,9 @@ const Comments = ({ itemComments }) => {
   }, [socket]);
 
   return (
-    <Row className="mb-5 rounded col-12">
-      <Col className="rounded p-2 p-md-3 p-xl-2 text-white bg-dark">
+    <Row className="mb-5 rounded col-12 mt-4">
+      <h3 className="text-white fs-2 mb-3">Comments</h3>
+      <Col className="text-white">
         <AddCommentController />
         <CommentList comments={comments} />
       </Col>

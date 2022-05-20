@@ -3,11 +3,19 @@ import Alert from "react-bootstrap/Alert";
 import Button from "react-bootstrap/Button";
 import Collapse from "react-bootstrap/Collapse";
 
-import { useEffect, useState, useCallback, Fragment, useContext } from "react";
+import AddCommentForm from "./AddCommentForm";
+import SuccessAlert from "../UI/SuccessAlert";
+
+import {
+  useEffect,
+  useState,
+  useCallback,
+  Fragment,
+  useContext,
+  useRef,
+} from "react";
 
 import useHttp from "../hooks/useHttp";
-
-import AddCommentForm from "./AddCommentForm";
 
 import AppContext from "../store/app-context";
 
@@ -21,7 +29,9 @@ const AddCommentController = () => {
   const [addCommentFormVisibility, setAddCommentFormVisibility] =
     useState(false);
 
-  const { username, token } = useContext(AppContext);
+  const commentInputRef = useRef();
+
+  const { username, token, userId } = useContext(AppContext);
 
   const { itemId } = useParams();
 
@@ -29,6 +39,7 @@ const AddCommentController = () => {
     useHttp();
 
   const resetComponent = () => {
+    commentInputRef.current.value = "";
     setAddCommentFormVisibility(!addCommentFormVisibility);
     setFormData(null);
     resetHookState();
@@ -67,11 +78,27 @@ const AddCommentController = () => {
     addComment(submittedFormData);
   }, [submittedFormData, addComment, requestStatus]);
 
+  useEffect(() => {
+    if (!requestError) return;
+    setTimeout(() => {
+      setFormData(null);
+      resetHookState();
+    }, [2000]);
+  }, [requestError]);
+
   return (
     <Fragment>
-      <Button onClick={resetComponent} aria-expanded={addCommentFormVisibility}>
-        Add Comment
-      </Button>
+      {!!token && !!userId && (
+        <Button
+          variant="dark"
+          className="btnBg w-100 mb-2"
+          onClick={resetComponent}
+          aria-expanded={addCommentFormVisibility}
+        >
+          Add Comment
+        </Button>
+      )}
+
       <Collapse in={addCommentFormVisibility}>
         <div>
           {!successMessage && (
@@ -81,20 +108,22 @@ const AddCommentController = () => {
               resetHookState={resetHookState}
               setFormData={setFormData}
               handleCloseModal={resetComponent}
+              commentInputRef={commentInputRef}
             />
-          )}
-          {!!successMessage && (
-            <Alert variant="success">
-              <Alert.Heading>{successMessage}</Alert.Heading>
-              <div className="d-flex justify-content-end">
-                <Button onClick={resetComponent} variant="outline-success">
-                  Great!
-                </Button>
-              </div>
-            </Alert>
           )}
         </div>
       </Collapse>
+      {!!successMessage && (
+        <SuccessAlert
+          successMessage={successMessage}
+          onCloseModal={resetComponent}
+        />
+      )}
+      {!!requestError && (
+        <Alert className="tr" variant="danger">
+          <p>{requestError}</p>
+        </Alert>
+      )}
     </Fragment>
   );
 };

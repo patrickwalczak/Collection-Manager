@@ -73,11 +73,14 @@ ul ul li {
 }
 
 :root {
-  --appBackground: white;
+  --appBackground: #f9f9f9;
 }
 
 [data-theme="dark"] {
-  --appBackground: #00203fff;
+  --appBackground: #1b1b1b;
+  /* --appBackground: #00203fff; */
+
+  /* #1b1b1b */
 }
 
 .backColor {
@@ -90,4 +93,16 @@ ul ul li {
 
 .itemsHeading {
   background-color: rgb(133, 206, 173);
+}
+
+.bg4 {
+  background-color: #f9f9f9;
+}
+
+.commentBg {
+  background-color: #2e5e4e;
+}
+
+.btnBg {
+  background-color: black;
 }
