@@ -54,7 +54,7 @@ const LikeItem = ({ token, itemId, isLikedByLoggedUser }) => {
 
   return (
     <Fragment>
-      <div className="col-12 d-grid justify-content-start">
+      <div className="col-12 d-grid justify-content-start align-items-center">
         <Button
           className="fs-5 mb-3"
           onClick={() => setSending(true)}
