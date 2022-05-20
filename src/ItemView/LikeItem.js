@@ -8,7 +8,7 @@ import { useEffect, useState, useCallback, Fragment } from "react";
 
 import useHttp from "../hooks/useHttp";
 
-const LikeItem = ({ token, itemId, isLikedByLoggedUser }) => {
+const LikeItem = ({ token, itemId, isLikedByLoggedUser, theme }) => {
   const [isSending, setSending] = useState(false);
   const [itemIsLiked, setLikedItem] = useState(isLikedByLoggedUser);
 
@@ -50,7 +50,13 @@ const LikeItem = ({ token, itemId, isLikedByLoggedUser }) => {
     setTimeout(() => resetHookState(), 1000);
   });
 
-  const btnClass = itemIsLiked ? "light" : "outline-light";
+  const btnClass = itemIsLiked
+    ? theme === "dark"
+      ? "light"
+      : "dark"
+    : theme === "dark"
+    ? "outline-light"
+    : "outline-dark";
 
   return (
     <Fragment>

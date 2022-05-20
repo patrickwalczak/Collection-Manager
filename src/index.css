@@ -67,10 +67,7 @@ ul ul li {
   padding: 0;
   border: none;
   border-collapse: inherit;
-  border-spacing: 0;
-  border-color: inherit;
   vertical-align: inherit;
-  text-align: left;
   font-weight: inherit;
   -webkit-border-horizontal-spacing: 0;
   -webkit-border-vertical-spacing: 0;
@@ -93,7 +90,6 @@ ul ul li {
 [data-theme="dark"] {
   --appBackground: #1b1b1b;
   /* --appBackground: #00203fff; */
-
   /* #1b1b1b */
 }
 
@@ -102,6 +98,10 @@ ul ul li {
 }
 
 [data-theme="light"] .backColor {
+  background-color: rgb(106, 160, 153);
+}
+
+[data-theme="light"] .bg-color {
   background-color: rgb(106, 160, 153);
 }
 
@@ -118,6 +118,17 @@ ul ul li {
   background-color: #2f3332;
 }
 
-.btnBg {
-  background-color: black;
+.itemViewStyle {
+  background-color: rgb(33, 37, 41);
+  color: rgb(248, 249, 250);
+}
+
+[data-theme="light"] .itemViewStyle {
+  background-color: rgb(250, 250, 250);
+  color: rgb(39, 39, 39);
+}
+/* #6c757d */
+
+.testClass {
+  color: green;
 }

@@ -10,7 +10,7 @@ import { socket } from "../socket/socket";
 
 import { AiOutlineComment } from "react-icons/ai";
 
-const Comments = ({ itemComments }) => {
+const Comments = ({ itemComments, theme }) => {
   const [comments, setComments] = useState(itemComments);
 
   useEffect(() => {
@@ -18,8 +18,8 @@ const Comments = ({ itemComments }) => {
   }, [socket]);
 
   return (
-    <Row className="mt-4 col-12 d-flex justify-content-start">
-      <h3 className="px-0 pb-4 text-white fs-3 mb-3 fw-normal border-bottom">
+    <Row data-theme={theme} className="mt-4 col-12 d-flex">
+      <h3 className="itemViewStyle px-0 pb-4 fs-3 mb-3 fw-normal border-bottom">
         Comments <AiOutlineComment />
       </h3>
 

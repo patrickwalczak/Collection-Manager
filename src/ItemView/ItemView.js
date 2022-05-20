@@ -1,19 +1,21 @@
 import "bootstrap/dist/css/bootstrap.min.css";
-import Button from "react-bootstrap/Button";
 import Spinner from "react-bootstrap/Spinner";
-import Alert from "react-bootstrap/Alert";
 import Row from "react-bootstrap/Row";
 import Badge from "react-bootstrap/Badge";
+import Button from "react-bootstrap/Button";
+import ThemeProvider from "react-bootstrap/ThemeProvider";
 
 import Comments from "./Comments";
 import ItemData from "./ItemData";
 import LikeItem from "./LikeItem";
 import ItemViewWrapper from "./ItemViewWrapper";
+import ErrorAlert from "../UI/ErrorAlert";
 
 import { useEffect, useContext, useState, useCallback, Fragment } from "react";
 import { useParams, Link } from "react-router-dom";
 
 import AppContext from "../store/app-context";
+
 import useHttp from "../hooks/useHttp";
 
 const ItemView = () => {
@@ -21,7 +23,7 @@ const ItemView = () => {
 
   const { itemId } = useParams();
 
-  const { userId, token } = useContext(AppContext);
+  const { userId, token, theme } = useContext(AppContext);
 
   const { requestError, requestStatus, sendRequest, resetHookState } =
     useHttp();
@@ -51,20 +53,28 @@ const ItemView = () => {
   const displayComponents =
     !requestError && requestStatus === "completed" && !!collectionItem;
 
+  const isLightTheme = theme === "light";
+  // const textColorClass = isLightTheme ? "text-dark" : "text-light";
+
   return (
     <ItemViewWrapper>
-      <Row className="position-relative bg-dark mb-2 col-12 text-white pt-3 pb-5 px-4">
+      <Row
+        data-theme={theme}
+        className="itemViewStyle rounded shadow position-relative mb-2 col-12 pt-3 pb-5 px-4"
+      >
         {displayComponents && (
           <Fragment>
             <div className="d-flex mb-4 px-0">
               <Link
-                className="btn text-light px-0"
+                className="btn px-0"
                 to={`/collection/${collectionItem?.belongsToCollection}`}
               >
                 Collection
               </Link>
             </div>
-            <h1 className="border-bottom pb-4 px-0">{collectionItem?.name}</h1>
+            <h1 className="itemViewStyle border-bottom pb-4 px-0">
+              {collectionItem?.name}
+            </h1>
             <div className="d-flex gap-2 my-3">
               <span className="text-secondary fs-5">Tags</span>
               {collectionItem?.tags.map((tag, index) => (
@@ -77,6 +87,7 @@ const ItemView = () => {
               <ItemData itemData={collectionItem.itemData} />
             )}
             <LikeItem
+              theme={theme}
               itemId={itemId}
               isLikedByLoggedUser={isLikedByLoggedUser}
               token={token}
@@ -89,17 +100,13 @@ const ItemView = () => {
           </div>
         )}
         {requestStatus === "completed" && !!requestError && (
-          <Alert variant="danger">
-            <Alert.Heading>{requestError}</Alert.Heading>
-            <div className="mt-3 d-flex justify-content-end">
-              <Button variant="outline-danger" onClick={resetHookState}>
-                Try again
-              </Button>
-            </div>
-          </Alert>
+          <ErrorAlert
+            requestError={requestError}
+            retryRequest={resetHookState}
+          />
         )}
       </Row>
-      <Comments itemComments={collectionItem?.comments} />
+      <Comments theme={theme} itemComments={collectionItem?.comments} />
     </ItemViewWrapper>
   );
 };

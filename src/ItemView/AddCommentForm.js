@@ -25,7 +25,11 @@ const AddCommentForm = ({ setFormData, requestStatus, commentInputRef }) => {
       initialValues={{ comment: "" }}
     >
       {({ handleSubmit, handleChange, touched, errors, values }) => (
-        <Form noValidate onSubmit={handleSubmit} className="col-12 d-flex mb-2">
+        <Form
+          noValidate
+          onSubmit={handleSubmit}
+          className="col-12 d-flex mb-2 px-0 mx-0"
+        >
           <Form.Group className="col-11" controlId="comment">
             <Form.Control
               disabled={isDisabled}
@@ -36,7 +40,7 @@ const AddCommentForm = ({ setFormData, requestStatus, commentInputRef }) => {
               as="textarea"
               style={{ height: "40px" }}
               placeholder="Write a comment..."
-              className="bg-dark text-white"
+              className="itemViewStyle"
               autoFocus
               ref={commentInputRef}
             />
@@ -44,7 +48,7 @@ const AddCommentForm = ({ setFormData, requestStatus, commentInputRef }) => {
 
           <button
             disabled={isDisabled}
-            className="px-0 py-0 col-1 fs-4 btn text-white"
+            className="px-0 py-0 col-1 fs-4 btn itemViewStyle"
             type="submit"
           >
             {!isDisabled && <AiOutlineSend />}

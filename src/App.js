@@ -7,7 +7,7 @@ import UserProfile from "./UserProfile/UserProfile";
 import CollectionView from "./Collection/CollectionView";
 import NewCollection from "./NewCollection/NewCollection";
 import AppContext from "./store/app-context";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import AdminPanel from "./AdminPanel/AdminPanel";
 import ItemView from "./ItemView/ItemView";
 import { IntlProvider } from "react-intl";
@@ -33,7 +33,7 @@ function App() {
         }}
         fluid
         data-theme={theme}
-        className="overflow-auto  scrollBar position-relative gap-5 pb-5"
+        className="overflow-auto scrollBar position-relative gap-5 pb-5"
       >
         <AppNavigation
           openSearchModal={openSearchModal}

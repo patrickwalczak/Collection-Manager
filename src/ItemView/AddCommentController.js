@@ -91,7 +91,7 @@ const AddCommentController = () => {
       {!!token && !!userId && (
         <Button
           variant="dark"
-          className="btnBg w-100 mb-2"
+          className="itemViewStyle w-100 mb-2"
           onClick={resetComponent}
           aria-expanded={addCommentFormVisibility}
         >
@@ -99,7 +99,7 @@ const AddCommentController = () => {
         </Button>
       )}
 
-      <Collapse in={addCommentFormVisibility}>
+      <Collapse className="px-0" in={addCommentFormVisibility}>
         <div>
           {!successMessage && (
             <AddCommentForm
