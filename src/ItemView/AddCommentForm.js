@@ -40,7 +40,7 @@ const AddCommentForm = ({ setFormData, requestStatus, commentInputRef }) => {
               as="textarea"
               style={{ height: "40px" }}
               placeholder="Write a comment..."
-              className="itemViewStyle"
+              className="themeClass"
               autoFocus
               ref={commentInputRef}
             />
@@ -48,7 +48,7 @@ const AddCommentForm = ({ setFormData, requestStatus, commentInputRef }) => {
 
           <button
             disabled={isDisabled}
-            className="px-0 py-0 col-1 fs-4 btn itemViewStyle"
+            className="px-0 py-0 col-1 fs-4 btn themeClass"
             type="submit"
           >
             {!isDisabled && <AiOutlineSend />}

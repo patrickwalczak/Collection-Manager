@@ -53,14 +53,11 @@ const ItemView = () => {
   const displayComponents =
     !requestError && requestStatus === "completed" && !!collectionItem;
 
-  const isLightTheme = theme === "light";
-  // const textColorClass = isLightTheme ? "text-dark" : "text-light";
-
   return (
     <ItemViewWrapper>
       <Row
         data-theme={theme}
-        className="itemViewStyle rounded shadow position-relative mb-2 col-12 pt-3 pb-5 px-4"
+        className="themeClass rounded shadow position-relative mb-2 col-12 pt-3 pb-5 px-4"
       >
         {displayComponents && (
           <Fragment>
@@ -72,7 +69,7 @@ const ItemView = () => {
                 Collection
               </Link>
             </div>
-            <h1 className="itemViewStyle border-bottom pb-4 px-0">
+            <h1 className="themeClass border-bottom pb-4 px-0">
               {collectionItem?.name}
             </h1>
             <div className="d-flex gap-2 my-3">

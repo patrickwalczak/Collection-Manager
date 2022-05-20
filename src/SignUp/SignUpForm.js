@@ -16,6 +16,7 @@ import { validationTemplates } from "../helpers/yupHelper";
 import { FormattedMessage } from "react-intl";
 
 const SignUp = ({
+  theme,
   setFormData,
   requestStatus,
   requestError,
@@ -31,6 +32,8 @@ const SignUp = ({
   });
 
   const isDisabled = requestStatus === "loading" ? true : false;
+
+  const themeClass = theme === "light" ? "dark" : "light";
 
   return (
     <Formik
@@ -100,7 +103,7 @@ const SignUp = ({
             </Alert>
           )}
           <div className="d-grid gap-1 mt-4">
-            <Button disabled={isDisabled} type="submit" variant="dark">
+            <Button disabled={isDisabled} type="submit" variant={themeClass}>
               {!isDisabled && (
                 <FormattedMessage id="app-navigation.signup.button" />
               )}

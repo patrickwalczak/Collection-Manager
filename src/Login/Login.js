@@ -17,7 +17,7 @@ const Login = () => {
   const { requestError, requestStatus, sendRequest, resetHookState } =
     useHttp();
 
-  const { logIn } = useContext(AppContext);
+  const { logIn, theme } = useContext(AppContext);
 
   const navigate = useNavigate();
 
@@ -51,10 +51,11 @@ const Login = () => {
 
   return (
     <FormWrapper>
-      <h2 className="mb-3 text-center fs-1">
+      <h2 className=" mb-3 text-center fs-1">
         <FormattedMessage id="app-navigation.login.button" />
       </h2>
       <SignInForm
+        theme={theme}
         requestError={requestError}
         requestStatus={requestStatus}
         resetHookState={resetHookState}

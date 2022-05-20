@@ -5,7 +5,7 @@ const CommentList = ({ comments }) => {
 
   if (!comments?.length) {
     content = (
-      <div className="rounded itemViewStyle p-4 shadow">
+      <div className="rounded themeClass p-4 shadow">
         <h5 className="fw-normal text-center">NO COMMENTS</h5>
       </div>
     );

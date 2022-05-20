@@ -14,6 +14,7 @@ import ReusableFieldName from "../SignUp/ReusableFieldName";
 import { validationTemplates } from "../helpers/yupHelper";
 
 function SignInForm({
+  theme,
   setFormData,
   requestStatus,
   requestError,
@@ -27,6 +28,8 @@ function SignInForm({
   });
 
   const isDisabled = requestStatus === "loading" ? true : false;
+
+  const themeClass = theme === "light" ? "dark" : "light";
 
   return (
     <Formik
@@ -46,7 +49,7 @@ function SignInForm({
         touched,
         errors,
       }) => (
-        <Form noValidate onSubmit={handleSubmit}>
+        <Form noValidate onSubmit={handleSubmit} className="themeClass">
           <ReusableFieldName
             label="Email"
             name="email"
@@ -79,15 +82,15 @@ function SignInForm({
               <Alert.Heading>{requestError}</Alert.Heading>
             </Alert>
           )}
-          <div className="d-grid gap-1 mt-4">
-            <Button disabled={isDisabled} type="submit" variant="dark">
+          <div className="d-grid gap-1 mt-4 mb-2">
+            <Button disabled={isDisabled} type="submit" variant={themeClass}>
               {!isDisabled && "SIGN IN"}
               {isDisabled && <Spinner animation="border" />}
             </Button>
-            <Link className="btn btn-link" to={"/signup"}>
-              Create an account instead
-            </Link>
           </div>
+          <Link className="btn btn-link" to={"/signup"}>
+            Create an account instead
+          </Link>
         </Form>
       )}
     </Formik>

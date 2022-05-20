@@ -14,7 +14,7 @@ import { FormattedMessage } from "react-intl";
 const SignUp = () => {
   const [submittedFormData, setFormData] = useState(null);
 
-  const { requestError, requestStatus, sendRequest, resetHookState } =
+  const { requestError, requestStatus, sendRequest, resetHookState, theme } =
     useHttp();
 
   const { logIn } = useContext(AppContext);
@@ -50,10 +50,11 @@ const SignUp = () => {
   }, [submittedFormData]);
   return (
     <FormWrapper>
-      <h2 className="mb-3 text-center fs-1">
+      <h2 data-theme={theme} className="inputViewStyle mb-3 text-center fs-1">
         <FormattedMessage id="app-navigation.signup.button" />
       </h2>
       <SignUpForm
+        theme={theme}
         requestError={requestError}
         requestStatus={requestStatus}
         resetHookState={resetHookState}

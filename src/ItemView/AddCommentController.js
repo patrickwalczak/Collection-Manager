@@ -91,7 +91,7 @@ const AddCommentController = () => {
       {!!token && !!userId && (
         <Button
           variant="dark"
-          className="itemViewStyle w-100 mb-2"
+          className="themeClass w-100 mb-2"
           onClick={resetComponent}
           aria-expanded={addCommentFormVisibility}
         >
