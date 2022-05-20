@@ -62,11 +62,19 @@ const ItemFormTemplate = ({
 
   const initialFormValues = !!itemData ? itemData : { name: "", tags: [] };
 
+  console.log(customItemSchema);
+
   const initiateFormValues = () => {
     for (const names in customItemSchema) {
       const fieldsNames = customItemSchema[names];
       if (!fieldsNames.length) continue;
-      fieldsNames.forEach((fieldName) => (initialFormValues[fieldName] = ""));
+      if (names === "booleanFields") {
+        fieldsNames.forEach(
+          (fieldName) => (initialFormValues[fieldName] = false)
+        );
+      } else {
+        fieldsNames.forEach((fieldName) => (initialFormValues[fieldName] = ""));
+      }
     }
   };
 
@@ -194,19 +202,24 @@ const ItemFormTemplate = ({
             />
           ))}
 
-          {booleanFields.map((fieldName, index) => (
-            <Form.Group className="mb-3" key={fieldName + index}>
-              <Form.Check
-                type="checkbox"
-                name={fieldName}
-                label={fieldName}
-                key={fieldName + index}
-                onChange={handleChange}
-                id={fieldName}
-                defaultValue={values[fieldName]}
-              />
-            </Form.Group>
-          ))}
+          {booleanFields.map((fieldName, index) => {
+            const defaultValue = !!values[fieldName];
+            const defaultChecked = values[fieldName] === true;
+            return (
+              <Form.Group className="mb-3" key={fieldName + index}>
+                <Form.Check
+                  type="checkbox"
+                  name={fieldName}
+                  label={fieldName}
+                  key={fieldName + index}
+                  onChange={handleChange}
+                  id={fieldName}
+                  defaultValue={[defaultValue]}
+                  defaultChecked={defaultChecked}
+                />
+              </Form.Group>
+            );
+          })}
 
           {!!requestError && requestStatus !== "loading" && (
             <Alert variant="danger">
@@ -239,6 +252,7 @@ const ItemFormTemplate = ({
               {isDisabled && <Spinner animation="border" />}
             </Button>
           </div>
+          <pre>{JSON.stringify(values, null, 2)}</pre>
         </Form>
       )}
     </Formik>
