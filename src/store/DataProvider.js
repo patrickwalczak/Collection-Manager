@@ -17,7 +17,7 @@ const DataProvider = (props) => {
   const [userType, setUserType] = useState(null);
   const [modalText, setModalText] = useState("");
   const [showModal, setShowModal] = useState(false);
-  const [theme, setTheme] = useState("dark");
+  const [theme, setTheme] = useState(JSON.parse(localStorage.getItem("theme")));
   const [language, setLanguage] = useState(locales.EN);
 
   const logIn = ({ token, userId, username, userType }) => {
@@ -60,19 +60,15 @@ const DataProvider = (props) => {
   const changeLanguage = (language) => setAppLanguage(language);
 
   useEffect(() => {
-    console.log("test");
     const defaultTheme = JSON.parse(localStorage.getItem("theme"));
-    if (!defaultTheme) return changeTheme("light");
-    if (defaultTheme === "dark") return changeTheme("dark");
+    if (!defaultTheme || defaultTheme === "dark") return changeTheme("dark");
     if (defaultTheme === "light") return changeTheme("light");
-    changeTheme("light");
   }, []);
 
   useEffect(() => {
     const defaultLanguage = JSON.parse(localStorage.getItem("language"));
-    if (!defaultLanguage) return;
-    if (defaultLanguage === "EN") setLanguage(locales.EN);
-    if (defaultLanguage === "PL") setLanguage(locales.PL);
+    if (!defaultLanguage || defaultLanguage === "EN") return;
+    if (defaultLanguage === "PL") return setLanguage(locales.PL);
   }, []);
 
   const appContext = {

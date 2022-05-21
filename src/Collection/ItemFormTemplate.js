@@ -62,8 +62,6 @@ const ItemFormTemplate = ({
 
   const initialFormValues = !!itemData ? itemData : { name: "", tags: [] };
 
-  console.log(customItemSchema);
-
   const initiateFormValues = () => {
     for (const names in customItemSchema) {
       const fieldsNames = customItemSchema[names];

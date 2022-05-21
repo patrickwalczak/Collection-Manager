@@ -20,7 +20,10 @@ export const validationTemplates = {
     .min(1, tooShortErrorMessage)
     .max(300, tooLongErrorMessage)
     .required(isRequiredErrorMessage),
-  validateNumberField: yup.number().max(15, tooLongErrorMessage).required(),
+  validateNumberField: yup
+    .number()
+    .max(1000000000, tooLongErrorMessage)
+    .required(),
   validateDateField: yup.date().required(),
   validateRadioField: yup.string().required(checkQuestionErrorMessage),
   validateCustomFieldsNames: yup.array().test({

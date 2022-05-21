@@ -10,9 +10,21 @@ const ItemsTable = ({
   openEditForm,
   openDeleteForm,
   canBeChanged,
+  isSorted,
+  sortedTable,
 }) => {
+  const tableValuesSet = isSorted ? sortedTable : tableValues;
+
   return (
-    <Table variant="dark" responsive striped bordered hover className="mt-5">
+    <Table
+      style={{ minWidth: "700px" }}
+      variant="dark"
+      responsive
+      striped
+      bordered
+      hover
+      className="mt-5"
+    >
       <thead>
         <tr>
           {tableHeadings.map((heading, index) => (
@@ -23,7 +35,7 @@ const ItemsTable = ({
       </thead>
       <tbody>
         {!!tableValues &&
-          tableValues.map(({ id, itemValuesArray, name, tags }) => (
+          tableValuesSet.map(({ id, itemValuesArray, name, tags }) => (
             <Item
               openEditForm={openEditForm}
               openDeleteForm={openDeleteForm}

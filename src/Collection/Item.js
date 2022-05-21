@@ -31,7 +31,7 @@ const Item = ({
         </td>
       ))}
       {canBeChanged && (
-        <td className="text-end d-flex gap-2 justify-content-end">
+        <td className="d-flex gap-1">
           <Link to={`/item/${id}`} className="btn btn-primary px-1 py-0">
             <AiOutlineFolderView />
           </Link>

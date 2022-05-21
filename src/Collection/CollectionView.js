@@ -1,5 +1,9 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import Button from "react-bootstrap/Button";
+import DropdownButton from "react-bootstrap/DropdownButton";
+import ButtonGroup from "react-bootstrap/ButtonGroup";
+import Dropdown from "react-bootstrap/Dropdown";
+
 import Spinner from "react-bootstrap/Spinner";
 import Alert from "react-bootstrap/Alert";
 
@@ -25,6 +29,8 @@ const CollectionView = () => {
   const [deleteItemFormVisibility, setDeleteItemFormVisibility] =
     useState(false);
   const [isBeingUpdated, setIsBeingUpdated] = useState(false);
+  const [sortedTable, setSortedTable] = useState([]);
+  const [isSorted, setSorted] = useState(false);
 
   const { collectionId } = useParams();
 
@@ -123,6 +129,62 @@ const CollectionView = () => {
     setItemID(null);
   };
 
+  const sortTable = (e) => {
+    const chosenProperty = e.target.dataset.value;
+    const chosenPropertyIndex = e.target.dataset.index;
+    const endIndexOfFixedProperties = 2;
+
+    if (!chosenProperty) return;
+
+    if (chosenProperty === "reset") return resetSortedTable();
+
+    console.log(sortedTable);
+    const tableValuesCopy = !!sortedTable?.length
+      ? sortedTable
+      : tableValues.slice();
+    console.log(tableValuesCopy);
+
+    if (chosenPropertyIndex <= endIndexOfFixedProperties)
+      sortFixedFields(tableValuesCopy, chosenProperty);
+    if (chosenPropertyIndex > endIndexOfFixedProperties)
+      sortCustomFields(tableValuesCopy, chosenPropertyIndex);
+  };
+
+  const initSortedTable = (sortedTable) => {
+    setSorted(!isSorted);
+    setSortedTable(sortedTable);
+  };
+
+  const resetSortedTable = () => {
+    setSorted(false);
+    setSortedTable([]);
+  };
+
+  const sortFixedFields = (tableValuesCopy, chosenProperty) => {
+    tableValuesCopy.sort((a, b) => {
+      const valueA = a[chosenProperty].toUpperCase();
+      const valueB = b[chosenProperty].toUpperCase();
+      if (valueA < valueB) return -1;
+      if (valueA > valueB) return 1;
+      return 0;
+    });
+    initSortedTable(tableValuesCopy);
+  };
+
+  const sortCustomFields = (tableValuesCopy, chosenPropertyIndex) => {
+    const startPointOfCustomFieldsProperties = 3;
+    const propertyIndex =
+      chosenPropertyIndex - startPointOfCustomFieldsProperties;
+    tableValuesCopy.sort((a, b) => {
+      const valueA = a.itemValuesArray[propertyIndex].toUpperCase();
+      const valueB = b.itemValuesArray[propertyIndex].toUpperCase();
+      if (valueA < valueB) return -1;
+      if (valueA > valueB) return 1;
+      return 0;
+    });
+    initSortedTable(tableValuesCopy);
+  };
+
   useEffect(() => {
     if (!collectionId || !!requestStatus) return;
     getCollectionById();
@@ -182,12 +244,37 @@ const CollectionView = () => {
         <Button onClick={handleOpeningAddItemForm}>Add item</Button>
       )}
 
+      <DropdownButton
+        as={ButtonGroup}
+        id={"sortDropdown"}
+        variant="primary"
+        title={"Sort By"}
+        onClick={sortTable}
+      >
+        {tableHeadings.map((tableHeading, index) => {
+          if (tableHeading === "Tags") return;
+          return (
+            <Dropdown.Item
+              key={index}
+              data-index={index}
+              data-value={tableHeading.toLowerCase()}
+            >
+              {tableHeading}
+            </Dropdown.Item>
+          );
+        })}
+        <Dropdown.Divider />
+        <Dropdown.Item data-value="reset">Reset</Dropdown.Item>
+      </DropdownButton>
+
       {requestStatus === "completed" &&
         !requestError &&
         tableHeadings.length !== 0 && (
           <ItemsTable
             tableHeadings={tableHeadings}
             tableValues={tableValues}
+            isSorted={isSorted}
+            sortedTable={sortedTable}
             openEditForm={openEditForm}
             openDeleteForm={openDeleteForm}
             canBeChanged={canBeChanged}
