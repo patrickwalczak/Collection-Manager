@@ -1,6 +1,14 @@
 import { Link } from "react-router-dom";
 
+import AppContext from "../store/app-context";
+
+import { useContext } from "react";
+
 const User = ({ user, handleChange }) => {
+  const { language } = useContext(AppContext);
+
+  const localeString = language === "EN" ? "en-US" : "pl";
+
   let options = {
     year: "numeric",
     month: "numeric",
@@ -8,14 +16,17 @@ const User = ({ user, handleChange }) => {
   };
 
   const registrationTime = new Date(+user.registrationTime).toLocaleString(
-    "en-US",
+    localeString,
     {
       options,
     }
   );
-  const lastLoginTime = new Date(+user.lastLoginTime).toLocaleString("en-US", {
-    options,
-  });
+  const lastLoginTime = new Date(+user.lastLoginTime).toLocaleString(
+    localeString,
+    {
+      options,
+    }
+  );
 
   return (
     <tr>
@@ -36,7 +47,7 @@ const User = ({ user, handleChange }) => {
       <td>{user.status}</td>
       <td>{user.userType}</td>
       <td className="text-center">
-        <Link className="btn btn-primary py-0" to={`/user/${user.id}`}>
+        <Link className="btn themeClass btn-light py-0" to={`/user/${user.id}`}>
           VIEW
         </Link>
       </td>

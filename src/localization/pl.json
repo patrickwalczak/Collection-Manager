@@ -27,5 +27,18 @@
     "new.collection.form.question2": "Ile w twoich przedmiotach ma być pól numerycznych?*",
     "new.collection.form.question3": "Ile w twoich przedmiotach ma być wieloliniowych pól tekstowych?*",
     "new.collection.form.question4": "Ile w twoich przedmiotach ma być pól typu prawda/fałsz?*",
-    "new.collection.form.question5": "Ile w twoich przedmiotach ma być pól na wprowadzenie daty?*"
+    "new.collection.form.question5": "Ile w twoich przedmiotach ma być pól na wprowadzenie daty?*",
+    "admin.panel.remove.admin.question": "Are you sure you want to remove admin(s)?",
+    "admin.panel.add.admin.question": "Czy na pewno chcesz dodać admina/ów?",
+    "admin.panel.unblock.user.question": "Czy na pewno chcesz odblokować użytkownika/ów?",
+    "admin.panel.block.user.question": "Czy na pewno chcesz zablokować użytkownika/ów?",
+    "admin.panel.delete.user.question":  "Czy na pewno chcesz usunąć użytkownika/ów?",
+    "admin.panel.icon.title.block": "Zablokuj Użytkownika","admin.panel.icon.title.unblock": "Odblokuj Użytkownika",
+    "admin.panel.icon.title.delete": "Usuń Użytkownika","admin.panel.icon.title.add": "Dodaj Admina",
+    "admin.panel.icon.title.remove": "Usuń Admina",
+    "admin.panel.table.username": "Nazwa Użytkownika",
+    "admin.panel.table.lastlogin": "Ostatni czas logowania",
+    "admin.panel.table.registration.time": "Data utworzenia",
+    "admin.panel.table.user.type": "Rodzaj użytkownika",
+    "admin.panel.table.select.all": "Zaznacz wszystko "
 }

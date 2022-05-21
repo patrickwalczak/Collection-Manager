@@ -1,12 +1,14 @@
 import Users from "./Users";
 import ConfirmOperationModal from "./ConfirmOperationModal";
 
+import AppContext from "../store/app-context";
+import OperationButtons from "./OperationButtons";
+
+import { FormattedMessage } from "react-intl";
+
 import { Fragment, useState, useContext, useEffect, useCallback } from "react";
 
 import useHttp from "../hooks/useHttp";
-
-import AppContext from "../store/app-context";
-import OperationButtons from "./OperationButtons";
 
 const AdminPanel = () => {
   const [users, setUsers] = useState([]);
@@ -33,22 +35,22 @@ const AdminPanel = () => {
   const openRemoveAdminModal = () =>
     handleOpeningOperationModal(
       { userType: "user" },
-      "Are you sure you want to remove admin(s)?"
+      <FormattedMessage id="admin.panel.remove.admin.question" />
     );
   const openAddAdminModal = () =>
     handleOpeningOperationModal(
       { userType: "admin" },
-      "Are you sure you want to add admin(s)?"
+      <FormattedMessage id="admin.panel.add.admin.question" />
     );
   const openUnblockUserModal = () =>
     handleOpeningOperationModal(
       { status: "active" },
-      "Are you sure you want to block user(s)?"
+      <FormattedMessage id="admin.panel.unblock.user.question" />
     );
   const openBlockUserModal = () =>
     handleOpeningOperationModal(
       { status: "block" },
-      "Are you sure you want to remove user(s)?"
+      <FormattedMessage id="admin.panel.block.user.question" />
     );
 
   const getUsers = useCallback(async () => {
@@ -101,7 +103,9 @@ const AdminPanel = () => {
 
   const openDeleteUsersModal = () => {
     setMethod("DELETE");
-    setModalQuestion("Are you sure you want to delete user(s)?");
+    setModalQuestion(
+      <FormattedMessage id="admin.panel.delete.user.question" />
+    );
     handleSelectedUsers();
     setUrl("delete");
     handleOpeningModal();

@@ -27,5 +27,19 @@
     "new.collection.form.question2": "How many number fields should your collection items have?*",
     "new.collection.form.question3": "How many multiline text fields should your collection items have?*",
     "new.collection.form.question4": "How many true/false checkboxes should your collection items have?*",
-    "new.collection.form.question5": "How many date fields should your collection items have?*"
+    "new.collection.form.question5": "How many date fields should your collection items have?*",
+    "admin.panel.remove.admin.question": "Are you sure you want to remove admin(s)?",
+    "admin.panel.add.admin.question": "Are you sure you want to add admin(s)?",
+    "admin.panel.unblock.user.question": "Are you sure you want to unblock user(s)?",
+    "admin.panel.block.user.question": "Are you sure you want to block user(s)?",
+    "admin.panel.delete.user.question": "Are you sure you want to delete user(s)?",
+    "admin.panel.icon.title.block": "Block User","admin.panel.icon.title.unblock": "Unblock User",
+    "admin.panel.icon.title.delete": "Delete User","admin.panel.icon.title.add": "Add Admin",
+    "admin.panel.icon.title.remove": "Remove Admin",
+    "admin.panel.table.username": "Username",
+    "admin.panel.table.lastlogin": "Last login time",
+    "admin.panel.table.registration.time": "Registration time",
+    "admin.panel.table.user.type": "User Type",
+    "admin.panel.table.select.all": "Select All "
+
 }

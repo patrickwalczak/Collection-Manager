@@ -2,8 +2,9 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import Table from "react-bootstrap/Table";
 import Spinner from "react-bootstrap/Spinner";
 import Alert from "react-bootstrap/Alert";
-import Button from "react-bootstrap/Button";
-import ButtonGroup from "react-bootstrap/ButtonGroup";
+
+import { FormattedMessage } from "react-intl";
+// <FormattedMessage id="app-navigation.home.button" />
 
 import { Fragment } from "react";
 import User from "./User";
@@ -42,7 +43,7 @@ const Users = ({
       )}
       {!requestError && requestStatus === "completed" && token && (
         <Table
-          style={{ minWidth: "1150px" }}
+          style={{ minWidth: "1200px" }}
           responsive
           striped
           bordered
@@ -50,9 +51,11 @@ const Users = ({
           variant={theme}
         >
           <thead>
-            <tr>
+            <tr className="text-center">
               <th>
-                <label htmlFor="allselect">Select All</label>
+                <label className="px-1" htmlFor="allselect">
+                  <FormattedMessage id="admin.panel.table.select.all" />
+                </label>
                 <input
                   type="checkbox"
                   name="allSelect"
@@ -61,16 +64,24 @@ const Users = ({
                 />
               </th>
               <th>ID</th>
-              <th>Username</th>
+              <th>
+                <FormattedMessage id="admin.panel.table.username" />
+              </th>
               <th>Email</th>
-              <th>Last login time</th>
-              <th>Registration time</th>
+              <th>
+                <FormattedMessage id="admin.panel.table.lastlogin" />
+              </th>
+              <th>
+                <FormattedMessage id="admin.panel.table.registration.time" />
+              </th>
               <th>Status</th>
-              <th>User Type</th>
+              <th>
+                <FormattedMessage id="admin.panel.table.user.type" />
+              </th>
               <th></th>
             </tr>
           </thead>
-          <tbody>
+          <tbody className="text-center">
             {users.map((user) => (
               <User key={user.id} user={user} handleChange={handleChange} />
             ))}
