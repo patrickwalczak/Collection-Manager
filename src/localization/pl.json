@@ -17,6 +17,15 @@
     "main-page.largest.collections": "Największe kolekcje",
     "main-page.number.of.items": "Liczba przedmiotów",
     "form.username": "Nazwa użytkownika",
-    "form.password": "Hasło"
-
+    "form.password": "Hasło",
+    "new.collection.form.heading": "Stwórz Kolekcję",
+    "new.collection.form.name": "Nazwa Kolekcji*",
+    "new.collection.form.topic": "Temat Kolekcji*",
+    "new.collection.form.description": "Opis Kolekcji*",
+    "new.collection.form.image": "Zdjęcie Kolekcji (opcjonalne)",
+    "new.collection.form.question1": "Ile w twoich przedmiotach ma być jednoliniowych pól tekstowych?*",
+    "new.collection.form.question2": "Ile w twoich przedmiotach ma być pól numerycznych?*",
+    "new.collection.form.question3": "Ile w twoich przedmiotach ma być wieloliniowych pól tekstowych?*",
+    "new.collection.form.question4": "Ile w twoich przedmiotach ma być pól typu prawda/fałsz?*",
+    "new.collection.form.question5": "Ile w twoich przedmiotach ma być pól na wprowadzenie daty?*"
 }

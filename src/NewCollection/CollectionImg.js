@@ -2,10 +2,10 @@ import Form from "react-bootstrap/Form";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Drop from "./Drop";
 
-const CollectionImg = ({ name, setImg }) => {
+const CollectionImg = ({ name, setImg, label }) => {
   return (
     <Form.Group className="mb-3" controlId={name}>
-      <Form.Label>Collection image (optional)</Form.Label>
+      <Form.Label>{label}</Form.Label>
       <Drop setImg={setImg} name={name} />
     </Form.Group>
   );

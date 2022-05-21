@@ -3,11 +3,11 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import SelectTopic from "./SelectTopic";
 
 const CollectionTopic = (props) => {
-  const { error, isTouched, name } = props;
+  const { error, isTouched, name, label } = props;
 
   return (
     <Form.Group className="mb-3" controlId={name}>
-      <Form.Label>Collection Topic*</Form.Label>
+      <Form.Label>{label}</Form.Label>
       <SelectTopic {...props} />
       {!error && isTouched && (
         <div style={{ display: "block" }} className="valid-feedback">

@@ -1,26 +1,28 @@
-import Switch from "@mui/material/Switch";
-import FormGroup from "@mui/material/FormGroup";
-import FormControlLabel from "@mui/material/FormControlLabel";
+import "bootstrap/dist/css/bootstrap.min.css";
+import Form from "react-bootstrap/Form";
 
 import { FormattedMessage } from "react-intl";
 
 const SwitchThemeButton = ({ theme, changeTheme }) => {
   const handleChangingTheme = (e) => {
     const isChecked = e.target.checked;
-    if (isChecked) changeTheme("light");
+    if (isChecked) changeTheme("dark");
     else {
-      changeTheme("dark");
+      changeTheme("light");
     }
   };
 
   return (
-    <FormGroup>
-      <FormControlLabel
+    <Form.Group className="px-2">
+      <Form.Check
         className="text-white"
-        control={<Switch onChange={handleChangingTheme} />}
+        defaultChecked={theme === "dark"}
+        onChange={handleChangingTheme}
+        type="switch"
+        id="dark-mode"
         label={<FormattedMessage id="app-navigation.darkmode.button" />}
       />
-    </FormGroup>
+    </Form.Group>
   );
 };
 export default SwitchThemeButton;

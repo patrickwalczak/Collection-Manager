@@ -8,7 +8,6 @@ import { Formik } from "formik";
 import * as yup from "yup";
 
 import CollectionTopic from "../NewCollection/CollectionTopic";
-import SelectTags from "../NewCollection/SelectTags";
 import ReusableFieldName from "../SignUp/ReusableFieldName";
 
 import { validationTemplates } from "../helpers/yupHelper";
@@ -102,17 +101,6 @@ const EditCollectionForm = ({
             setFieldValue={setFieldValue}
             onBlur={handleBlur}
           />
-
-          {/* <SelectTags
-            name="collectionTags"
-            setValue={setFieldValue}
-            setError={setFieldError}
-            onBlur={handleBlur}
-            setTouched={setFieldTouched}
-            value={values.collectionTags}
-            error={errors.collectionTags}
-            isTouched={touched.collectionTags}
-          /> */}
 
           {requestError !== null && requestStatus !== "loading" && (
             <Alert variant="danger" onClose={resetHookState} dismissible>

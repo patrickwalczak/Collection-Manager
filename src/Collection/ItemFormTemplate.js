@@ -8,7 +8,7 @@ import { Formik } from "formik";
 import * as yup from "yup";
 
 import ReusableFieldName from "../SignUp/ReusableFieldName";
-import SelectTags from "../NewCollection/SelectTags";
+import SelectTags from "./SelectTags";
 
 import { useEffect } from "react";
 

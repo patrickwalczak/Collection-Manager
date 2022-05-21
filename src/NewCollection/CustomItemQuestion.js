@@ -21,12 +21,8 @@ const CustomItemQuestion = ({
 
     if (!newChosenNumberOfCustomInputs) return setValue(fieldsNamesId, []);
 
-    if (newChosenNumberOfCustomInputs && chosenNumberOfCustomInputs === "") {
-      return setValue(
-        fieldsNamesId,
-        Array.from(new Array(newChosenNumberOfCustomInputs), () => "")
-      );
-    }
+    if (newChosenNumberOfCustomInputs && chosenNumberOfCustomInputs === "")
+      return initFieldsNames();
 
     if (newChosenNumberOfCustomInputs > chosenNumberOfCustomInputs)
       return addFieldsNames(newChosenNumberOfCustomInputs);
@@ -34,6 +30,12 @@ const CustomItemQuestion = ({
     if (newChosenNumberOfCustomInputs < chosenNumberOfCustomInputs)
       return removeFieldsNames(newChosenNumberOfCustomInputs);
   };
+
+  const initFieldsNames = (newChosenNumberOfCustomInputs) =>
+    setValue(
+      fieldsNamesId,
+      Array.from(new Array(newChosenNumberOfCustomInputs), () => "")
+    );
 
   const addFieldsNames = (newChosenNumberOfCustomInputs) => {
     const numOfNewElements =

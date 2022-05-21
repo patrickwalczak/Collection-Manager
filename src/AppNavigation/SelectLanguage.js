@@ -7,7 +7,7 @@ const SelectLanguage = ({ changeLanguage, language }) => {
       onChange={(e) => changeLanguage(e.target.value)}
       style={{ maxWidth: "max-content" }}
       className="py-0"
-      defaultValue={language}
+      value={language}
     >
       <option value="EN">EN</option>
       <option value="PL">PL</option>

@@ -43,6 +43,7 @@ const DataProvider = (props) => {
 
   const changeTheme = (theme) => {
     setTheme(theme);
+    localStorage.setItem("theme", JSON.stringify(theme));
   };
 
   const setAppLanguage = (language) => {
@@ -59,12 +60,12 @@ const DataProvider = (props) => {
   const changeLanguage = (language) => setAppLanguage(language);
 
   useEffect(() => {
-    changeTheme("dark");
-    if (theme) return;
-    const defaultTheme = localStorage.getItem("theme");
-    if (!defaultTheme || (defaultTheme !== "dark" && defaultTheme !== "light"))
-      changeTheme("dark");
-    changeTheme(defaultTheme);
+    console.log("test");
+    const defaultTheme = JSON.parse(localStorage.getItem("theme"));
+    if (!defaultTheme) return changeTheme("light");
+    if (defaultTheme === "dark") return changeTheme("dark");
+    if (defaultTheme === "light") return changeTheme("light");
+    changeTheme("light");
   }, []);
 
   useEffect(() => {

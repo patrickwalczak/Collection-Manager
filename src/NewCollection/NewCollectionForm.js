@@ -15,6 +15,8 @@ import ReusableFieldName from "../SignUp/ReusableFieldName";
 
 import { validationTemplates } from "../helpers/yupHelper";
 
+import { FormattedMessage } from "react-intl";
+
 const NewCollectionForm = ({
   requestError,
   requestStatus,
@@ -94,7 +96,7 @@ const NewCollectionForm = ({
           <ReusableFieldName
             autoFocus
             name="collectionName"
-            label="Collection Name*"
+            label={<FormattedMessage id="new.collection.form.name" />}
             type="text"
             value={values.collectionName}
             isInvalid={errors.collectionName && touched.collectionName}
@@ -108,6 +110,7 @@ const NewCollectionForm = ({
 
           <CollectionTopic
             name="collectionTopic"
+            label={<FormattedMessage id="new.collection.form.topic" />}
             error={errors.collectionTopic}
             isTouched={touched.collectionTopic}
             setValue={setFieldValue}
@@ -118,7 +121,7 @@ const NewCollectionForm = ({
 
           <ReusableFieldName
             name="collectionDescription"
-            label="Collection Description*"
+            label={<FormattedMessage id="new.collection.form.description" />}
             as="textarea"
             placeholder="My collection is about..."
             style={{ minHeight: "100px" }}
@@ -136,7 +139,11 @@ const NewCollectionForm = ({
             onBlur={handleBlur}
           />
 
-          <CollectionImg name="collectionImg" setImg={setFieldValue} />
+          <CollectionImg
+            label={<FormattedMessage id="new.collection.form.image" />}
+            name="collectionImg"
+            setImg={setFieldValue}
+          />
 
           <CustomItemQuestion
             setValue={setFieldValue}
@@ -145,9 +152,7 @@ const NewCollectionForm = ({
             fieldsNamesId="customTextFieldsNames"
             fieldsNamesList={values.customTextFieldsNames}
             options={numberOfCustomFieldsOptions}
-            question={
-              "How many single line text should your collection items have?*"
-            }
+            question={<FormattedMessage id="new.collection.form.question1" />}
             errors={errors}
             touched={touched}
             value={values.chosenNumberOfCustomTextFields}
@@ -171,9 +176,7 @@ const NewCollectionForm = ({
             options={numberOfCustomFieldsOptions}
             fieldsNamesId="customNumberFieldsNames"
             fieldsNamesList={values.customNumberFieldsNames}
-            question={
-              "How many number fields should your collection items have?*"
-            }
+            question={<FormattedMessage id="new.collection.form.question2" />}
             errors={errors}
             touched={touched}
             value={values.chosenNumberOfCustomNumberFields}
@@ -197,9 +200,7 @@ const NewCollectionForm = ({
             fieldsNamesId="customMultilineTextFieldsNames"
             fieldsNamesList={values.customMultilineTextFieldsNames}
             options={numberOfCustomFieldsOptions}
-            question={
-              "How many multiline text fields should your collection items have?*"
-            }
+            question={<FormattedMessage id="new.collection.form.question3" />}
             errors={errors}
             touched={touched}
             value={values.chosenNumberOfCustomMultilineTextFields}
@@ -223,9 +224,7 @@ const NewCollectionForm = ({
             fieldsNamesId="customBooleanFieldsNames"
             fieldsNamesList={values.customBooleanFieldsNames}
             options={numberOfCustomFieldsOptions}
-            question={
-              "How many true/false checkboxes should your collection items have?*"
-            }
+            question={<FormattedMessage id="new.collection.form.question4" />}
             errors={errors}
             touched={touched}
             value={values.chosenNumberOfBooleanFields}
@@ -249,9 +248,7 @@ const NewCollectionForm = ({
             fieldsNamesId="customDateFieldsNames"
             fieldsNamesList={values.customDateFieldsNames}
             options={numberOfCustomFieldsOptions}
-            question={
-              "How many date fields should your collection items have?*"
-            }
+            question={<FormattedMessage id="new.collection.form.question5" />}
             errors={errors}
             touched={touched}
             value={values.chosenNumberOfDateFields}
@@ -292,6 +289,7 @@ const NewCollectionForm = ({
               {isDisabled && <Spinner animation="border" />}
             </Button>
           </div>
+          <pre>{JSON.stringify(values, null, 2)}</pre>
         </Form>
       )}
     </Formik>

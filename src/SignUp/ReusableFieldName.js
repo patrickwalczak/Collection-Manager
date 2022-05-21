@@ -1,10 +1,6 @@
 import Form from "react-bootstrap/Form";
 import "bootstrap/dist/css/bootstrap.min.css";
 
-import { useContext } from "react";
-
-import AppContext from "../store/app-context";
-
 const ReusableFieldName = ({
   name,
   label,
@@ -13,8 +9,6 @@ const ReusableFieldName = ({
   setFieldValue,
   ...restInputProps
 }) => {
-  const { theme } = useContext(AppContext);
-
   const changeInput = (e) => {
     setFieldTouched(name);
     setFieldValue(name, e.target.value);

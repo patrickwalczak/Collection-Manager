@@ -17,5 +17,15 @@
     "main-page.largest.collections": "Largest collections",
     "main-page.number.of.items": "Number of items",
     "form.username": "Username",
-    "form.password": "Password"
+    "form.password": "Password",
+    "new.collection.form.heading": "Create Collection",
+    "new.collection.form.name": "Collection Name*",
+    "new.collection.form.topic": "Collection Topic*",
+    "new.collection.form.description": "Collection Description*",
+    "new.collection.form.image": "Collection Image (optional)",
+    "new.collection.form.question1": "How many single line text should your collection items have?*",
+    "new.collection.form.question2": "How many number fields should your collection items have?*",
+    "new.collection.form.question3": "How many multiline text fields should your collection items have?*",
+    "new.collection.form.question4": "How many true/false checkboxes should your collection items have?*",
+    "new.collection.form.question5": "How many date fields should your collection items have?*"
 }
