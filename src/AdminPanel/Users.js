@@ -12,6 +12,7 @@ const Users = ({
   requestError,
   requestStatus,
   resetHookState,
+  theme,
 }) => {
   const handleChange = (e) => {
     const { name, checked } = e.target;
@@ -38,7 +39,14 @@ const Users = ({
         </Alert>
       )}
       {!requestError && requestStatus === "completed" && token && (
-        <Table responsive striped bordered hover variant="dark">
+        <Table
+          style={{ minWidth: "1150px" }}
+          responsive
+          striped
+          bordered
+          hover
+          variant={theme}
+        >
           <thead>
             <tr>
               <th>

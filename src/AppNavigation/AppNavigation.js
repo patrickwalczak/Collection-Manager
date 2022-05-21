@@ -97,7 +97,10 @@ const AppNavigation = ({ changeLanguage, language, openSearchModal }) => {
               )}
 
               {userId && (
-                <Button onClick={logout} className={navBtnMarPad}>
+                <Button
+                  onClick={logout}
+                  className={navBtnMarPad + " themeClass btn-light"}
+                >
                   <FormattedMessage id="app-navigation.logout.button" />
                 </Button>
               )}

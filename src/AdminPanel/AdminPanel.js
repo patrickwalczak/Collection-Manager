@@ -1,11 +1,15 @@
+import "bootstrap/dist/css/bootstrap.min.css";
 import Button from "react-bootstrap/Button";
 import ButtonGroup from "react-bootstrap/ButtonGroup";
-import "bootstrap/dist/css/bootstrap.min.css";
-import { Fragment, useState, useContext, useEffect, useCallback } from "react";
+
 import Users from "./Users";
-import AppContext from "../store/app-context";
-import useHttp from "../hooks/useHttp";
 import ConfirmOperationModal from "./ConfirmOperationModal";
+
+import { Fragment, useState, useContext, useEffect, useCallback } from "react";
+
+import useHttp from "../hooks/useHttp";
+
+import AppContext from "../store/app-context";
 
 const AdminPanel = () => {
   const [users, setUsers] = useState([]);
@@ -20,7 +24,7 @@ const AdminPanel = () => {
   const [isBeingUpdated, setIsBeingUpdated] = useState(false);
   const [deleteUsersModalVisibility, setModalVisibility] = useState(false);
 
-  const { userType, token, checkUser } = useContext(AppContext);
+  const { userType, token, theme } = useContext(AppContext);
 
   const { requestStatus, requestError, sendRequest, resetHookState } =
     useHttp();
@@ -120,7 +124,7 @@ const AdminPanel = () => {
   return (
     <Fragment>
       {!!token &&
-        !!selectedUsers.length &&
+        !!selectedUsers?.length &&
         !!url &&
         (!!Object.keys(additionalRequestBodyProperty).length ||
           method === "DELETE") && (
@@ -153,7 +157,7 @@ const AdminPanel = () => {
         </Button>
         <Button onClick={openRemoveAdminModal}>REMOVE ADMIN</Button>
       </ButtonGroup>
-      {token && userType === "admin" && (
+      {!!token && userType === "admin" && (
         <Users
           requestError={requestError}
           requestStatus={requestStatus}
@@ -162,6 +166,7 @@ const AdminPanel = () => {
           users={users}
           setUsers={setUsers}
           modalQuestion={modalQuestion}
+          theme={theme}
         />
       )}
     </Fragment>
