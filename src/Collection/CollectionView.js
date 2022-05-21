@@ -3,13 +3,12 @@ import Button from "react-bootstrap/Button";
 import DropdownButton from "react-bootstrap/DropdownButton";
 import ButtonGroup from "react-bootstrap/ButtonGroup";
 import Dropdown from "react-bootstrap/Dropdown";
-
 import Spinner from "react-bootstrap/Spinner";
-import Alert from "react-bootstrap/Alert";
 
 import ItemsTable from "./ItemsTable";
 import ItemActionController from "./ItemActionController";
 import DeleteController from "../UI/DeleteController";
+import ErrorAlert from "../UI/ErrorAlert";
 
 import { useParams } from "react-router-dom";
 import { useEffect, useContext, useState, useCallback, Fragment } from "react";
@@ -19,13 +18,12 @@ import useHttp from "../hooks/useHttp";
 
 const CollectionView = () => {
   const [collection, setCollection] = useState(null);
-  const [customItemSchema, setCustomItemSchema] = useState(null);
   const [tableHeadings, setHeadings] = useState([]);
   const [tableValues, setTableValues] = useState([]);
   const [itemID, setItemID] = useState(null);
-  const [itemData, setItemData] = useState(null);
-  const [addItemFormVisibility, setAddingItemFormVisibility] = useState(false);
-  const [editItemFormVisibility, setEditItemFormVisibility] = useState(false);
+  const [operationData, setOperationData] = useState(null);
+  const [itemOperationsFormVisibility, setItemOperationsFormVisibility] =
+    useState(false);
   const [deleteItemFormVisibility, setDeleteItemFormVisibility] =
     useState(false);
   const [isBeingUpdated, setIsBeingUpdated] = useState(false);
@@ -46,13 +44,13 @@ const CollectionView = () => {
 
   const handleUpdating = () => setIsBeingUpdated(true);
 
-  const handleClosingAddItemForm = () => setAddingItemFormVisibility(false);
-  const handleOpeningAddItemForm = () => setAddingItemFormVisibility(true);
+  const handleClosingItemOperationsForm = () =>
+    setItemOperationsFormVisibility(false);
+  const handleOpeningItemOperationsForm = () =>
+    setItemOperationsFormVisibility(true);
 
-  const handleClosingEditItemForm = () => setEditItemFormVisibility(false);
-  const handleOpeningEditItemForm = () => setEditItemFormVisibility(true);
-
-  const handleClosingDeleteItemForm = () => setDeleteItemFormVisibility(false);
+  const handleClosingDeleteItemForm = () =>
+    setItemOperationsFormVisibility(false);
   const handleOpeningDeleteItemForm = () => setDeleteItemFormVisibility(true);
 
   const getCollectionById = useCallback(async () => {
@@ -63,7 +61,6 @@ const CollectionView = () => {
       if (!returnedData) throw "";
       const { collection } = returnedData;
       setCollection(collection);
-      setCustomItemSchema(collection.collectionCustomItem);
 
       if (!collection.items.length) return;
       takeOutTableValues(collection);
@@ -78,7 +75,7 @@ const CollectionView = () => {
 
   const takeOutHeadings = (itemsObjectsArray) => {
     const firstItemInArrayIndex = 0;
-    const firstItemInArray = itemsObjectsArray[firstItemInArrayIndex].itemData;
+    const firstItemInArray = itemsObjectsArray[firstItemInArrayIndex]?.itemData;
     const fixedHeadings = ["ID", "Name", "Tags"];
     if (firstItemInArray) {
       const optionalFieldsHeadings = Object.entries(firstItemInArray).map(
@@ -104,28 +101,14 @@ const CollectionView = () => {
     setTableValues(itemsValuesArray);
   };
 
-  const openEditForm = (itemId) => {
-    if (!itemId) return;
-    setItemID(itemId);
-    findItemToEdit(itemId);
-    handleOpeningEditItemForm();
-  };
-
   const openDeleteForm = (itemId) => {
     if (!itemId) return;
     setItemID(itemId);
     handleOpeningDeleteItemForm();
   };
 
-  const findItemToEdit = (itemId) => {
-    const item = collection.items.find(({ id }) => id === itemId);
-    const itemData = item?.itemData;
-    if (!item) return;
-    setItemData({ ...itemData, name: item.name, tags: item.tags });
-  };
-
   const clearItemStates = () => {
-    setItemData(null);
+    setOperationData(null);
     setItemID(null);
     resetSortedTable();
   };
@@ -182,6 +165,42 @@ const CollectionView = () => {
     initSortedTable(tableValuesCopy);
   };
 
+  const openAddItemForm = () => {
+    setOperationData({
+      url: `${collectionId}/createItem`,
+      requestMethod: "POST",
+      heading: "Create Item",
+      itemData: null,
+    });
+    handleOpeningItemOperationsForm();
+  };
+
+  const openEditItemForm = (itemId) => {
+    if (!itemId) return;
+    const foundItem = findItem(itemId);
+    setOperationData({
+      url: `${itemId}/editItem`,
+      requestMethod: "PATCH",
+      heading: "Edit Item",
+      itemData: foundItem,
+    });
+    handleOpeningItemOperationsForm();
+  };
+
+  const findItem = (itemId) => {
+    setItemID(itemId);
+    const itemToEdit = findItemToEdit(itemId);
+    return itemToEdit;
+  };
+
+  const findItemToEdit = (itemId) => {
+    const item = collection.items.find(({ id }) => id === itemId);
+    const itemData = item?.itemData;
+    if (!item) return;
+    const itemToEdit = { ...itemData, name: item.name, tags: item.tags };
+    return itemToEdit;
+  };
+
   useEffect(() => {
     if (!collectionId || !!requestStatus) return;
     getCollectionById();
@@ -197,32 +216,15 @@ const CollectionView = () => {
 
   return (
     <Fragment>
-      {!!customItemSchema && !!collectionId && !!token && (
+      {!!collection && !!token && !!operationData && (
         <ItemActionController
-          heading="Create Item"
-          modalVisibilityState={addItemFormVisibility}
-          handleCloseModal={handleClosingAddItemForm}
-          customItemSchema={customItemSchema}
-          itemData={null}
+          modalVisibilityState={itemOperationsFormVisibility}
+          handleCloseModal={handleClosingItemOperationsForm}
+          customItemSchema={collection.collectionCustomItem}
           token={token}
-          url={`${collectionId}/createItem`}
-          requestMethod="POST"
           clearItemStates={clearItemStates}
           triggerUpdate={handleUpdating}
-        />
-      )}
-      {!!customItemSchema && !!itemID && !!token && (
-        <ItemActionController
-          heading="Edit Item"
-          modalVisibilityState={editItemFormVisibility}
-          handleCloseModal={handleClosingEditItemForm}
-          customItemSchema={customItemSchema}
-          itemData={itemData}
-          token={token}
-          url={`${itemID}/editItem`}
-          requestMethod="PATCH"
-          clearItemStates={clearItemStates}
-          triggerUpdate={handleUpdating}
+          {...operationData}
         />
       )}
 
@@ -238,9 +240,7 @@ const CollectionView = () => {
         />
       )}
 
-      {canBeChanged && (
-        <Button onClick={handleOpeningAddItemForm}>Add item</Button>
-      )}
+      {canBeChanged && <Button onClick={openAddItemForm}>Add item</Button>}
 
       <DropdownButton
         as={ButtonGroup}
@@ -273,7 +273,7 @@ const CollectionView = () => {
             tableValues={tableValues}
             isSorted={isSorted}
             sortedTable={sortedTable}
-            openEditForm={openEditForm}
+            openEditForm={openEditItemForm}
             openDeleteForm={openDeleteForm}
             canBeChanged={canBeChanged}
           />
@@ -281,17 +281,10 @@ const CollectionView = () => {
       {requestStatus === "completed" &&
         !requestError &&
         tableHeadings.length === 0 && (
-          <h2 className="text-white text-center">THERE ARE NO ITEMS</h2>
+          <h2 className="text-white text-center">NO ITEM FOUND</h2>
         )}
       {!!requestError && requestStatus !== "loading" && (
-        <Alert variant="danger">
-          <Alert.Heading>{requestError}</Alert.Heading>
-          <div className="mt-3 d-flex justify-content-end">
-            <Button variant="outline-danger" onClick={resetHookState}>
-              Try again
-            </Button>
-          </div>
-        </Alert>
+        <ErrorAlert {...{ requestError, retryRequest: resetHookState }} />
       )}
       {requestStatus === "loading" && <Spinner animation="border" />}
     </Fragment>
