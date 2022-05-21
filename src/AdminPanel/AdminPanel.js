@@ -1,7 +1,3 @@
-import "bootstrap/dist/css/bootstrap.min.css";
-import Button from "react-bootstrap/Button";
-import ButtonGroup from "react-bootstrap/ButtonGroup";
-
 import Users from "./Users";
 import ConfirmOperationModal from "./ConfirmOperationModal";
 
@@ -10,6 +6,7 @@ import { Fragment, useState, useContext, useEffect, useCallback } from "react";
 import useHttp from "../hooks/useHttp";
 
 import AppContext from "../store/app-context";
+import OperationButtons from "./OperationButtons";
 
 const AdminPanel = () => {
   const [users, setUsers] = useState([]);
@@ -17,10 +14,8 @@ const AdminPanel = () => {
   const [url, setUrl] = useState("");
   const [method, setMethod] = useState("");
   const [modalQuestion, setModalQuestion] = useState("");
-
   const [additionalRequestBodyProperty, setAdditionalRequestBodyProperty] =
     useState({});
-
   const [isBeingUpdated, setIsBeingUpdated] = useState(false);
   const [deleteUsersModalVisibility, setModalVisibility] = useState(false);
 
@@ -28,6 +23,8 @@ const AdminPanel = () => {
 
   const { requestStatus, requestError, sendRequest, resetHookState } =
     useHttp();
+
+  const operationButtonStyle = `btn-${theme} px-1 py-0 fs-4 fw-bolder`;
 
   const handleClosingModal = () => setModalVisibility(false);
   const handleOpeningModal = () => setModalVisibility(true);
@@ -142,21 +139,14 @@ const AdminPanel = () => {
             method={method}
           />
         )}
-      <ButtonGroup>
-        <Button onClick={openBlockUserModal} variant="danger">
-          BLOCK
-        </Button>
-        <Button onClick={openUnblockUserModal} variant="success">
-          UNBLOCK
-        </Button>
-        <Button onClick={openDeleteUsersModal} variant="secondary">
-          DELETE
-        </Button>
-        <Button onClick={openAddAdminModal} variant="light">
-          ADD ADMIN
-        </Button>
-        <Button onClick={openRemoveAdminModal}>REMOVE ADMIN</Button>
-      </ButtonGroup>
+      <OperationButtons
+        operationButtonStyle={operationButtonStyle}
+        openRemoveAdminModal={openRemoveAdminModal}
+        openAddAdminModal={openAddAdminModal}
+        openUnblockUserModal={openUnblockUserModal}
+        openBlockUserModal={openBlockUserModal}
+        openDeleteUsersModal={openDeleteUsersModal}
+      />
       {!!token && userType === "admin" && (
         <Users
           requestError={requestError}

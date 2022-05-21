@@ -2,6 +2,9 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import Table from "react-bootstrap/Table";
 import Spinner from "react-bootstrap/Spinner";
 import Alert from "react-bootstrap/Alert";
+import Button from "react-bootstrap/Button";
+import ButtonGroup from "react-bootstrap/ButtonGroup";
+
 import { Fragment } from "react";
 import User from "./User";
 
@@ -34,7 +37,6 @@ const Users = ({
       {requestStatus === "loading" && <Spinner animation="border" />}
       {!!requestError && requestStatus === "completed" && token && (
         <Alert variant="danger" onClose={resetHookState} dismissible>
-          <Alert.Heading>Error</Alert.Heading>
           <p>{requestError}</p>
         </Alert>
       )}
