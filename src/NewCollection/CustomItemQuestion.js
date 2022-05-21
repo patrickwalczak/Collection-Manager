@@ -1,6 +1,5 @@
 import Form from "react-bootstrap/Form";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { useEffect, useState } from "react";
 
 const CustomItemQuestion = ({
   name,
@@ -10,42 +9,46 @@ const CustomItemQuestion = ({
   question,
   errors,
   touched,
-  value: chosenOption,
+  value: chosenNumberOfCustomInputs,
   fieldsNamesId,
   fieldsNamesList,
   isDisabled,
 }) => {
   const changeOption = (e) => {
-    const newChosenOption = +e.target.value;
-    setValue(name, newChosenOption);
+    const newChosenNumberOfCustomInputs = +e.target.value;
+    setValue(name, newChosenNumberOfCustomInputs);
     setTouched(name);
 
-    // chosen option = 0, then returns empty array
-    if (!newChosenOption) return setValue(fieldsNamesId, []);
+    if (!newChosenNumberOfCustomInputs) return setValue(fieldsNamesId, []);
 
-    // chosen option is zero or empty, then fill array depends on chosen option (init)
-    if (newChosenOption && chosenOption === "") {
+    if (newChosenNumberOfCustomInputs && chosenNumberOfCustomInputs === "") {
       return setValue(
         fieldsNamesId,
-        Array.from(new Array(newChosenOption), () => "")
+        Array.from(new Array(newChosenNumberOfCustomInputs), () => "")
       );
     }
 
-    if (newChosenOption > chosenOption) {
-      const numOfNewElements = newChosenOption - fieldsNamesList.length;
-      const newElementsArray = Array.from(
-        new Array(numOfNewElements),
-        () => ""
-      );
-      const newFieldsNamesArray = fieldsNamesList.concat(newElementsArray);
-      return setValue(fieldsNamesId, newFieldsNamesArray);
-    }
+    if (newChosenNumberOfCustomInputs > chosenNumberOfCustomInputs)
+      return addFieldsNames(newChosenNumberOfCustomInputs);
 
-    if (newChosenOption < chosenOption) {
-      const numOfItemsToRemove = chosenOption - newChosenOption;
-      fieldsNamesList.splice(numOfItemsToRemove - 1, numOfItemsToRemove);
-      return setValue(fieldsNamesId, fieldsNamesList);
-    }
+    if (newChosenNumberOfCustomInputs < chosenNumberOfCustomInputs)
+      return removeFieldsNames(newChosenNumberOfCustomInputs);
+  };
+
+  const addFieldsNames = (newChosenNumberOfCustomInputs) => {
+    const numOfNewElements =
+      newChosenNumberOfCustomInputs - fieldsNamesList.length;
+    const newElementsArray = Array.from(new Array(numOfNewElements), () => "");
+    const newFieldsNamesArray = fieldsNamesList.concat(newElementsArray);
+    setValue(fieldsNamesId, newFieldsNamesArray);
+  };
+
+  const removeFieldsNames = (newChosenNumberOfCustomInputs) => {
+    const numOfItemsToRemove =
+      chosenNumberOfCustomInputs - newChosenNumberOfCustomInputs;
+    const deleteStartPoint = fieldsNamesList.length - numOfItemsToRemove;
+    fieldsNamesList.splice(deleteStartPoint, numOfItemsToRemove);
+    setValue(fieldsNamesId, fieldsNamesList);
   };
 
   return (
@@ -56,7 +59,7 @@ const CustomItemQuestion = ({
         <Form.Check
           inline
           name={name}
-          checked={index === chosenOption}
+          checked={index === chosenNumberOfCustomInputs}
           onChange={() => {}}
           key={item.value}
           {...item}
@@ -64,12 +67,12 @@ const CustomItemQuestion = ({
           disabled={isDisabled}
         />
       ))}
-      {chosenOption !== "" && (
+      {chosenNumberOfCustomInputs !== "" && (
         <div style={{ display: "block" }} className="valid-feedback">
           Looks good!
         </div>
       )}
-      {errors[name] && touched[name] && chosenOption === "" && (
+      {errors[name] && touched[name] && chosenNumberOfCustomInputs === "" && (
         <div style={{ display: "block" }} className="invalid-feedback">
           {errors[name]}
         </div>

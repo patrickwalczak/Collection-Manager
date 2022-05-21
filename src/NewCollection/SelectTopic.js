@@ -46,8 +46,11 @@ const SelectTopic = ({
     }
   };
 
-  const validStyle = defaultValue ? "form-control p-0 is-valid" : "";
-  const invalidStyle = error && isTouched ? "form-control p-0 is-invalid" : "";
+  const validStyle = defaultValue
+    ? "form-control p-0 is-valid inputThemeClass"
+    : "";
+  const invalidStyle =
+    error && isTouched ? "form-control p-0 is-invalid inputThemeClass" : "";
 
   return (
     <Select

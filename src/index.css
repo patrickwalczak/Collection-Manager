@@ -124,7 +124,9 @@ ul ul li {
 }
 
 [data-theme="dark"] .inputThemeClass,
-[data-theme="dark"] .form-control:focus {
+[data-theme="dark"] .form-control:focus,
+[data-theme="dark"] .form-control:disabled,
+[data-theme="light"] .themeClass.btn-light {
   background-color: rgb(33, 37, 41);
   color: rgb(248, 249, 250);
 }

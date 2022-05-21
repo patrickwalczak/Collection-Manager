@@ -2,7 +2,7 @@ import Form from "react-bootstrap/Form";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Fragment } from "react";
 
-const FieldsNames = ({
+const CustomFieldInputs = ({
   amount,
   name,
   setValue,
@@ -21,19 +21,21 @@ const FieldsNames = ({
 
   return (
     <Fragment>
-      {Array.from(new Array(+amount), (_, i) => (
-        <Form.Group key={i} className="mb-3" controlId={name + i}>
+      {Array.from(new Array(+amount), (_, index) => (
+        <Form.Group key={index} className="mb-3" controlId={name + index}>
           <Form.Label>Custom Field Name*</Form.Label>
           <Form.Control
             disabled={isDisabled}
+            className="inputThemeClass"
             size="sm"
             type="text"
-            name={name + i}
-            value={fieldsNamesList[i]}
-            onChange={changeFieldName.bind(null, i)}
-            isInvalid={fieldsNamesList[i].length > 30}
+            name={name + index}
+            value={fieldsNamesList[index]}
+            onChange={changeFieldName.bind(null, index)}
+            isInvalid={fieldsNamesList[index].length > 30}
             isValid={
-              fieldsNamesList[i].length < 30 && fieldsNamesList[i].length > 1
+              fieldsNamesList[index].length < 30 &&
+              fieldsNamesList[index].length > 1
             }
           />
           <Form.Control.Feedback type="invalid">
@@ -55,4 +57,4 @@ const FieldsNames = ({
   );
 };
 
-export default FieldsNames;
+export default CustomFieldInputs;

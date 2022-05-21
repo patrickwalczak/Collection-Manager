@@ -10,8 +10,7 @@ import * as yup from "yup";
 import CollectionTopic from "./CollectionTopic";
 import CollectionImg from "./CollectionImg";
 import CustomItemQuestion from "./CustomItemQuestion";
-import SelectTags from "./SelectTags";
-import FieldsNames from "./FieldsNames";
+import CustomFieldInputs from "./CustomFieldInputs";
 import ReusableFieldName from "../SignUp/ReusableFieldName";
 
 import { validationTemplates } from "../helpers/yupHelper";
@@ -33,7 +32,6 @@ const NewCollectionForm = ({
     collectionName: "",
     collectionTopic: "",
     collectionDescription: "",
-    // collectionTags: [],
     chosenNumberOfCustomTextFields: "",
     customTextFieldsNames: [],
     chosenNumberOfCustomNumberFields: "",
@@ -51,10 +49,6 @@ const NewCollectionForm = ({
   const schema = yup.object().shape({
     collectionName: validateSingleTextField,
     collectionTopic: yup.string().required(isRequiredErrorMessage),
-    // collectionTags: yup.array().test({
-    //   message: isRequiredErrorMessage,
-    //   test: (tags) => tags.length !== 0,
-    // }),
     collectionDescription: validateMultilineTextField,
     chosenNumberOfCustomTextFields: validateRadioField,
     chosenNumberOfCustomNumberFields: validateRadioField,
@@ -96,7 +90,7 @@ const NewCollectionForm = ({
         setFieldError,
         setFieldTouched,
       }) => (
-        <Form noValidate onSubmit={handleSubmit} className="pb-4">
+        <Form noValidate onSubmit={handleSubmit} className="pb-4 themeCLass">
           <ReusableFieldName
             autoFocus
             name="collectionName"
@@ -142,17 +136,6 @@ const NewCollectionForm = ({
             onBlur={handleBlur}
           />
 
-          {/* <SelectTags
-            name="collectionTags"
-            setValue={setFieldValue}
-            setError={setFieldError}
-            onBlur={handleBlur}
-            setTouched={setFieldTouched}
-            value={values.collectionTags}
-            error={errors.collectionTags}
-            isTouched={touched.collectionTags}
-          /> */}
-
           <CollectionImg name="collectionImg" setImg={setFieldValue} />
 
           <CustomItemQuestion
@@ -171,7 +154,7 @@ const NewCollectionForm = ({
             isDisabled={isDisabled}
           />
 
-          <FieldsNames
+          <CustomFieldInputs
             amount={values.chosenNumberOfCustomTextFields}
             name="customTextFieldsNames"
             fieldsNamesList={values.customTextFieldsNames}
@@ -197,7 +180,7 @@ const NewCollectionForm = ({
             isDisabled={isDisabled}
           />
 
-          <FieldsNames
+          <CustomFieldInputs
             amount={values.chosenNumberOfCustomNumberFields}
             name="customNumberFieldsNames"
             fieldsNamesList={values.customNumberFieldsNames}
@@ -223,7 +206,7 @@ const NewCollectionForm = ({
             isDisabled={isDisabled}
           />
 
-          <FieldsNames
+          <CustomFieldInputs
             amount={values.chosenNumberOfCustomMultilineTextFields}
             name="customMultilineTextFieldsNames"
             fieldsNamesList={values.customMultilineTextFieldsNames}
@@ -249,7 +232,7 @@ const NewCollectionForm = ({
             isDisabled={isDisabled}
           />
 
-          <FieldsNames
+          <CustomFieldInputs
             amount={values.chosenNumberOfBooleanFields}
             name="customBooleanFieldsNames"
             fieldsNamesList={values.customBooleanFieldsNames}
@@ -275,7 +258,7 @@ const NewCollectionForm = ({
             isDisabled={isDisabled}
           />
 
-          <FieldsNames
+          <CustomFieldInputs
             amount={values.chosenNumberOfDateFields}
             name="customDateFieldsNames"
             fieldsNamesList={values.customDateFieldsNames}
@@ -302,8 +285,7 @@ const NewCollectionForm = ({
             </Button>
             <Button
               disabled={isDisabled}
-              className="col-4"
-              variant="success"
+              className="col-4 themeClass btn-light"
               type="submit"
             >
               {!isDisabled && "CREATE"}

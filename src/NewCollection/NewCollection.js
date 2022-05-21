@@ -15,7 +15,7 @@ function NewCollection() {
   const { requestError, requestStatus, sendRequest, resetHookState } =
     useHttp();
 
-  const { userId: loggedUserId, userType, token } = useContext(AppContext);
+  const { userId: loggedUserId, token, theme } = useContext(AppContext);
 
   const { userId } = useParams();
 
@@ -65,7 +65,8 @@ function NewCollection() {
   return (
     <Container
       fluid
-      className="card col-xs-11 col-sm-10 col-md-8 col-lg-6 col-xl-5"
+      data-theme={theme}
+      className="themeClass rounded shadow border col-xs-11 col-sm-10 col-md-8 col-lg-6 col-xl-5"
     >
       <div className="d-flex p-4 justify-content-center border-bottom mb-3">
         <h1>CREATE COLLECTION</h1>

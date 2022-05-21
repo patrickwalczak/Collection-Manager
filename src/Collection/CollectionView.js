@@ -112,9 +112,8 @@ const CollectionView = () => {
   };
 
   const findItemToEdit = (itemId) => {
-    // const item = collection.items.find(({ id }) => id === itemId).itemData;
     const item = collection.items.find(({ id }) => id === itemId);
-    const itemData = item.itemData;
+    const itemData = item?.itemData;
     if (!item) return;
     setItemData({ ...itemData, name: item.name, tags: item.tags });
   };
