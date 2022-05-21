@@ -14,7 +14,7 @@ const CustomFieldInputs = ({
 }) => {
   const changeFieldName = (index, event) => {
     setTouched(name);
-    const enteredCustomFieldName = event.target.value.trim();
+    const enteredCustomFieldName = event.target.value;
     fieldsNamesList[index] = enteredCustomFieldName;
     setValue(name, fieldsNamesList);
   };

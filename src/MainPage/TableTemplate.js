@@ -26,7 +26,7 @@ const TableTemplate = ({
 
   if (!dataList.length && requestStatus === "completed") {
     content = (
-      <tr className="shadow d-flex col-12 backColor fs-5 rounded text-white border p-5 mb-3">
+      <tr className="themeClass shadow d-flex col-12 fs-5 rounded border p-5 mb-3">
         <th className="col-12 text-center text-break text-uppercase">
           <FormattedMessage id="main-page.no.item.found" />
         </th>
@@ -39,7 +39,7 @@ const TableTemplate = ({
       ({ id, firstHeading, collectionName, author }, index) => (
         <tr
           key={index}
-          className="shadow d-flex col-12 backColor fs-5 rounded text-white border p-1 mb-3"
+          className="themeClass shadow d-flex col-12 fs-5 rounded border p-1 mb-3"
         >
           <th className="col-3 text-center text-break">{firstHeading}</th>
           <th className="col-4 text-center text-break">{collectionName}</th>
@@ -61,7 +61,7 @@ const TableTemplate = ({
         responsive
         className="scrollBar reset"
       >
-        <thead className="itemsHeading text-uppercase text-white mb-4 rounded">
+        <thead className="themeClass shadow text-uppercase mb-4 rounded">
           <tr>
             <th>
               <h2 className="text-center p-3 pb-0 fs-1">{tableHeading}</h2>

@@ -13,9 +13,8 @@ const SwitchThemeButton = ({ theme, changeTheme }) => {
   };
 
   return (
-    <Form.Group className="px-2">
+    <Form.Group className="px-2 themeClass">
       <Form.Check
-        className="text-white"
         defaultChecked={theme === "dark"}
         onChange={handleChangingTheme}
         type="switch"

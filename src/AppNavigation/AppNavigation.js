@@ -3,19 +3,23 @@ import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
 import Navbar from "react-bootstrap/Navbar";
 import Nav from "react-bootstrap/Nav";
-import { Link, NavLink } from "react-router-dom";
 import Button from "react-bootstrap/Button";
-import AppContext from "../store/app-context";
-import { useContext } from "react";
-import SwitchThemeButton from "./SwitchThemeButton";
-import { FormattedMessage } from "react-intl";
+
 import SelectLanguage from "./SelectLanguage";
+import SwitchThemeButton from "./SwitchThemeButton";
+
+import { FormattedMessage } from "react-intl";
 
 import { AiOutlineSearch } from "react-icons/ai";
 
+import { Link, NavLink } from "react-router-dom";
+import { useContext } from "react";
+
+import AppContext from "../store/app-context";
+
 const AppNavigation = ({ changeLanguage, language, openSearchModal }) => {
-  const navLinkMargin = "text-white mx-1 mx-md-2  nav-link";
-  const navBtnMarPad = "text-white py-1 px-2 mx-1 mx-md-2 mx-lg-3";
+  const navLinkMargin = "mx-1 mx-md-2 nav-link";
+  const navBtnMarPad = "py-1 px-2 mx-1 mx-md-2 mx-lg-3";
 
   const { logout, userId, token, userType, changeTheme, theme } =
     useContext(AppContext);
@@ -25,22 +29,25 @@ const AppNavigation = ({ changeLanguage, language, openSearchModal }) => {
       <Col>
         <Navbar
           fixed="top"
-          className="px-lg-4 px-md-3 px-2 mb-0 fw-bold"
-          style={{
-            backgroundColor: "#ADEFD1FF",
-          }}
-          expand="sm"
+          className="px-lg-4 px-md-3 px-2 mb-0 fw-bold themeClass border-bottom"
+          expand="md"
         >
-          <Link to="/mainPage" className="navbar-brand text-white">
+          <NavLink
+            className={({ isActive }) =>
+              "nav-link px-0" + (isActive ? " active" : "")
+            }
+            to="/mainPage"
+          >
             <FormattedMessage id="app-navigation.home.button" />
-          </Link>
+          </NavLink>
 
           <Navbar.Toggle aria-controls="tooglemenu" />
+
           <Navbar.Collapse className="justify-content-end" id="tooglemenu">
             <Nav className="align-items-center">
               <Button
                 onClick={openSearchModal}
-                variant="light py-0 px-1 d-flex gap-4 align-items-center"
+                className="border rounded-pill themeClass btn-light py-0 px-2 d-flex gap-4 align-items-center"
               >
                 <FormattedMessage id="app-navigation.search.button" />
                 <AiOutlineSearch />
@@ -50,7 +57,7 @@ const AppNavigation = ({ changeLanguage, language, openSearchModal }) => {
                 <NavLink
                   to="/login"
                   className={({ isActive }) =>
-                    `${navLinkMargin}  nav-link` + (isActive ? " active" : "")
+                    navLinkMargin + (isActive ? " active" : "")
                   }
                 >
                   <FormattedMessage id="app-navigation.login.button" />
@@ -60,7 +67,7 @@ const AppNavigation = ({ changeLanguage, language, openSearchModal }) => {
                 <NavLink
                   to="/signup"
                   className={({ isActive }) =>
-                    `${navLinkMargin}  nav-link` + (isActive ? " active" : "")
+                    navLinkMargin + (isActive ? " active" : "")
                   }
                 >
                   <FormattedMessage id="app-navigation.signup.button" />
@@ -71,7 +78,7 @@ const AppNavigation = ({ changeLanguage, language, openSearchModal }) => {
                 <NavLink
                   to={`/user/${userId}`}
                   className={({ isActive }) =>
-                    `${navLinkMargin}  nav-link` + (isActive ? " active" : "")
+                    navLinkMargin + (isActive ? " active" : "")
                   }
                 >
                   <FormattedMessage id="app-navigation.collections.button" />
@@ -82,7 +89,7 @@ const AppNavigation = ({ changeLanguage, language, openSearchModal }) => {
                 <NavLink
                   to="/adminpanel"
                   className={({ isActive }) =>
-                    `${navLinkMargin}  nav-link` + (isActive ? " active" : "")
+                    navLinkMargin + (isActive ? " active" : "")
                   }
                 >
                   <FormattedMessage id="app-navigation.adminpanel.button" />
@@ -90,11 +97,7 @@ const AppNavigation = ({ changeLanguage, language, openSearchModal }) => {
               )}
 
               {userId && (
-                <Button
-                  onClick={logout}
-                  variant="success"
-                  className={navBtnMarPad}
-                >
+                <Button onClick={logout} className={navBtnMarPad}>
                   <FormattedMessage id="app-navigation.logout.button" />
                 </Button>
               )}

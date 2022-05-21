@@ -33,7 +33,7 @@ function App() {
         }}
         fluid
         data-theme={theme}
-        className="overflow-auto scrollBar position-relative gap-5 pb-5"
+        className="themeClass overflow-auto scrollBar position-relative gap-5 pb-5"
       >
         <AppNavigation
           openSearchModal={openSearchModal}
