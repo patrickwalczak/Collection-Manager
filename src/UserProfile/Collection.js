@@ -5,6 +5,10 @@ import Row from "react-bootstrap/Row";
 
 import ReactMarkdown from "react-markdown";
 
+import { AiFillEye } from "react-icons/ai";
+import { AiFillEdit } from "react-icons/ai";
+import { AiFillCloseCircle } from "react-icons/ai";
+
 import { Link } from "react-router-dom";
 
 const Collection = ({
@@ -15,34 +19,45 @@ const Collection = ({
   openEditForm,
   deleteCollection,
   displayOperationsButtons,
+  theme,
 }) => {
+  const operationBtnClass = `btn btn-${theme} px-1 py-0 fs-3`;
+
   return (
-    <Row className="border col-12 col-md-5 col-lg-12 flex-xl-row text-white mx-0">
+    <Row className="themeClass shadow col-12 col-md-5 col-lg-12 flex-xl-row mx-0">
       <Col
-        className="bg-dark rounded col-12 col-lg-8 p-3 p-xl-4 order-2 order-lg-1"
-        style={{ minHeight: "12rem", backgroundColor: "#00203FFF" }}
+        className="col-12 col-lg-8 p-3 p-xl-4 order-2 order-lg-1"
+        style={{ minHeight: "12rem" }}
       >
-        <h3>{collectionName}</h3>
+        <h3 className="fs-1 fw-normal">{collectionName}</h3>
         <span className="d-flex mb-2">{collectionTopic}</span>
         <ReactMarkdown className="col-11">
           {collectionDescription}
         </ReactMarkdown>
         <div data-id={id} className="col-12 d-flex p-2 gap-3 flex-wrap">
-          <Link to={`/collection/${id}`} className="btn bg-success text-white">
-            OPEN
+          <Link
+            title="Open Collection"
+            to={`/collection/${id}`}
+            className={operationBtnClass}
+          >
+            <AiFillEye />
           </Link>
           {displayOperationsButtons && (
             <Button
+              title="Edit Collection"
+              className={operationBtnClass}
               onClick={openEditForm}
-              className="text-white"
-              variant="warning"
             >
-              EDIT
+              <AiFillEdit />
             </Button>
           )}
           {displayOperationsButtons && (
-            <Button onClick={deleteCollection} variant="danger">
-              DELETE
+            <Button
+              title="Delete Collection"
+              className={operationBtnClass}
+              onClick={deleteCollection}
+            >
+              <AiFillCloseCircle />
             </Button>
           )}
         </div>

@@ -19,7 +19,7 @@ import AppContext from "../store/app-context";
 
 const AppNavigation = ({ changeLanguage, language, openSearchModal }) => {
   const navLinkMargin = "mx-1 mx-md-2 nav-link";
-  const navBtnMarPad = "py-1 px-2 mx-1 mx-md-2 mx-lg-3";
+  const navBtnMarPad = "py-1 px-3 mx-1 mx-md-2 mx-lg-3";
 
   const { logout, userId, token, userType, changeTheme, theme } =
     useContext(AppContext);
@@ -99,7 +99,9 @@ const AppNavigation = ({ changeLanguage, language, openSearchModal }) => {
               {userId && (
                 <Button
                   onClick={logout}
-                  className={navBtnMarPad + " themeClass btn-light"}
+                  className={
+                    navBtnMarPad + " themeClass btn-light rounded-pill"
+                  }
                 >
                   <FormattedMessage id="app-navigation.logout.button" />
                 </Button>

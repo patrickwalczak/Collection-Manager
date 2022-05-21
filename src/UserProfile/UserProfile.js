@@ -13,7 +13,7 @@ import CollectionsContainer from "./CollectionsContainer";
 import UserProfileWrapper from "./UserProfileWrapper";
 import ProfileHeader from "./ProfileHeader";
 import EditCollection from "./EditCollection";
-import DeleteCollectionController from "./DeleteCollectionController";
+import DeleteController from "../UI/DeleteController";
 
 const UserProfile = () => {
   const [collections, setCollections] = useState([]);
@@ -26,7 +26,12 @@ const UserProfile = () => {
   const handleUpdating = () => setIsBeingUpdated(true);
   const [isBeingUpdated, setIsBeingUpdated] = useState(false);
 
-  const { userId: loggedUserId, userType, token } = useContext(AppContext);
+  const {
+    userId: loggedUserId,
+    userType,
+    token,
+    theme,
+  } = useContext(AppContext);
 
   const { userId } = useParams();
 
@@ -124,24 +129,29 @@ const UserProfile = () => {
         />
       )}
       {!!collections && !!collectionID && !!token && (
-        <DeleteCollectionController
+        <DeleteController
           modalVisibilityState={deleteCollectionFormVisibility}
           handleCloseModal={handleClosingDeleteCollectionForm}
-          collectionID={collectionID}
           token={token}
-          clearCollectionStates={clearCollectionStates}
-          triggerUpdate={handleUpdating}
+          urlEndPath={`collections/${collectionID}/deleteCollection`}
+          clearParentStates={clearCollectionStates}
+          triggerParentUpdate={handleUpdating}
+          modalHeading={"Delete Collection"}
         />
       )}
 
       <UserProfileWrapper>
-        <ProfileHeader
-          username={username}
-          userId={userId}
-          displayOperationsButtons={displayOperationsButtons}
-        />
+        {false && (
+          <ProfileHeader
+            theme={theme}
+            username={username}
+            userId={userId}
+            displayOperationsButtons={displayOperationsButtons}
+          />
+        )}
         {requestStatus === "completed" && !requestError && (
           <CollectionsContainer
+            theme={theme}
             collections={collections}
             requestError={requestError}
             requestStatus={requestStatus}

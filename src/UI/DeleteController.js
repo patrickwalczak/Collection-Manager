@@ -7,13 +7,14 @@ import ModalTemplate from "../UI/ModalTemplate";
 import useHttp from "../hooks/useHttp";
 import { useCallback, useEffect, useState } from "react";
 
-const DeleteCollectionController = ({
+const DeleteController = ({
   modalVisibilityState,
   handleCloseModal,
   token,
-  collectionID,
-  clearCollectionStates,
-  triggerUpdate,
+  urlEndPath,
+  clearParentStates,
+  triggerParentUpdate,
+  modalHeading,
 }) => {
   const { requestError, requestStatus, sendRequest, resetHookState } =
     useHttp();
@@ -22,16 +23,16 @@ const DeleteCollectionController = ({
   const [isDeleting, setIsDeleting] = useState(false);
 
   const resetComponent = () => {
-    handleCloseModal();
-    clearCollectionStates();
+    clearParentStates();
     resetHookState();
     setSuccessMessage("");
+    handleCloseModal();
   };
 
-  const deleteCollection = useCallback(async () => {
+  const triggerDeleteRequest = useCallback(async () => {
     try {
       const returnedData = await sendRequest(
-        `${process.env.REACT_APP_BACKEND_URL}/collections/${collectionID}/deleteCollection`,
+        `${process.env.REACT_APP_BACKEND_URL}/${urlEndPath}`,
         {
           method: "DELETE",
           headers: {
@@ -40,12 +41,11 @@ const DeleteCollectionController = ({
           },
         }
       );
-
       if (!returnedData) throw "";
 
       setSuccessMessage(returnedData.message);
       setIsDeleting(false);
-      triggerUpdate();
+      triggerParentUpdate();
     } catch (err) {
       setIsDeleting(false);
     }
@@ -58,14 +58,14 @@ const DeleteCollectionController = ({
 
   useEffect(() => {
     if (!isDeleting || !!requestStatus) return;
-    deleteCollection();
-  }, [deleteCollection, requestStatus, isDeleting]);
+    triggerDeleteRequest();
+  }, [triggerDeleteRequest, requestStatus, isDeleting]);
 
   const isDisabled = requestStatus === "loading" ? true : false;
 
   return (
     <ModalTemplate
-      modalHeading="Delete Collection"
+      modalHeading={modalHeading}
       modalState={modalVisibilityState}
       handleCloseModal={resetComponent}
     >
@@ -116,4 +116,4 @@ const DeleteCollectionController = ({
     </ModalTemplate>
   );
 };
-export default DeleteCollectionController;
+export default DeleteController;

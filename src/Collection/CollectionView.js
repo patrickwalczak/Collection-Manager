@@ -9,7 +9,7 @@ import Alert from "react-bootstrap/Alert";
 
 import ItemsTable from "./ItemsTable";
 import ItemActionController from "./ItemActionController";
-import DeleteItemController from "./DeleteItemController";
+import DeleteController from "../UI/DeleteController";
 
 import { useParams } from "react-router-dom";
 import { useEffect, useContext, useState, useCallback, Fragment } from "react";
@@ -227,13 +227,14 @@ const CollectionView = () => {
       )}
 
       {!!collection && !!itemID && !!token && (
-        <DeleteItemController
+        <DeleteController
           modalVisibilityState={deleteItemFormVisibility}
           handleCloseModal={handleClosingDeleteItemForm}
-          itemID={itemID}
+          urlEndPath={`items/${itemID}/deleteItem`}
           token={token}
-          clearItemStates={clearItemStates}
-          triggerUpdate={handleUpdating}
+          clearParentStates={clearItemStates}
+          triggerParentUpdate={handleUpdating}
+          modalHeading="Delete Item"
         />
       )}
 

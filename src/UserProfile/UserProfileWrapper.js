@@ -6,7 +6,7 @@ const UserProfileWrapper = (props) => {
     <Container
       style={{ minHeight: "60vh", maxWidth: "1000px" }}
       fluid
-      className="rounded col-10 col-sm-7 col-md-11 col-lg-9 col-xl-8 col-xll-7 mx-auto pb-3 mt-4"
+      className="col-10 col-sm-7 col-md-11 col-lg-9 col-xl-8 col-xll-7 mx-auto pb-3 mt-4"
     >
       {props.children}
     </Container>
