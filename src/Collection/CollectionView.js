@@ -127,6 +127,7 @@ const CollectionView = () => {
   const clearItemStates = () => {
     setItemData(null);
     setItemID(null);
+    resetSortedTable();
   };
 
   const sortTable = (e) => {
@@ -138,11 +139,7 @@ const CollectionView = () => {
 
     if (chosenProperty === "reset") return resetSortedTable();
 
-    console.log(sortedTable);
-    const tableValuesCopy = !!sortedTable?.length
-      ? sortedTable
-      : tableValues.slice();
-    console.log(tableValuesCopy);
+    const tableValuesCopy = tableValues.slice();
 
     if (chosenPropertyIndex <= endIndexOfFixedProperties)
       sortFixedFields(tableValuesCopy, chosenProperty);
@@ -151,7 +148,7 @@ const CollectionView = () => {
   };
 
   const initSortedTable = (sortedTable) => {
-    setSorted(!isSorted);
+    setSorted(true);
     setSortedTable(sortedTable);
   };
 
