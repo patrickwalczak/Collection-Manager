@@ -6,7 +6,7 @@ import SearchController from "./SearchController";
 
 const SearchForm = ({ closeModal }) => {
   return (
-    <Form>
+    <Form onSubmit={(e) => e.preventDefault()}>
       <SearchController closeModal={closeModal} />
     </Form>
   );
