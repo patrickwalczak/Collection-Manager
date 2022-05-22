@@ -6,7 +6,7 @@ import Spinner from "react-bootstrap/Spinner";
 import { Formik } from "formik";
 import * as yup from "yup";
 
-import CollectionTopic from "../../NewCollection/CollectionTopic";
+import CollectionTopic from "../NewCollection/CollectionTopic";
 import ErrorAlert from "../../UI/ErrorAlert";
 
 import ReusableFieldName from "../ReusableFieldName";

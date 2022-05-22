@@ -1,12 +1,11 @@
 import "bootstrap/dist/css/bootstrap.min.css";
-import Spinner from "react-bootstrap/Spinner";
 import Row from "react-bootstrap/Row";
 import Badge from "react-bootstrap/Badge";
 
-import Comments from "./Comments";
-import ItemData from "./ItemData";
-import LikeItem from "./LikeItem";
-import ItemViewWrapper from "./ItemViewWrapper";
+import Comments from "../Components/ItemView/Comments";
+import ItemData from "../Components/ItemView/ItemData";
+import LikeItem from "../Components/ItemView/LikeItem";
+import ItemViewWrapper from "../Components/ItemView/ItemViewWrapper";
 import ErrorAlert from "../UI/ErrorAlert";
 
 import { AiOutlineArrowLeft } from "react-icons/ai";

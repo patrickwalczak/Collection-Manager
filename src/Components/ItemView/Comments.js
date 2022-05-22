@@ -6,7 +6,7 @@ import CommentList from "./CommentList";
 
 import { useState, useEffect } from "react";
 
-import { socket } from "../socket/socket";
+import { socket } from "../../socket/socket";
 
 import { AiOutlineComment } from "react-icons/ai";
 

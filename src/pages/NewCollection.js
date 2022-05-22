@@ -4,7 +4,7 @@ import Container from "react-bootstrap/Container";
 import useHttp from "../hooks/useHttp";
 import AppContext from "../store/app-context";
 
-import NewCollectionForm from "./NewCollectionForm";
+import NewCollectionForm from "../Components/NewCollection/NewCollectionForm";
 
 import { useEffect, useState, useContext } from "react";
 import { useNavigate, useParams } from "react-router-dom";

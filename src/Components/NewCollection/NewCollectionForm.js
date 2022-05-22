@@ -11,9 +11,9 @@ import CollectionTopic from "./CollectionTopic";
 import CollectionImg from "./CollectionImg";
 import CustomItemQuestion from "./CustomItemQuestion";
 import CustomFieldInputs from "./CustomFieldInputs";
-import ReusableFieldName from "../Components/ReusableFieldName";
+import ReusableFieldName from "../ReusableFieldName";
 
-import { validationTemplates } from "../helpers/yupHelper";
+import { validationTemplates } from "../../helpers/yupHelper";
 
 import { FormattedMessage } from "react-intl";
 

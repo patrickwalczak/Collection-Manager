@@ -7,7 +7,7 @@ import { AiOutlineSend } from "react-icons/ai";
 import { Formik } from "formik";
 import * as yup from "yup";
 
-import { validationTemplates } from "../helpers/yupHelper";
+import { validationTemplates } from "../../helpers/yupHelper";
 
 const AddCommentForm = ({
   setFormData,
