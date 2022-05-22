@@ -23,7 +23,7 @@ import { useParams } from "react-router-dom";
 
 import { socket } from "../socket/socket";
 
-const AddCommentController = ({ addComment }) => {
+const AddCommentController = ({ addComment: insertComment }) => {
   const [submittedFormData, setFormData] = useState(null);
   const [successMessage, setSuccessMessage] = useState("");
   const [addCommentFormVisibility, setAddCommentFormVisibility] =
@@ -63,7 +63,7 @@ const AddCommentController = ({ addComment }) => {
       if (!returnedData) throw "";
       setSuccessMessage(returnedData.message);
       socket.emit("new_comment", { comment, itemId });
-      addComment(comment);
+      insertComment(comment);
     } catch (err) {}
   }, []);
 
