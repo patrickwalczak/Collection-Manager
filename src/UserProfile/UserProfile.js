@@ -1,19 +1,18 @@
 import "bootstrap/dist/css/bootstrap.min.css";
-import ErrorAlert from "../UI/ErrorAlert";
-import CenteredSpinner from "../UI/CenteredSpinner";
 
+import CenteredSpinner from "../UI/CenteredSpinner";
+import ErrorAlert from "../UI/ErrorAlert";
 import CollectionsContainer from "./CollectionsContainer";
 import UserProfileWrapper from "./UserProfileWrapper";
 import EditCollection from "./EditCollection";
 import DeleteController from "../UI/DeleteController";
 
-import { AiFillFileAdd } from "react-icons/ai";
-
-import { useParams, Link } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useEffect, useContext, useState, useCallback, Fragment } from "react";
 
 import useHttp from "../hooks/useHttp";
 import AppContext from "../store/app-context";
+import ProfileHeading from "./ProfileHeading";
 
 const UserProfile = () => {
   const [collections, setCollections] = useState([]);
@@ -37,6 +36,9 @@ const UserProfile = () => {
 
   const { requestError, requestStatus, sendRequest, resetHookState } =
     useHttp();
+
+  const displayOperationsButtons =
+    !!token && (userType === "admin" || userId === loggedUserId);
 
   const handleCloseModal = () => setModalVisibility(false);
   const handleShowModal = () => setModalVisibility(true);
@@ -111,9 +113,6 @@ const UserProfile = () => {
     setIsBeingUpdated(false);
   }, [getCollectionsByUserId, isBeingUpdated]);
 
-  const displayOperationsButtons =
-    !!token && (userType === "admin" || userId === loggedUserId);
-
   return (
     <Fragment>
       {!!collectionID && !!token && (
@@ -143,24 +142,9 @@ const UserProfile = () => {
       )}
 
       <UserProfileWrapper>
-        <div className="border-bottom d-flex justify-content-between mb-4">
-          <h2
-            className={`fw-normal fs-1 ${
-              theme === "dark" ? "text-white" : "text-dark"
-            }`}
-          >
-            {username}
-          </h2>
-
-          <Link
-            title="Create Collection"
-            to={`/${userId}/newcollection`}
-            className={`btn btn-${theme} px-1 py-0 pb-2 fs-2`}
-          >
-            <AiFillFileAdd />
-          </Link>
-        </div>
-
+        <ProfileHeading
+          {...{ theme, userId, username, displayOperationsButtons }}
+        />
         {requestStatus === "completed" && !requestError && (
           <CollectionsContainer
             {...{
@@ -179,14 +163,7 @@ const UserProfile = () => {
         {!!requestError && requestStatus !== "loading" && (
           <ErrorAlert {...{ requestError, retryRequest: resetHookState }} />
         )}
-        {requestStatus === "loading" && (
-          <div className="position-absolute start-50 top-50">
-            <CenteredSpinner
-              animation="border"
-              variant={theme === "dark" ? "light" : "dark"}
-            />
-          </div>
-        )}
+        {requestStatus === "loading" && <CenteredSpinner />}
       </UserProfileWrapper>
     </Fragment>
   );

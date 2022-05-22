@@ -11,6 +11,7 @@ import SwitchThemeButton from "./SwitchThemeButton";
 import { FormattedMessage } from "react-intl";
 
 import { AiOutlineSearch } from "react-icons/ai";
+import { AiFillHome } from "react-icons/ai";
 
 import { Link, NavLink } from "react-router-dom";
 import { useContext } from "react";
@@ -34,11 +35,11 @@ const AppNavigation = ({ changeLanguage, language, openSearchModal }) => {
         >
           <NavLink
             className={({ isActive }) =>
-              "nav-link px-0" + (isActive ? " active" : "")
+              "nav-link px-0 fs-5" + (isActive ? " active" : "")
             }
             to="/mainPage"
           >
-            <FormattedMessage id="app-navigation.home.button" />
+            <AiFillHome />
           </NavLink>
 
           <Navbar.Toggle aria-controls="tooglemenu" />

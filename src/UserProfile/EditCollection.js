@@ -8,6 +8,7 @@ import useHttp from "../hooks/useHttp";
 
 import ModalTemplate from "../UI/ModalTemplate";
 import EditCollectionForm from "./EditCollectionForm";
+import SuccessAlert from "../UI/SuccessAlert";
 
 const EditCollection = ({
   modalVisibilityState,
@@ -77,14 +78,7 @@ const EditCollection = ({
         />
       )}
       {!!successMessage && (
-        <Alert variant="success">
-          <Alert.Heading>{successMessage}</Alert.Heading>
-          <div className="d-flex justify-content-end">
-            <Button onClick={resetComponent} variant="outline-success">
-              Great!
-            </Button>
-          </div>
-        </Alert>
+        <SuccessAlert {...{ successMessage, onCloseModal: resetComponent }} />
       )}
     </ModalTemplate>
   );

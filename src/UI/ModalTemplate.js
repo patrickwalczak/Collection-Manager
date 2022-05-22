@@ -4,10 +4,10 @@ import Modal from "react-bootstrap/Modal";
 function ModalTemplate(props) {
   return (
     <Modal show={props.modalState} onHide={props.handleCloseModal}>
-      <Modal.Header closeButton>
+      <Modal.Header className="themeClass" closeButton>
         <Modal.Title>{props.modalHeading}</Modal.Title>
       </Modal.Header>
-      <Modal.Body>{props.children}</Modal.Body>
+      <Modal.Body className="themeClass">{props.children}</Modal.Body>
     </Modal>
   );
 }
