@@ -13,14 +13,8 @@ import { AiOutlineComment } from "react-icons/ai";
 const Comments = ({ itemComments, theme, itemId }) => {
   const [comments, setComments] = useState([...itemComments]);
 
-  const addComment = (comment) => setComments([...comments, comment]);
-
-  socket.emit("open_item", itemId);
-
   useEffect(() => {
-    socket.on("receive_comment", (data) =>
-      setComments([...comments, data.comment])
-    );
+    socket.on("receive_comment", (data) => setComments([...comments, data]));
   }, [socket]);
 
   return (
@@ -34,9 +28,7 @@ const Comments = ({ itemComments, theme, itemId }) => {
       </h3>
 
       <AddCommentController />
-      {!!itemComments && (
-        <CommentList addComment={addComment} comments={comments} />
-      )}
+      {!!itemComments && <CommentList comments={comments} />}
     </Row>
   );
 };
