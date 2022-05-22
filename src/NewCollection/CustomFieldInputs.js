@@ -19,6 +19,8 @@ const CustomFieldInputs = ({
     setValue(name, fieldsNamesList);
   };
 
+  console.log(fieldsNamesList);
+
   return (
     <Fragment>
       {Array.from(new Array(+amount), (_, index) => (
@@ -32,10 +34,10 @@ const CustomFieldInputs = ({
             name={name + index}
             value={fieldsNamesList[index]}
             onChange={changeFieldName.bind(null, index)}
-            isInvalid={fieldsNamesList[index].length > 30}
+            isInvalid={fieldsNamesList[index]?.length > 30}
             isValid={
-              fieldsNamesList[index].length < 30 &&
-              fieldsNamesList[index].length > 1
+              fieldsNamesList[index]?.length < 30 &&
+              fieldsNamesList[index]?.length > 1
             }
           />
           <Form.Control.Feedback type="invalid">
