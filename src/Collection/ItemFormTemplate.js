@@ -7,7 +7,7 @@ import Spinner from "react-bootstrap/Spinner";
 import { Formik } from "formik";
 import * as yup from "yup";
 
-import ReusableFieldName from "../SignUp/ReusableFieldName";
+import ReusableFieldName from "../Components/ReusableFieldName";
 import SelectTags from "./SelectTags";
 
 import { useEffect } from "react";

@@ -8,7 +8,7 @@ import { Formik } from "formik";
 import * as yup from "yup";
 
 import CollectionTopic from "../NewCollection/CollectionTopic";
-import ReusableFieldName from "../SignUp/ReusableFieldName";
+import ReusableFieldName from "../Components/ReusableFieldName";
 
 import { validationTemplates } from "../helpers/yupHelper";
 

@@ -11,7 +11,7 @@ import CollectionTopic from "./CollectionTopic";
 import CollectionImg from "./CollectionImg";
 import CustomItemQuestion from "./CustomItemQuestion";
 import CustomFieldInputs from "./CustomFieldInputs";
-import ReusableFieldName from "../SignUp/ReusableFieldName";
+import ReusableFieldName from "../Components/ReusableFieldName";
 
 import { validationTemplates } from "../helpers/yupHelper";
 

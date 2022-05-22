@@ -9,11 +9,11 @@ import * as yup from "yup";
 
 import { Link } from "react-router-dom";
 
-import ReusableFieldName from "../SignUp/ReusableFieldName";
+import ReusableFieldName from "../ReusableFieldName";
 
-import { validationTemplates } from "../helpers/yupHelper";
+import { validationTemplates } from "../../helpers/yupHelper";
 
-function SignInForm({
+function LogInForm({
   theme,
   setFormData,
   requestStatus,
@@ -97,4 +97,4 @@ function SignInForm({
   );
 }
 
-export default SignInForm;
+export default LogInForm;

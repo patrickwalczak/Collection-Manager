@@ -1,7 +1,7 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 
+import SignUpForm from "../Components/SignUpForm/index";
 import FormWrapper from "../UI/FormWrapper";
-import SignInForm from "./SignInForm";
 
 import useHttp from "../hooks/useHttp";
 import AppContext from "../store/app-context";
@@ -11,20 +11,20 @@ import { useEffect, useState, useContext } from "react";
 
 import { FormattedMessage } from "react-intl";
 
-const Login = () => {
+const SignUp = () => {
   const [submittedFormData, setFormData] = useState(null);
 
-  const { requestError, requestStatus, sendRequest, resetHookState } =
+  const { requestError, requestStatus, sendRequest, resetHookState, theme } =
     useHttp();
 
-  const { logIn, theme } = useContext(AppContext);
+  const { logIn } = useContext(AppContext);
 
   const navigate = useNavigate();
 
-  const signInUser = async () => {
+  const signUpUser = async () => {
     try {
-      const loggedUserAccount = await sendRequest(
-        `${process.env.REACT_APP_BACKEND_URL}/users/login`,
+      const createdUserAccount = await sendRequest(
+        `${process.env.REACT_APP_BACKEND_URL}/users/signup`,
         {
           method: "POST",
           body: JSON.stringify(submittedFormData),
@@ -33,12 +33,12 @@ const Login = () => {
           },
         }
       );
-      if (!loggedUserAccount) throw "";
+      if (!createdUserAccount) throw "";
 
-      logIn(loggedUserAccount);
+      logIn(createdUserAccount);
       resetHookState();
       setFormData(null);
-      navigate(`/user/${loggedUserAccount.userId}`);
+      navigate(`/user/${createdUserAccount.userId}`);
     } catch (err) {
       setFormData(null);
     }
@@ -46,15 +46,14 @@ const Login = () => {
 
   useEffect(() => {
     if (!submittedFormData) return;
-    signInUser();
+    signUpUser();
   }, [submittedFormData]);
-
   return (
     <FormWrapper>
-      <h2 className=" mb-3 text-center fs-1">
-        <FormattedMessage id="app-navigation.login.button" />
+      <h2 data-theme={theme} className="inputViewStyle mb-3 text-center fs-1">
+        <FormattedMessage id="app-navigation.signup.button" />
       </h2>
-      <SignInForm
+      <SignUpForm
         theme={theme}
         requestError={requestError}
         requestStatus={requestStatus}
@@ -65,4 +64,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default SignUp;

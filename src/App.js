@@ -1,8 +1,8 @@
 import { Routes, Route, Navigate } from "react-router-dom";
 import AppNavigation from "./AppNavigation/AppNavigation";
-import Login from "./Login/Login";
+import Login from "./pages/Login";
 import Container from "react-bootstrap/Container";
-import SignUp from "./SignUp/SignUp";
+import SignUp from "./pages/SignUp";
 import UserProfile from "./UserProfile/UserProfile";
 import CollectionView from "./Collection/CollectionView";
 import NewCollection from "./NewCollection/NewCollection";
