@@ -10,7 +10,7 @@ import { socket } from "../socket/socket";
 
 import { AiOutlineComment } from "react-icons/ai";
 
-const Comments = ({ itemComments, theme, itemId }) => {
+const Comments = ({ itemComments, theme }) => {
   const [comments, setComments] = useState([...itemComments]);
 
   useEffect(() => {

@@ -62,7 +62,7 @@ const AddCommentController = () => {
       );
       if (!returnedData) throw "";
       setSuccessMessage(returnedData.message);
-      socket.emit("new_comment", { comment });
+      socket.emit("new_comment", comment);
     } catch (err) {}
   }, []);
 
