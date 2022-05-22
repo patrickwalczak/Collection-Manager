@@ -10,11 +10,17 @@ import { socket } from "../socket/socket";
 
 import { AiOutlineComment } from "react-icons/ai";
 
-const Comments = ({ itemComments, theme }) => {
+const Comments = ({ itemComments, theme, itemId }) => {
   const [comments, setComments] = useState([...itemComments]);
 
+  const addComment = (comment) => setComments([...comments, comment]);
+
+  socket.emit("open_item", itemId);
+
   useEffect(() => {
-    socket.on("receive_comment", (data) => setComments([...comments, data]));
+    socket.on("receive_comment", (data) =>
+      setComments([...comments, data.comment])
+    );
   }, [socket]);
 
   return (
@@ -28,7 +34,9 @@ const Comments = ({ itemComments, theme }) => {
       </h3>
 
       <AddCommentController />
-      {!!itemComments && <CommentList comments={comments} />}
+      {!!itemComments && (
+        <CommentList addComment={addComment} comments={comments} />
+      )}
     </Row>
   );
 };

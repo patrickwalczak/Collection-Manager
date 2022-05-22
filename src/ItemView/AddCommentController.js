@@ -23,7 +23,7 @@ import { useParams } from "react-router-dom";
 
 import { socket } from "../socket/socket";
 
-const AddCommentController = () => {
+const AddCommentController = ({ addComment }) => {
   const [submittedFormData, setFormData] = useState(null);
   const [successMessage, setSuccessMessage] = useState("");
   const [addCommentFormVisibility, setAddCommentFormVisibility] =
@@ -48,14 +48,12 @@ const AddCommentController = () => {
 
   const addComment = useCallback(async (formData) => {
     try {
+      const comment = { ...formData, author: username };
       const returnedData = await sendRequest(
         `${process.env.REACT_APP_BACKEND_URL}/items/${itemId}/addComment`,
         {
           method: "POST",
-          body: JSON.stringify({
-            ...formData,
-            author: username,
-          }),
+          body: JSON.stringify(comment),
           headers: {
             "Content-Type": "application/json",
             Authorization: "Bearer " + token,
@@ -64,10 +62,8 @@ const AddCommentController = () => {
       );
       if (!returnedData) throw "";
       setSuccessMessage(returnedData.message);
-      socket.emit("new_comment", {
-        ...formData,
-        author: username,
-      });
+      socket.emit("new_comment", { comment, itemId });
+      addComment(comment);
     } catch (err) {}
   }, []);
 

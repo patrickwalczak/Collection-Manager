@@ -108,7 +108,11 @@ const ItemView = () => {
         )}
       </Row>
       {!!collectionItem && (
-        <Comments theme={theme} itemComments={collectionItem?.comments} />
+        <Comments
+          theme={theme}
+          itemId={itemId}
+          itemComments={collectionItem?.comments}
+        />
       )}
     </ItemViewWrapper>
   );
