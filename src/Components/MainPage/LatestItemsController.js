@@ -2,7 +2,7 @@ import TableTemplate from "./TableTemplate";
 
 import { useEffect, useState, useCallback, Fragment } from "react";
 
-import useHttp from "../hooks/useHttp";
+import useHttp from "../../hooks/useHttp";
 
 import { FormattedMessage } from "react-intl";
 
@@ -37,6 +37,8 @@ const LatestItemsController = () => {
         emptyMessage={<FormattedMessage id="main-page.no.items" />}
         dataList={latestItems}
         requestStatus={requestStatus}
+        requestError={requestError}
+        resetHookState={resetHookState}
         path="/item"
       />
     </Fragment>

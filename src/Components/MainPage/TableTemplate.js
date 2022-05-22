@@ -1,9 +1,9 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import Row from "react-bootstrap/Row";
 import Table from "react-bootstrap/Table";
-import Spinner from "react-bootstrap/Spinner";
 
-import CenteredSpinner from "../UI/CenteredSpinner";
+import CenteredSpinner from "../../UI/CenteredSpinner";
+import ErrorAlert from "../../UI/ErrorAlert";
 
 import { FormattedMessage } from "react-intl";
 
@@ -16,6 +16,8 @@ const TableTemplate = ({
   firstHeading,
   dataList,
   requestStatus,
+  requestError,
+  resetHookState,
   path,
   emptyMessage,
 }) => {
@@ -27,7 +29,7 @@ const TableTemplate = ({
     </tr>
   );
 
-  if (!dataList.length && requestStatus === "completed") {
+  if (!dataList.length && !requestError && requestStatus === "completed") {
     content = (
       <tr className="themeClass shadow d-flex col-12 fs-5 rounded border p-5 mb-3">
         <th className="col-12 text-center text-break text-uppercase">
@@ -57,6 +59,12 @@ const TableTemplate = ({
           </th>
         </tr>
       )
+    );
+  }
+
+  if (!!requestError) {
+    content = (
+      <ErrorAlert {...{ requestError, retryRequest: resetHookState }} />
     );
   }
 

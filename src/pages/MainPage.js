@@ -1,7 +1,7 @@
-import LargestCollectionsController from "../MainPage/LargestCollectionsController";
-import LatestItemsController from "../MainPage/LatestItemsController";
-import MainPageWrapper from "../MainPage/MainPageWrapper";
-import Cloud from "../MainPage/Cloud";
+import LargestCollectionsController from "../Components/MainPage/LargestCollectionsController";
+import LatestItemsController from "../Components/MainPage/LatestItemsController";
+import MainPageWrapper from "../Components/MainPage/MainPageWrapper";
+import Cloud from "../Components/MainPage/Cloud";
 
 const MainPage = () => {
   return (
