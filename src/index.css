@@ -115,6 +115,30 @@ ul ul li {
   background: white;
 }
 
+[data-theme="dark"] .form-control,
+[data-theme="dark"] .dropdown-menu,
+[data-theme="dark"] .css-6j8wv5-Input,
+[data-theme="dark"] .css-1s2u09g-control,
+[data-theme="dark"] .css-1pahdxg-control {
+  background-color: inherit;
+  color: rgb(248, 249, 250);
+}
+
+[data-theme="dark"] .css-qc6sy-singleValue,
+[data-theme="dark"] .css-319lph-ValueContainer,
+[data-theme="dark"] .css-26l3qy-menu {
+  color: white;
+}
+
+[data-theme="dark"] .css-26l3qy-menu {
+  background-color: rgb(33, 37, 41);
+}
+
+[data-theme="dark"] .dropdown-menu {
+  margin-top: 1px;
+  border: 1px solid rgb(179, 177, 177);
+}
+
 .themeClass {
   background-color: rgb(33, 37, 41);
   color: rgb(248, 249, 250);
