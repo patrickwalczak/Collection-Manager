@@ -1,5 +1,6 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import Container from "react-bootstrap/Container";
+import Button from "react-bootstrap/Button";
 
 import AppNavigation from "./AppNavigation/AppNavigation";
 import Login from "./pages/Login";
@@ -23,8 +24,18 @@ import AppContext from "./store/app-context";
 function App() {
   const [searchModalVisibility, setSearchModalVisibility] = useState(false);
 
-  const { userId, userType, token, theme, language, messages, changeLanguage } =
-    useContext(AppContext);
+  const {
+    userId,
+    userType,
+    token,
+    theme,
+    language,
+    messages,
+    changeLanguage,
+    modalText,
+    showModal,
+    resetLogOutModal,
+  } = useContext(AppContext);
 
   const openSearchModal = () => setSearchModalVisibility(true);
 
@@ -54,6 +65,14 @@ function App() {
           fullscreen={true}
         >
           <SearchForm closeModal={closeSearchModal} />
+        </ModalTemplate>
+
+        <ModalTemplate
+          modalState={showModal}
+          handleCloseModal={resetLogOutModal}
+          modalHeading={modalText}
+        >
+          <Button onClick={resetLogOutModal}>OK</Button>
         </ModalTemplate>
 
         <Routes>

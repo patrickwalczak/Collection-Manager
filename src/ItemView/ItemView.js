@@ -29,6 +29,15 @@ const ItemView = () => {
   const { requestError, requestStatus, sendRequest, resetHookState } =
     useHttp();
 
+  const isLikedByLoggedUser = !!collectionItem?.likes.find(
+    (id) => id === userId
+  )
+    ? true
+    : false;
+
+  const displayComponents =
+    !requestError && requestStatus === "completed" && !!collectionItem;
+
   const getItemById = useCallback(async () => {
     try {
       const returnedData = await sendRequest(
@@ -45,15 +54,6 @@ const ItemView = () => {
     getItemById();
   }, [itemId, getItemById, requestStatus]);
 
-  const isLikedByLoggedUser = !!collectionItem?.likes.find(
-    (id) => id === userId
-  )
-    ? true
-    : false;
-
-  const displayComponents =
-    !requestError && requestStatus === "completed" && !!collectionItem;
-
   return (
     <ItemViewWrapper>
       <Row
@@ -64,7 +64,7 @@ const ItemView = () => {
           <Fragment>
             <div className="d-flex mb-4 px-0">
               <Link
-                className="btn px-0"
+                className="btn themeClass btn-light"
                 to={`/collection/${collectionItem?.belongsToCollection}`}
               >
                 <AiOutlineArrowLeft /> Back to collection

@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import locales from "../localization/locales";
 import enMessages from "../localization/en.json";
 import plMessages from "../localization/pl.json";
+import { useNavigate } from "react-router-dom";
 
 const DataProvider = (props) => {
   const messages = {
@@ -20,6 +21,8 @@ const DataProvider = (props) => {
   const [theme, setTheme] = useState(JSON.parse(localStorage.getItem("theme")));
   const [language, setLanguage] = useState(locales.EN);
 
+  const navigate = useNavigate();
+
   const logIn = ({ token, userId, username, userType }) => {
     setToken(token);
     setUserId(userId);
@@ -34,11 +37,16 @@ const DataProvider = (props) => {
     setUserType(null);
   };
 
-  const checkUser = (uid, msg) => {
-    if (uid !== userId) return;
+  const logOutAdmin = (msg) => {
     logout();
+    navigate("/login", { replace: true });
     setShowModal(true);
     setModalText(msg);
+  };
+
+  const resetLogOutModal = () => {
+    setShowModal(false);
+    setModalText("");
   };
 
   const changeTheme = (theme) => {
@@ -79,9 +87,12 @@ const DataProvider = (props) => {
     theme,
     language,
     messages,
+    modalText,
+    showModal,
+    resetLogOutModal,
     logIn,
     logout,
-    checkUser,
+    logOutAdmin,
     changeTheme,
     changeLanguage,
   };

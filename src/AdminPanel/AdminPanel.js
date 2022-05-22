@@ -19,7 +19,7 @@ const AdminPanel = () => {
   const [isBeingUpdated, setIsBeingUpdated] = useState(false);
   const [deleteUsersModalVisibility, setModalVisibility] = useState(false);
 
-  const { userType, token, theme } = useContext(AppContext);
+  const { userType, token, theme, userId } = useContext(AppContext);
 
   const { requestStatus, requestError, sendRequest, resetHookState } =
     useHttp();
@@ -47,7 +47,7 @@ const AdminPanel = () => {
     );
   const openBlockUserModal = () =>
     handleOpeningOperationModal(
-      { status: "block" },
+      { status: "blocked" },
       <FormattedMessage id="admin.panel.block.user.question" />
     );
 
@@ -137,6 +137,7 @@ const AdminPanel = () => {
               users: selectedUsers,
               ...additionalRequestBodyProperty,
             }}
+            loggedUserId={userId}
           />
         )}
       <OperationButtons

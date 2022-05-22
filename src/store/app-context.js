@@ -10,9 +10,10 @@ const AppContext = React.createContext({
   messages: null,
   logIn: (item) => {},
   logout: (id) => {},
-  checkUser: () => {},
+  logOutAdmin: () => {},
   changeTheme: () => {},
   changeLanguage: () => {},
+  resetLogOutModal: () => {},
 });
 
 export default AppContext;

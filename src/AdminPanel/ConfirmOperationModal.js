@@ -4,8 +4,12 @@ import Alert from "react-bootstrap/Alert";
 import Spinner from "react-bootstrap/Spinner";
 
 import ModalTemplate from "../UI/ModalTemplate";
+
+import { useCallback, useEffect, useState, useContext } from "react";
+
 import useHttp from "../hooks/useHttp";
-import { useCallback, useEffect, useState } from "react";
+
+import AppContext from "../store/app-context";
 
 const ConfirmOperationModal = ({
   modalVisibilityState,
@@ -17,18 +21,26 @@ const ConfirmOperationModal = ({
   url,
   method,
   modalQuestion,
+  loggedUserId,
 }) => {
-  const { requestError, requestStatus, sendRequest, resetHookState } =
-    useHttp();
-
   const [successMessage, setSuccessMessage] = useState("");
   const [isDeleting, setIsDeleting] = useState(false);
+
+  const { logOutAdmin } = useContext(AppContext);
+
+  const { requestError, requestStatus, sendRequest, resetHookState } =
+    useHttp();
 
   const resetComponent = () => {
     handleCloseModal();
     resetHookState();
     clearState();
     setSuccessMessage("");
+  };
+
+  const handleLogOutAdmin = (message) => {
+    handleCloseModal();
+    logOutAdmin(message);
   };
 
   const deleteUsers = useCallback(async () => {
@@ -48,6 +60,19 @@ const ConfirmOperationModal = ({
 
       setSuccessMessage(returnedData.message);
       setIsDeleting(false);
+
+      const findLoggedUser = requestBodyObject?.users.find(
+        (id) => id === loggedUserId
+      );
+
+      if (requestBodyObject?.status === "blocked" && !!findLoggedUser)
+        handleLogOutAdmin("Your account has been blocked");
+
+      if (requestBodyObject?.userType === "user" && !!findLoggedUser)
+        handleLogOutAdmin("You have been removed from admins");
+      if (method === "DELETE" && !!findLoggedUser)
+        handleLogOutAdmin("Your account has been deleted");
+
       triggerUpdate();
     } catch (err) {
       setIsDeleting(false);
