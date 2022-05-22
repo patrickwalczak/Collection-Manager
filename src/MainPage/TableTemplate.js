@@ -18,7 +18,13 @@ const TableTemplate = ({
   requestStatus,
   path,
 }) => {
-  let content = <CenteredSpinner />;
+  let content = (
+    <tr>
+      <th>
+        <CenteredSpinner />
+      </th>
+    </tr>
+  );
 
   if (!dataList.length && requestStatus === "completed") {
     content = (

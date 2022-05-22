@@ -2,8 +2,6 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import Spinner from "react-bootstrap/Spinner";
 import Row from "react-bootstrap/Row";
 import Badge from "react-bootstrap/Badge";
-import Button from "react-bootstrap/Button";
-import ThemeProvider from "react-bootstrap/ThemeProvider";
 
 import Comments from "./Comments";
 import ItemData from "./ItemData";
@@ -11,12 +9,15 @@ import LikeItem from "./LikeItem";
 import ItemViewWrapper from "./ItemViewWrapper";
 import ErrorAlert from "../UI/ErrorAlert";
 
+import { AiOutlineArrowLeft } from "react-icons/ai";
+
 import { useEffect, useContext, useState, useCallback, Fragment } from "react";
 import { useParams, Link } from "react-router-dom";
 
 import AppContext from "../store/app-context";
 
 import useHttp from "../hooks/useHttp";
+import CenteredSpinner from "../UI/CenteredSpinner";
 
 const ItemView = () => {
   const [collectionItem, setCollectionItem] = useState(null);
@@ -66,7 +67,7 @@ const ItemView = () => {
                 className="btn px-0"
                 to={`/collection/${collectionItem?.belongsToCollection}`}
               >
-                Collection
+                <AiOutlineArrowLeft /> Back to collection
               </Link>
             </div>
             <h1 className="themeClass border-bottom pb-4 px-0">
@@ -75,7 +76,14 @@ const ItemView = () => {
             <div className="d-flex gap-2 my-3">
               <span className="text-secondary fs-5">Tags</span>
               {collectionItem?.tags.map((tag, index) => (
-                <Badge className="bg-light text-dark fs-6" key={index}>
+                <Badge
+                  className={`${
+                    theme === "light"
+                      ? "bg-dark text-light"
+                      : "bg-light text-dark"
+                  }   fs-6`}
+                  key={index}
+                >
                   {tag}
                 </Badge>
               ))}
@@ -91,11 +99,7 @@ const ItemView = () => {
             />
           </Fragment>
         )}
-        {requestStatus === "loading" && (
-          <div className="position-absolute top-50 start-100 translate-middle">
-            <Spinner animation="border" />
-          </div>
-        )}
+        {requestStatus === "loading" && <CenteredSpinner />}
         {requestStatus === "completed" && !!requestError && (
           <ErrorAlert
             requestError={requestError}

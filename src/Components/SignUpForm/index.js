@@ -54,7 +54,7 @@ const SignUp = ({
         touched,
         errors,
       }) => (
-        <Form noValidate onSubmit={handleSubmit}>
+        <Form className="themeClass" noValidate onSubmit={handleSubmit}>
           <ReusableFieldName
             name="username"
             label={<FormattedMessage id="form.username" />}

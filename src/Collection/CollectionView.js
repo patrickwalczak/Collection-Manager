@@ -10,6 +10,9 @@ import ItemActionController from "./ItemActionController";
 import DeleteController from "../UI/DeleteController";
 import ErrorAlert from "../UI/ErrorAlert";
 
+import { BsSortUp } from "react-icons/bs";
+import { AiOutlineAppstoreAdd } from "react-icons/ai";
+
 import { useParams } from "react-router-dom";
 import { useEffect, useContext, useState, useCallback, Fragment } from "react";
 
@@ -41,6 +44,8 @@ const CollectionView = () => {
 
   const { requestError, requestStatus, sendRequest, resetHookState } =
     useHttp();
+
+  const operationButtonStyle = `btn-${theme} px-1 py-0 fs-4 fw-bolder`;
 
   const handleUpdating = () => setIsBeingUpdated(true);
 
@@ -240,30 +245,41 @@ const CollectionView = () => {
         />
       )}
 
-      {canBeChanged && <Button onClick={openAddItemForm}>Add item</Button>}
-
-      <DropdownButton
-        as={ButtonGroup}
-        id={"sortDropdown"}
-        variant="primary"
-        title={"Sort By"}
-        onClick={sortTable}
-      >
-        {tableHeadings.map((tableHeading, index) => {
-          if (tableHeading === "Tags") return;
-          return (
-            <Dropdown.Item
-              key={index}
-              data-index={index}
-              data-value={tableHeading.toLowerCase()}
-            >
-              {tableHeading}
-            </Dropdown.Item>
-          );
-        })}
-        <Dropdown.Divider />
-        <Dropdown.Item data-value="reset">Reset</Dropdown.Item>
-      </DropdownButton>
+      <div className="mt-4 d-flex justify-content-end gap-2 pb-1">
+        {canBeChanged && (
+          <Button
+            title="Create Item"
+            className={operationButtonStyle}
+            onClick={openAddItemForm}
+          >
+            <AiOutlineAppstoreAdd />
+          </Button>
+        )}
+        <DropdownButton
+          as={ButtonGroup}
+          id={"sortDropdown"}
+          variant={theme}
+          title="Sort"
+          className={operationButtonStyle}
+          title={<BsSortUp />}
+          onClick={sortTable}
+        >
+          {tableHeadings.map((tableHeading, index) => {
+            if (tableHeading === "Tags") return;
+            return (
+              <Dropdown.Item
+                key={index}
+                data-index={index}
+                data-value={tableHeading.toLowerCase()}
+              >
+                {tableHeading}
+              </Dropdown.Item>
+            );
+          })}
+          <Dropdown.Divider />
+          <Dropdown.Item data-value="reset">Reset</Dropdown.Item>
+        </DropdownButton>
+      </div>
 
       {requestStatus === "completed" &&
         !requestError &&

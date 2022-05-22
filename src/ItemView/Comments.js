@@ -19,7 +19,11 @@ const Comments = ({ itemComments, theme }) => {
 
   return (
     <Row data-theme={theme} className="mt-4 col-12 d-flex">
-      <h3 className="themeClass px-0 pb-4 fs-3 mb-3 fw-normal border-bottom">
+      <h3
+        className={`text-${
+          theme === "dark" ? "white" : "dark"
+        } px-0 pb-4 fs-3 mb-3 fw-normal border-bottom`}
+      >
         Comments <AiOutlineComment />
       </h3>
 
