@@ -2,17 +2,17 @@ import "bootstrap/dist/css/bootstrap.min.css";
 
 import CenteredSpinner from "../UI/CenteredSpinner";
 import ErrorAlert from "../UI/ErrorAlert";
-import CollectionsContainer from "./CollectionsContainer";
-import UserProfileWrapper from "./UserProfileWrapper";
-import EditCollection from "./EditCollection";
+import CollectionsContainer from "../Components/UserProfile/CollectionsContainer";
+import UserProfileWrapper from "../Components/UserProfile/UserProfileWrapper";
+import EditCollection from "../Components/UserProfile/EditCollection";
 import DeleteController from "../UI/DeleteController";
+import ProfileHeading from "../UserProfile/ProfileHeading";
 
 import { useParams } from "react-router-dom";
 import { useEffect, useContext, useState, useCallback, Fragment } from "react";
 
 import useHttp from "../hooks/useHttp";
 import AppContext from "../store/app-context";
-import ProfileHeading from "./ProfileHeading";
 
 const UserProfile = () => {
   const [collections, setCollections] = useState([]);
@@ -54,7 +54,6 @@ const UserProfile = () => {
       );
       if (!returnedData) throw "";
       const { collections, username } = returnedData;
-
       setUsername(username);
       setCollections(collections);
     } catch (err) {
@@ -152,7 +151,6 @@ const UserProfile = () => {
               collections,
               requestError,
               requestStatus,
-              getCollectionId,
               openEditForm,
               displayOperationsButtons,
             }}

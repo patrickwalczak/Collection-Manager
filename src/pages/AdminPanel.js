@@ -1,8 +1,8 @@
-import Users from "./Users";
-import ConfirmOperationModal from "./ConfirmOperationModal";
+import Users from "../Components/AdminPanel/Users";
+import ConfirmOperationModal from "../Components/AdminPanel/ConfirmOperationModal";
 
 import AppContext from "../store/app-context";
-import OperationButtons from "./OperationButtons";
+import OperationButtons from "../Components/AdminPanel/OperationButtons";
 
 import { FormattedMessage } from "react-intl";
 

@@ -1,14 +1,10 @@
-import "bootstrap/dist/css/bootstrap.min.css";
-import Alert from "react-bootstrap/Alert";
-import Button from "react-bootstrap/Button";
-
 import { useEffect, useState, useCallback } from "react";
 
-import useHttp from "../hooks/useHttp";
+import useHttp from "../../hooks/useHttp";
 
-import ModalTemplate from "../UI/ModalTemplate";
+import ModalTemplate from "../../UI/ModalTemplate";
 import EditCollectionForm from "./EditCollectionForm";
-import SuccessAlert from "../UI/SuccessAlert";
+import SuccessAlert from "../../UI/SuccessAlert";
 
 const EditCollection = ({
   modalVisibilityState,
@@ -49,8 +45,6 @@ const EditCollection = ({
       );
       if (!returnedData) throw "";
 
-      const { collection } = returnedData;
-
       setSuccessMessage(returnedData.message);
       triggerUpdate();
     } catch (err) {}
@@ -69,11 +63,14 @@ const EditCollection = ({
     >
       {!successMessage && (
         <EditCollectionForm
-          requestError={requestError}
-          requestStatus={requestStatus}
-          resetHookState={resetHookState}
-          setFormData={setFormData}
-          handleCloseModal={handleCloseModal}
+          {...{
+            requestError,
+            requestStatus,
+            resetHookState,
+            setFormData,
+            handleCloseModal,
+            resetComponent,
+          }}
           initialValues={collectionData}
         />
       )}

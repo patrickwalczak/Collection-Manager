@@ -1,24 +1,25 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
-import Alert from "react-bootstrap/Alert";
 import Spinner from "react-bootstrap/Spinner";
 
 import { Formik } from "formik";
 import * as yup from "yup";
 
-import CollectionTopic from "../NewCollection/CollectionTopic";
-import ReusableFieldName from "../Components/ReusableFieldName";
+import CollectionTopic from "../../NewCollection/CollectionTopic";
+import ErrorAlert from "../../UI/ErrorAlert";
 
-import { validationTemplates } from "../helpers/yupHelper";
+import ReusableFieldName from "../ReusableFieldName";
+
+import { validationTemplates } from "../../helpers/yupHelper";
 
 const EditCollectionForm = ({
   requestError,
   requestStatus,
   resetHookState,
   setFormData,
-  handleCloseModal,
   initialValues,
+  resetComponent,
 }) => {
   const initialFormValues = initialValues || {
     collectionName: "",
@@ -102,32 +103,32 @@ const EditCollectionForm = ({
             onBlur={handleBlur}
           />
 
-          {requestError !== null && requestStatus !== "loading" && (
-            <Alert variant="danger" onClose={resetHookState} dismissible>
-              <Alert.Heading>{requestError}</Alert.Heading>
-            </Alert>
+          {!!requestError && requestStatus !== "loading" && (
+            <ErrorAlert {...{ requestError, retryRequest: resetHookState }} />
           )}
 
-          <div className="d-flex justify-content-end gap-3">
-            <Button
-              className="col-2"
-              variant="secondary"
-              type="button"
-              disabled={isDisabled}
-              onClick={handleCloseModal}
-            >
-              Cancel
-            </Button>
-            <Button
-              disabled={isDisabled}
-              className="col-4"
-              variant="success"
-              type="submit"
-            >
-              {!isDisabled && "SAVE"}
-              {isDisabled && <Spinner animation="border" />}
-            </Button>
-          </div>
+          {!requestError && (
+            <div className="d-flex justify-content-end gap-3">
+              <Button
+                className="col-2"
+                variant="secondary"
+                type="button"
+                disabled={isDisabled}
+                onClick={resetComponent}
+              >
+                Cancel
+              </Button>
+              <Button
+                disabled={isDisabled}
+                className="col-4"
+                variant="success"
+                type="submit"
+              >
+                {!isDisabled && "SAVE"}
+                {isDisabled && <Spinner animation="border" />}
+              </Button>
+            </div>
+          )}
         </Form>
       )}
     </Formik>

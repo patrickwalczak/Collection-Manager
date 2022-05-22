@@ -8,7 +8,6 @@ const CollectionsContainer = ({
   collections,
   requestError,
   requestStatus,
-  getCollectionId,
   openEditForm,
   deleteCollection,
   displayOperationsButtons,
@@ -19,14 +18,15 @@ const CollectionsContainer = ({
   if (collections.length && !requestError && requestStatus === "completed") {
     content = collections.map(({ id, ...restCollectionProps }) => (
       <Collection
-        theme={theme}
-        displayOperationsButtons={displayOperationsButtons}
-        deleteCollection={deleteCollection}
-        getCollectionId={getCollectionId}
-        openEditForm={openEditForm}
         key={id}
-        id={id}
-        {...restCollectionProps}
+        {...{
+          theme,
+          displayOperationsButtons,
+          deleteCollection,
+          openEditForm,
+          id,
+          ...restCollectionProps,
+        }}
       />
     ));
   }

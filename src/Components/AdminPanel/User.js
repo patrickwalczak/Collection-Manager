@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 
-import AppContext from "../store/app-context";
+import AppContext from "../../store/app-context";
 
 import { useContext } from "react";
 
