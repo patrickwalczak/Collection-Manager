@@ -9,7 +9,12 @@ import * as yup from "yup";
 
 import { validationTemplates } from "../helpers/yupHelper";
 
-const AddCommentForm = ({ setFormData, requestStatus, commentInputRef }) => {
+const AddCommentForm = ({
+  setFormData,
+  requestStatus,
+  commentInputRef,
+  theme,
+}) => {
   const { validateMultilineTextField } = validationTemplates;
 
   const schema = yup.object().shape({
@@ -47,12 +52,20 @@ const AddCommentForm = ({ setFormData, requestStatus, commentInputRef }) => {
           </Form.Group>
 
           <button
+            title="Send"
             disabled={isDisabled}
-            className="px-0 py-0 col-1 fs-4 btn themeClass"
+            className={`px-0 py-0 col-1 fs-4 btn btn-inherit text-${
+              theme === "dark" ? "light" : "dark"
+            }`}
             type="submit"
           >
             {!isDisabled && <AiOutlineSend />}
-            {isDisabled && <Spinner animation="border" varint="light" />}
+            {isDisabled && (
+              <Spinner
+                animation="border"
+                varint={theme === "dark" ? "light" : "dark"}
+              />
+            )}
           </button>
         </Form>
       )}

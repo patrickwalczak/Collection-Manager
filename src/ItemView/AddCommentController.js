@@ -31,7 +31,7 @@ const AddCommentController = () => {
 
   const commentInputRef = useRef();
 
-  const { username, token, userId } = useContext(AppContext);
+  const { username, token, userId, theme } = useContext(AppContext);
 
   const { itemId } = useParams();
 
@@ -103,12 +103,15 @@ const AddCommentController = () => {
         <div>
           {!successMessage && (
             <AddCommentForm
-              requestError={requestError}
-              requestStatus={requestStatus}
-              resetHookState={resetHookState}
-              setFormData={setFormData}
+              {...{
+                requestError,
+                requestStatus,
+                resetHookState,
+                theme,
+                setFormData,
+                commentInputRef,
+              }}
               handleCloseModal={resetComponent}
-              commentInputRef={commentInputRef}
             />
           )}
         </div>
@@ -120,7 +123,7 @@ const AddCommentController = () => {
         />
       )}
       {!!requestError && (
-        <Alert className="tr" variant="danger">
+        <Alert variant="danger">
           <p>{requestError}</p>
         </Alert>
       )}

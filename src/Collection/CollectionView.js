@@ -298,7 +298,9 @@ const CollectionView = () => {
       {requestStatus === "completed" &&
         !requestError &&
         tableHeadings.length === 0 && (
-          <h2 className="text-white text-center">NO ITEM FOUND</h2>
+          <div className="themeClass p-5 mt-2">
+            <h2 className="text-center">THIS COLLECTION IS EMPTY</h2>
+          </div>
         )}
       {!!requestError && requestStatus !== "loading" && (
         <ErrorAlert {...{ requestError, retryRequest: resetHookState }} />

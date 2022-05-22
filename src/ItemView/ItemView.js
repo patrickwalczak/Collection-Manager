@@ -58,7 +58,7 @@ const ItemView = () => {
     <ItemViewWrapper>
       <Row
         data-theme={theme}
-        className="themeClass rounded shadow position-relative mb-2 col-12 pt-3 pb-5 px-4"
+        className="themeClass rounded shadow position-relative mb-2 col-12 pt-3 pb-2 px-4"
       >
         {displayComponents && (
           <Fragment>
@@ -73,7 +73,7 @@ const ItemView = () => {
             <h1 className="themeClass border-bottom pb-4 px-0">
               {collectionItem?.name}
             </h1>
-            <div className="d-flex gap-2 my-3">
+            <div className="d-flex gap-2 my-4">
               <span className="text-secondary fs-5">Tags</span>
               {collectionItem?.tags.map((tag, index) => (
                 <Badge

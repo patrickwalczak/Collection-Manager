@@ -1,13 +1,13 @@
 import "bootstrap/dist/css/bootstrap.min.css";
-import Alert from "react-bootstrap/Alert";
-import Button from "react-bootstrap/Button";
+
+import ModalTemplate from "../UI/ModalTemplate";
+import SuccessAlert from "../UI/SuccessAlert";
+
+import ItemFormTemplate from "./ItemFormTemplate";
 
 import { useEffect, useState, useCallback } from "react";
 
 import useHttp from "../hooks/useHttp";
-
-import ModalTemplate from "../UI/ModalTemplate";
-import ItemFormTemplate from "./ItemFormTemplate";
 
 const ItemActionController = ({
   heading,
@@ -107,14 +107,7 @@ const ItemActionController = ({
         />
       )}
       {!!successMessage && (
-        <Alert variant="success">
-          <Alert.Heading>{successMessage}</Alert.Heading>
-          <div className="d-flex justify-content-end">
-            <Button onClick={resetComponent} variant="outline-success">
-              Great!
-            </Button>
-          </div>
-        </Alert>
+        <SuccessAlert {...{ successMessage, onCloseModal: resetComponent }} />
       )}
     </ModalTemplate>
   );
