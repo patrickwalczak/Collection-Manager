@@ -55,7 +55,7 @@ const SearchController = ({ closeModal }) => {
   };
 
   useEffect(() => {
-    if (!isSearching) return;
+    if (!isSearching || !query) return;
     getItems(query);
     setQuery("");
   }, [getItems, query, isSearching]);
@@ -69,8 +69,6 @@ const SearchController = ({ closeModal }) => {
 
   const handleClickedResultItem = (e) => {
     const clickedItemId = e.target.closest("li").dataset.id;
-    setQuery("");
-    setItems([]);
     closeModal();
     navigate(`/item/${clickedItemId}`);
   };
@@ -112,23 +110,26 @@ const SearchController = ({ closeModal }) => {
           {requestStatus === "loading" && <Spinner animation="border" />}
         </Button>
       </Form>
-      {!!items.length && (
-        <List style={listStyle} sx={{ width: "100%" }}>
-          {items.map((item, index) => (
-            <ListItem
-              onClick={handleClickedResultItem}
-              data-id={item.id}
-              key={index}
-              disablePadding
-            >
-              <ListItemButton>
-                <ListItemText primary={item.name} />
-              </ListItemButton>
-            </ListItem>
-          ))}
-        </List>
+      {!!items?.length && (
+        <Fragment>
+          <h4 className="themeClass mb-3">Result(s): {items.length}</h4>
+          <List style={listStyle} sx={{ width: "100%" }}>
+            {items.map((item, index) => (
+              <ListItem
+                onClick={handleClickedResultItem}
+                data-id={item.id}
+                key={index}
+                disablePadding
+              >
+                <ListItemButton>
+                  <ListItemText primary={item.name} />
+                </ListItemButton>
+              </ListItem>
+            ))}
+          </List>
+        </Fragment>
       )}
-      {!items.length && requestStatus === "completed" && (
+      {!items?.length && requestStatus === "completed" && (
         <List style={listStyle} sx={{ width: "100%" }}>
           <ListItem disablePadding>
             <ListItemButton>

@@ -98,7 +98,17 @@ ul ul li {
 
 [data-theme="dark"] .css-2hzjrb-MuiInputBase-input-MuiFilledInput-input {
   background-color: #1b1b1b;
+  color: white;
   border: 1px solid rgb(160, 160, 160);
+  font-size: 1.5rem;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+[data-theme="light"] .css-2hzjrb-MuiInputBase-input-MuiFilledInput-input {
+  padding-top: 10px;
+  padding-bottom: 10px;
+  font-size: 1.5rem;
 }
 
 [data-theme="dark"] .btn-close {
@@ -136,7 +146,5 @@ ul ul li {
 }
 
 .commentBg {
-  /* background-color: #2e5e4e; */
   background-color: #2f3332;
 }
-/* #6c757d */

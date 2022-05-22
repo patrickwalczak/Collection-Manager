@@ -33,8 +33,6 @@ const SignUp = ({
 
   const isDisabled = requestStatus === "loading" ? true : false;
 
-  const themeClass = theme === "light" ? "dark" : "light";
-
   return (
     <Formik
       validationSchema={schema}
@@ -103,7 +101,11 @@ const SignUp = ({
             </Alert>
           )}
           <div className="d-grid gap-1 mt-4">
-            <Button disabled={isDisabled} type="submit" variant={themeClass}>
+            <Button
+              disabled={isDisabled}
+              type="submit"
+              className="btn-light themeClass"
+            >
               {!isDisabled && (
                 <FormattedMessage id="app-navigation.signup.button" />
               )}

@@ -12,7 +12,7 @@ import AdminPanel from "./pages/AdminPanel";
 import ItemView from "./pages/ItemView";
 import MainPage from "./pages/MainPage";
 import ModalTemplate from "./UI/ModalTemplate";
-import SearchForm from "./Search/SearchForm";
+import SearchController from "./Search/SearchController";
 
 import { useContext, useState } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
@@ -64,7 +64,7 @@ function App() {
           modalHeading={"Search for items in collections"}
           fullscreen={true}
         >
-          <SearchForm closeModal={closeSearchModal} />
+          <SearchController closeModal={closeSearchModal} />
         </ModalTemplate>
 
         <ModalTemplate
