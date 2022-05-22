@@ -112,9 +112,9 @@ const AdminPanel = () => {
   };
 
   useEffect(() => {
-    if (users.length) return;
+    if (users.length || !!requestStatus) return;
     getUsers();
-  }, [users, getUsers]);
+  }, [users, getUsers, requestStatus]);
 
   useEffect(() => {
     if (!isBeingUpdated) return;

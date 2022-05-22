@@ -24,17 +24,20 @@ const Collection = ({
   const operationBtnClass = `btn btn-${theme} px-1 py-0 fs-3`;
 
   return (
-    <Row className="themeClass shadow col-12 col-md-5 col-lg-12 flex-xl-row mx-0">
+    <Row className="themeClass shadow col-12 col-md-8 col-lg-12 flex-xl-row mx-0">
       <Col
         className="col-12 col-lg-8 p-3 p-xl-4 order-2 order-lg-1"
         style={{ minHeight: "12rem" }}
       >
-        <h3 className="fs-1 fw-normal">{collectionName}</h3>
+        <h3 className="fs-1 fw-normal border-bottom pb-2">{collectionName}</h3>
         <span className="d-flex mb-2">{collectionTopic}</span>
         <ReactMarkdown className="col-11">
           {collectionDescription}
         </ReactMarkdown>
-        <div data-id={id} className="col-12 d-flex p-2 gap-3 flex-wrap">
+        <div
+          data-id={id}
+          className="col-12 d-flex p-2 gap-3 flex-wrap border-top"
+        >
           <Link
             title="Open Collection"
             to={`/collection/${id}`}

@@ -1,19 +1,19 @@
 import "bootstrap/dist/css/bootstrap.min.css";
-import Alert from "react-bootstrap/Alert";
-import Spinner from "react-bootstrap/Spinner";
-import Button from "react-bootstrap/Spinner";
+import ErrorAlert from "../UI/ErrorAlert";
+import CenteredSpinner from "../UI/CenteredSpinner";
 
-import { useParams } from "react-router-dom";
+import CollectionsContainer from "./CollectionsContainer";
+import UserProfileWrapper from "./UserProfileWrapper";
+import EditCollection from "./EditCollection";
+import DeleteController from "../UI/DeleteController";
+
+import { AiFillFileAdd } from "react-icons/ai";
+
+import { useParams, Link } from "react-router-dom";
 import { useEffect, useContext, useState, useCallback, Fragment } from "react";
 
 import useHttp from "../hooks/useHttp";
 import AppContext from "../store/app-context";
-
-import CollectionsContainer from "./CollectionsContainer";
-import UserProfileWrapper from "./UserProfileWrapper";
-import ProfileHeader from "./ProfileHeader";
-import EditCollection from "./EditCollection";
-import DeleteController from "../UI/DeleteController";
 
 const UserProfile = () => {
   const [collections, setCollections] = useState([]);
@@ -118,13 +118,15 @@ const UserProfile = () => {
     <Fragment>
       {!!collectionID && !!token && (
         <EditCollection
-          modalVisibilityState={modalVisibilityState}
-          handleCloseModal={handleCloseModal}
-          collectionData={collectionData}
-          collectionID={collectionID}
-          loggedUserId={loggedUserId}
-          token={token}
-          clearCollectionStates={clearCollectionStates}
+          {...{
+            modalVisibilityState,
+            handleCloseModal,
+            collectionData,
+            collectionID,
+            loggedUserId,
+            token,
+            clearCollectionStates,
+          }}
           triggerUpdate={handleUpdating}
         />
       )}
@@ -141,38 +143,50 @@ const UserProfile = () => {
       )}
 
       <UserProfileWrapper>
-        {false && (
-          <ProfileHeader
-            theme={theme}
-            username={username}
-            userId={userId}
-            displayOperationsButtons={displayOperationsButtons}
-          />
-        )}
+        <div className="border-bottom d-flex justify-content-between mb-4">
+          <h2
+            className={`fw-normal fs-1 ${
+              theme === "dark" ? "text-white" : "text-dark"
+            }`}
+          >
+            {username}
+          </h2>
+
+          <Link
+            title="Create Collection"
+            to={`/${userId}/newcollection`}
+            className={`btn btn-${theme} px-1 py-0 pb-2 fs-2`}
+          >
+            <AiFillFileAdd />
+          </Link>
+        </div>
+
         {requestStatus === "completed" && !requestError && (
           <CollectionsContainer
-            theme={theme}
-            collections={collections}
-            requestError={requestError}
-            requestStatus={requestStatus}
-            getCollectionId={getCollectionId}
-            openEditForm={openEditForm}
+            {...{
+              username,
+              theme,
+              collections,
+              requestError,
+              requestStatus,
+              getCollectionId,
+              openEditForm,
+              displayOperationsButtons,
+            }}
             deleteCollection={openDeleteForm}
-            displayOperationsButtons={displayOperationsButtons}
           />
         )}
-
         {!!requestError && requestStatus !== "loading" && (
-          <Alert variant="danger">
-            <Alert.Heading>{requestError}</Alert.Heading>
-            <div className="mt-3 d-flex justify-content-end">
-              <Button variant="danger" onClick={resetHookState}>
-                Try again
-              </Button>
-            </div>
-          </Alert>
+          <ErrorAlert {...{ requestError, retryRequest: resetHookState }} />
         )}
-        {requestStatus === "loading" && <Spinner animation="border" />}
+        {requestStatus === "loading" && (
+          <div className="position-absolute start-50 top-50">
+            <CenteredSpinner
+              animation="border"
+              variant={theme === "dark" ? "light" : "dark"}
+            />
+          </div>
+        )}
       </UserProfileWrapper>
     </Fragment>
   );

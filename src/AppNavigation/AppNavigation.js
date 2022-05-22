@@ -30,7 +30,7 @@ const AppNavigation = ({ changeLanguage, language, openSearchModal }) => {
         <Navbar
           fixed="top"
           className="px-lg-4 px-md-3 px-2 mb-0 fw-bold themeClass border-bottom"
-          expand="md"
+          expand="lg"
         >
           <NavLink
             className={({ isActive }) =>

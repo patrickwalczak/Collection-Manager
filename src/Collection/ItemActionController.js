@@ -38,11 +38,11 @@ const ItemActionController = ({
   } = customItemSchema;
 
   const resetComponent = () => {
-    handleCloseModal();
     setFormData(null);
     clearItemStates();
     resetHookState();
     setSuccessMessage("");
+    handleCloseModal();
   };
 
   const convertBooleanValuesToString = (formData) => {

@@ -4,7 +4,8 @@ import Badge from "react-bootstrap/Badge";
 
 import { AiFillDelete } from "react-icons/ai";
 import { AiFillEdit } from "react-icons/ai";
-import { AiOutlineFolderView } from "react-icons/ai";
+import { AiFillEye } from "react-icons/ai";
+
 import { Link } from "react-router-dom";
 
 const Item = ({
@@ -15,14 +16,22 @@ const Item = ({
   openEditForm,
   openDeleteForm,
   canBeChanged,
+  theme,
 }) => {
+  const operationButtonStyle = `btn-${theme} px-1 py-0 fs-4 fw-bolder`;
+
   return (
-    <tr className=" position-relative">
+    <tr className="position-relative">
       <td className="text-break">{id}</td>
       <td className="text-break">{name}</td>
       <td className="text-break">
         {tags.map((tag, index) => (
-          <Badge key={index}>{tag}</Badge>
+          <Badge
+            className={`bg-${theme === "dark" ? "light" : "dark"}`}
+            key={index}
+          >
+            {tag}
+          </Badge>
         ))}
       </td>
       {itemValues.map((itemValue, index) => (
@@ -31,32 +40,28 @@ const Item = ({
         </td>
       ))}
       {canBeChanged && (
-        <td className="d-flex gap-1">
-          <Link to={`/item/${id}`} className="btn btn-primary px-1 py-0">
-            <AiOutlineFolderView />
+        <td className="d-flex justify-content-center gap-1">
+          <Link to={`/item/${id}`} className={operationButtonStyle}>
+            <AiFillEye />
           </Link>
-
           <Button
-            variant="warning"
             onClick={() => openEditForm(id)}
-            className="py-0 text-white"
+            className={operationButtonStyle}
           >
             <AiFillEdit />
           </Button>
-
           <Button
-            variant="danger"
             onClick={() => openDeleteForm(id)}
-            className="py-0"
+            className={operationButtonStyle}
           >
             <AiFillDelete />
           </Button>
         </td>
       )}
       {!canBeChanged && (
-        <td width="7%" className="text-end">
-          <Link to={`/item/${id}`} className="btn btn-primary px-1 py-0">
-            VIEW
+        <td width="7%" className="text-center">
+          <Link to={`/item/${id}`} className={operationButtonStyle}>
+            <AiFillEye />
           </Link>
         </td>
       )}

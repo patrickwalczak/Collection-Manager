@@ -3,6 +3,8 @@ import Table from "react-bootstrap/Table";
 import Spinner from "react-bootstrap/Spinner";
 import Alert from "react-bootstrap/Alert";
 
+import ErrorAlert from "../UI/ErrorAlert";
+
 import { FormattedMessage } from "react-intl";
 // <FormattedMessage id="app-navigation.home.button" />
 
@@ -37,9 +39,7 @@ const Users = ({
     <Fragment>
       {requestStatus === "loading" && <Spinner animation="border" />}
       {!!requestError && requestStatus === "completed" && token && (
-        <Alert variant="danger" onClose={resetHookState} dismissible>
-          <p>{requestError}</p>
-        </Alert>
+        <ErrorAlert {...{ requestError, retryRequest: resetHookState }} />
       )}
       {!requestError && requestStatus === "completed" && token && (
         <Table
@@ -49,6 +49,7 @@ const Users = ({
           bordered
           hover
           variant={theme}
+          className="shadow"
         >
           <thead>
             <tr className="text-center">

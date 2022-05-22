@@ -32,7 +32,7 @@ const CollectionView = () => {
 
   const { collectionId } = useParams();
 
-  const { userId, userType, token } = useContext(AppContext);
+  const { userId, userType, token, theme } = useContext(AppContext);
 
   const canBeChanged =
     !!collection &&
@@ -269,6 +269,7 @@ const CollectionView = () => {
         !requestError &&
         tableHeadings.length !== 0 && (
           <ItemsTable
+            theme={theme}
             tableHeadings={tableHeadings}
             tableValues={tableValues}
             isSorted={isSorted}

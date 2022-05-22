@@ -289,7 +289,6 @@ const NewCollectionForm = ({
               {isDisabled && <Spinner animation="border" />}
             </Button>
           </div>
-          <pre>{JSON.stringify(values, null, 2)}</pre>
         </Form>
       )}
     </Formik>

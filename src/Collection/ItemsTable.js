@@ -12,20 +12,21 @@ const ItemsTable = ({
   canBeChanged,
   isSorted,
   sortedTable,
+  theme,
 }) => {
   const tableValuesSet = isSorted ? sortedTable : tableValues;
 
   return (
     <Table
-      style={{ minWidth: "700px" }}
-      variant="dark"
+      style={{ minWidth: "900px" }}
       responsive
       striped
       bordered
       hover
-      className="mt-5"
+      variant={theme}
+      className="shadow"
     >
-      <thead>
+      <thead className="text-center">
         <tr>
           {tableHeadings.map((heading, index) => (
             <Heading key={index}>{heading}</Heading>
@@ -33,10 +34,11 @@ const ItemsTable = ({
           <th></th>
         </tr>
       </thead>
-      <tbody>
+      <tbody className="text-center">
         {!!tableValues &&
           tableValuesSet.map(({ id, itemValuesArray, name, tags }) => (
             <Item
+              theme={theme}
               openEditForm={openEditForm}
               openDeleteForm={openDeleteForm}
               key={id}

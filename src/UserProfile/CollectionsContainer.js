@@ -1,10 +1,10 @@
 import "bootstrap/dist/css/bootstrap.min.css";
-import { useState } from "react";
 import Col from "react-bootstrap/Col";
 
 import Collection from "./Collection";
 
 const CollectionsContainer = ({
+  username,
   collections,
   requestError,
   requestStatus,
@@ -36,10 +36,16 @@ const CollectionsContainer = ({
     !requestError &&
     requestStatus === "completed"
   ) {
-    content = <p>There is no collection, maybe create one.</p>;
+    content = (
+      <div className="col-12 p-5 themeClass">
+        <p className="fs-3 text-center">
+          {username} hasn't created any collection, yet.
+        </p>
+      </div>
+    );
   }
   return (
-    <Col className="d-flex flex-xl-column flex-wrap gap-4 gap-md-0 gap-xl-3">
+    <Col className="d-flex flex-wrap justify-content-center gap-4">
       {content}
     </Col>
   );
