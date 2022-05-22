@@ -5,11 +5,7 @@ import Form from "react-bootstrap/Form";
 import SearchController from "./SearchController";
 
 const SearchForm = ({ closeModal }) => {
-  return (
-    <Form onSubmit={(e) => e.preventDefault()}>
-      <SearchController closeModal={closeModal} />
-    </Form>
-  );
+  return <SearchController closeModal={closeModal} />;
 };
 
 export default SearchForm;

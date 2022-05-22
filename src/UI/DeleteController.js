@@ -23,10 +23,10 @@ const DeleteController = ({
   const [isDeleting, setIsDeleting] = useState(false);
 
   const resetComponent = () => {
+    handleCloseModal();
     clearParentStates();
     resetHookState();
     setSuccessMessage("");
-    handleCloseModal();
   };
 
   const triggerDeleteRequest = useCallback(async () => {

@@ -2,6 +2,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import Form from "react-bootstrap/Form";
 import Spinner from "react-bootstrap/Spinner";
 import Alert from "react-bootstrap/Alert";
+import Button from "react-bootstrap/Button";
 
 import TextField from "@mui/material/TextField";
 import List from "@mui/material/List";
@@ -19,6 +20,8 @@ const SearchController = ({ closeModal }) => {
   const [query, setQuery] = useState("");
   const [items, setItems] = useState([]);
 
+  const [isSearching, setIsSearching] = useState(false);
+
   const { requestError, requestStatus, sendRequest, resetHookState } =
     useHttp();
 
@@ -34,15 +37,23 @@ const SearchController = ({ closeModal }) => {
 
       const { results } = returnedData;
       setItems(results);
+      setIsSearching(false);
     } catch (err) {
       setItems([]);
+      setIsSearching(false);
     }
   }, []);
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (!query || query.trim().length === 0) return;
+    setIsSearching(true);
+  };
+
   useEffect(() => {
-    if (!query) return;
+    if (!isSearching) return;
     getItems(query);
-  }, [getItems, query]);
+  }, [getItems, query, isSearching]);
 
   const hideErrorAlert = 2000;
 
@@ -59,33 +70,38 @@ const SearchController = ({ closeModal }) => {
     navigate(`/item/${clickedItemId}`);
   };
 
+  const isDisabled = requestStatus === "loading";
+
   return (
     <Fragment>
-      <Form.Group
-        className="themeClass mb-3 col-12 position-relative d-flex align-items-center"
-        controlId="searchItems"
+      <Form
+        onSubmit={handleSubmit}
+        className="d-flex col-12 align-items-center"
       >
-        <TextField
-          className="pl-4 bg-light"
-          onChange={(e) => {
-            e.preventDefault();
-            setQuery(e.target.value);
-          }}
-          value={query}
-          fullWidth
-          hiddenLabel
-          id="filled-hidden-label-normal"
-          variant="filled"
-        />
-
-        {requestStatus === "loading" && (
-          <Spinner
-            animation="border"
-            size="sm"
-            className="ps position-absolute"
+        <Form.Group
+          className="themeClass mb-3 col-10 position-relative d-flex align-items-center"
+          controlId="searchItems"
+        >
+          <TextField
+            className="pl-4 bg-light"
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            fullWidth
+            hiddenLabel
+            id="filled-hidden-label-normal"
+            variant="filled"
           />
-        )}
-      </Form.Group>
+        </Form.Group>
+        <Button
+          style={{ height: "56px" }}
+          className="themeClass btn-light col-2 fw-bolder mb-3"
+          type="submit"
+          disabled={isDisabled}
+        >
+          {requestStatus !== "loading" && "Search"}
+          {requestStatus === "loading" && <Spinner animation="border" />}
+        </Button>
+      </Form>
       {!!items.length && (
         <List sx={{ width: "100%", bgcolor: "background.paper" }}>
           {items.map((item, index) => (
