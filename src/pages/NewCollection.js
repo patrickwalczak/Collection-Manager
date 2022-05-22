@@ -17,7 +17,7 @@ function NewCollection() {
   const { requestError, requestStatus, sendRequest, resetHookState } =
     useHttp();
 
-  const { userId: loggedUserId, token, theme } = useContext(AppContext);
+  const { token, theme } = useContext(AppContext);
 
   const { userId } = useParams();
 
