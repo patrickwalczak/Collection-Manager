@@ -39,7 +39,7 @@ const AddCommentController = () => {
     useHttp();
 
   const resetComponent = () => {
-    commentInputRef.current.value = "";
+    if (!successMessage) commentInputRef.current.value = "";
     setAddCommentFormVisibility(!addCommentFormVisibility);
     setFormData(null);
     resetHookState();
@@ -63,9 +63,7 @@ const AddCommentController = () => {
         }
       );
       if (!returnedData) throw "";
-
       setSuccessMessage(returnedData.message);
-
       socket.emit("new_comment", {
         ...formData,
         author: username,

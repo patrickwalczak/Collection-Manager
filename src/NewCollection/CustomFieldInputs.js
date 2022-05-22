@@ -19,8 +19,6 @@ const CustomFieldInputs = ({
     setValue(name, fieldsNamesList);
   };
 
-  console.log(fieldsNamesList);
-
   return (
     <Fragment>
       {Array.from(new Array(+amount), (_, index) => (

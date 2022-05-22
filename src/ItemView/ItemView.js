@@ -107,7 +107,9 @@ const ItemView = () => {
           />
         )}
       </Row>
-      <Comments theme={theme} itemComments={collectionItem?.comments} />
+      {!!collectionItem && (
+        <Comments theme={theme} itemComments={collectionItem?.comments} />
+      )}
     </ItemViewWrapper>
   );
 };

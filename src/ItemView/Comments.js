@@ -11,7 +11,7 @@ import { socket } from "../socket/socket";
 import { AiOutlineComment } from "react-icons/ai";
 
 const Comments = ({ itemComments, theme }) => {
-  const [comments, setComments] = useState(itemComments);
+  const [comments, setComments] = useState([...itemComments]);
 
   useEffect(() => {
     socket.on("receive_comment", (data) => setComments([...comments, data]));
@@ -28,7 +28,7 @@ const Comments = ({ itemComments, theme }) => {
       </h3>
 
       <AddCommentController />
-      <CommentList comments={comments} />
+      {!!itemComments && <CommentList comments={comments} />}
     </Row>
   );
 };
