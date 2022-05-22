@@ -34,6 +34,7 @@ const LatestItemsController = () => {
       <TableTemplate
         tableHeading={<FormattedMessage id="main-page.latest.heading" />}
         firstHeading={<FormattedMessage id="main-page.item.name" />}
+        emptyMessage={<FormattedMessage id="main-page.no.items" />}
         dataList={latestItems}
         requestStatus={requestStatus}
         path="/item"

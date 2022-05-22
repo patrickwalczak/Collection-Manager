@@ -27,7 +27,9 @@ const Item = ({
       <td className="text-break">
         {tags.map((tag, index) => (
           <Badge
-            className={`bg-${theme === "dark" ? "light" : "dark"}`}
+            className={`${
+              theme === "dark" ? "bg-light text-dark" : "bg-dark text-white"
+            }`}
             key={index}
           >
             {tag}

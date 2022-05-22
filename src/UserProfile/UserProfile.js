@@ -108,7 +108,6 @@ const UserProfile = () => {
 
   useEffect(() => {
     if (!isBeingUpdated) return;
-    setCollections([]);
     getCollectionsByUserId();
     setIsBeingUpdated(false);
   }, [getCollectionsByUserId, isBeingUpdated]);

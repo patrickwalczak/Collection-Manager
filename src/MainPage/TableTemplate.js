@@ -17,6 +17,7 @@ const TableTemplate = ({
   dataList,
   requestStatus,
   path,
+  emptyMessage,
 }) => {
   let content = (
     <tr>
@@ -30,7 +31,7 @@ const TableTemplate = ({
     content = (
       <tr className="themeClass shadow d-flex col-12 fs-5 rounded border p-5 mb-3">
         <th className="col-12 text-center text-break text-uppercase">
-          <FormattedMessage id="main-page.no.item.found" />
+          {emptyMessage}
         </th>
       </tr>
     );

@@ -34,6 +34,7 @@ const LargestCollectionsController = () => {
       <TableTemplate
         tableHeading={<FormattedMessage id="main-page.largest.collections" />}
         firstHeading={<FormattedMessage id="main-page.number.of.items" />}
+        emptyMessage={<FormattedMessage id="main-page.no.collections" />}
         dataList={largestCollections}
         requestStatus={requestStatus}
         path="/collection"

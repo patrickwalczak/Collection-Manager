@@ -106,6 +106,7 @@ const ItemFormTemplate = ({
       }) => (
         <Form noValidate onSubmit={handleSubmit} className="pb-4">
           <ReusableFieldName
+            autoFocus
             name="name"
             label="Item Name*"
             type="text"

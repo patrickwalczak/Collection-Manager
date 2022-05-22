@@ -67,13 +67,16 @@ const CollectionView = () => {
       const { collection } = returnedData;
       setCollection(collection);
 
-      if (!collection.items.length) return;
       takeOutTableValues(collection);
     } catch (err) {}
   }, []);
 
   const takeOutTableValues = (collection) => {
-    const itemsObjectsArray = collection.items;
+    const itemsObjectsArray = collection?.items;
+    if (!itemsObjectsArray.length) {
+      setHeadings([]);
+      return setTableValues([]);
+    }
     takeOutHeadings(itemsObjectsArray);
     takeOutItemsValues(itemsObjectsArray);
   };
@@ -213,8 +216,6 @@ const CollectionView = () => {
 
   useEffect(() => {
     if (!isBeingUpdated) return;
-    setCollection(null);
-    setTableValues(null);
     getCollectionById();
     setIsBeingUpdated(false);
   }, [getCollectionById, isBeingUpdated]);
