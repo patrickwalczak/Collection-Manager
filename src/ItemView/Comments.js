@@ -14,7 +14,9 @@ const Comments = ({ itemComments, theme }) => {
   const [comments, setComments] = useState([...itemComments]);
 
   useEffect(() => {
-    socket.on("receive_comment", (data) => setComments([...comments, data]));
+    socket.on("receive_comment", (data) => {
+      setComments((prevState) => [...prevState, data]);
+    });
   }, [socket]);
 
   return (
