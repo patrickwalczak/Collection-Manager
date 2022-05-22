@@ -54,8 +54,7 @@ const CollectionView = () => {
   const handleOpeningItemOperationsForm = () =>
     setItemOperationsFormVisibility(true);
 
-  const handleClosingDeleteItemForm = () =>
-    setItemOperationsFormVisibility(false);
+  const handleClosingDeleteItemForm = () => setDeleteItemFormVisibility(false);
   const handleOpeningDeleteItemForm = () => setDeleteItemFormVisibility(true);
 
   const getCollectionById = useCallback(async () => {
@@ -256,30 +255,32 @@ const CollectionView = () => {
             <AiOutlineAppstoreAdd />
           </Button>
         )}
-        <DropdownButton
-          as={ButtonGroup}
-          id={"sortDropdown"}
-          variant={theme}
-          title="Sort"
-          className={operationButtonStyle}
-          title={<BsSortUp />}
-          onClick={sortTable}
-        >
-          {tableHeadings.map((tableHeading, index) => {
-            if (tableHeading === "Tags") return;
-            return (
-              <Dropdown.Item
-                key={index}
-                data-index={index}
-                data-value={tableHeading.toLowerCase()}
-              >
-                {tableHeading}
-              </Dropdown.Item>
-            );
-          })}
-          <Dropdown.Divider />
-          <Dropdown.Item data-value="reset">Reset</Dropdown.Item>
-        </DropdownButton>
+        {!!collection?.items.length && (
+          <DropdownButton
+            as={ButtonGroup}
+            id={"sortDropdown"}
+            variant={theme}
+            title="Sort"
+            className={operationButtonStyle}
+            title={<BsSortUp />}
+            onClick={sortTable}
+          >
+            {tableHeadings.map((tableHeading, index) => {
+              if (tableHeading === "Tags") return;
+              return (
+                <Dropdown.Item
+                  key={index}
+                  data-index={index}
+                  data-value={tableHeading.toLowerCase()}
+                >
+                  {tableHeading}
+                </Dropdown.Item>
+              );
+            })}
+            <Dropdown.Divider />
+            <Dropdown.Item data-value="reset">Reset</Dropdown.Item>
+          </DropdownButton>
+        )}
       </div>
 
       {requestStatus === "completed" &&
