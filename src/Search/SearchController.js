@@ -54,11 +54,11 @@ const SearchController = ({ closeModal }) => {
   return (
     <Fragment>
       <Form.Group
-        className="mb-3 col-12 position-relative d-flex align-items-center"
+        className="themeClass mb-3 col-12 position-relative d-flex align-items-center"
         controlId="searchItems"
       >
         <TextField
-          className="pl-4"
+          className="pl-4 bg-light"
           onChange={(e) => setQuery(e.target.value)}
           value={query}
           fullWidth

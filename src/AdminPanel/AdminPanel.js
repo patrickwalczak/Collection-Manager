@@ -13,9 +13,7 @@ import useHttp from "../hooks/useHttp";
 const AdminPanel = () => {
   const [users, setUsers] = useState([]);
   const [selectedUsers, setSelectedUsers] = useState([]);
-  const [url, setUrl] = useState("");
-  const [method, setMethod] = useState("");
-  const [modalQuestion, setModalQuestion] = useState("");
+  const [operationRequestObject, setOperationRequestObject] = useState(null);
   const [additionalRequestBodyProperty, setAdditionalRequestBodyProperty] =
     useState({});
   const [isBeingUpdated, setIsBeingUpdated] = useState(false);
@@ -70,12 +68,9 @@ const AdminPanel = () => {
   }, []);
 
   const clearAdminPanelStates = () => {
-    setUrl("");
     setAdditionalRequestBodyProperty({});
-    setUsers([]);
     setSelectedUsers([]);
-    setMethod("");
-    setModalQuestion("");
+    setOperationRequestObject(null);
   };
 
   const getSelectedUsers = () => {
@@ -93,21 +88,23 @@ const AdminPanel = () => {
   };
 
   const handleOpeningOperationModal = (objectWithProperty, heading) => {
-    setMethod("PATCH");
-    setModalQuestion(heading);
+    setOperationRequestObject({
+      url: "updateUsersAccounts",
+      method: "PATCH",
+      modalQuestion: heading,
+    });
     handleSelectedUsers();
-    setUrl("updateUsersAccounts");
     setAdditionalRequestBodyProperty(objectWithProperty);
     handleOpeningModal();
   };
 
   const openDeleteUsersModal = () => {
-    setMethod("DELETE");
-    setModalQuestion(
-      <FormattedMessage id="admin.panel.delete.user.question" />
-    );
+    setOperationRequestObject({
+      url: "delete",
+      method: "DELETE",
+      modalQuestion: <FormattedMessage id="admin.panel.delete.user.question" />,
+    });
     handleSelectedUsers();
-    setUrl("delete");
     handleOpeningModal();
   };
 
@@ -126,41 +123,43 @@ const AdminPanel = () => {
     <Fragment>
       {!!token &&
         !!selectedUsers?.length &&
-        !!url &&
+        !!operationRequestObject &&
         (!!Object.keys(additionalRequestBodyProperty).length ||
-          method === "DELETE") && (
+          operationRequestObject?.method === "DELETE") && (
           <ConfirmOperationModal
+            {...operationRequestObject}
             modalVisibilityState={deleteUsersModalVisibility}
             handleCloseModal={handleClosingModal}
             triggerUpdate={handleUpdating}
             token={token}
             clearState={clearAdminPanelStates}
-            url={url}
             requestBodyObject={{
               users: selectedUsers,
               ...additionalRequestBodyProperty,
             }}
-            method={method}
           />
         )}
       <OperationButtons
-        operationButtonStyle={operationButtonStyle}
-        openRemoveAdminModal={openRemoveAdminModal}
-        openAddAdminModal={openAddAdminModal}
-        openUnblockUserModal={openUnblockUserModal}
-        openBlockUserModal={openBlockUserModal}
-        openDeleteUsersModal={openDeleteUsersModal}
+        {...{
+          operationButtonStyle,
+          openRemoveAdminModal,
+          openAddAdminModal,
+          openUnblockUserModal,
+          openBlockUserModal,
+          openDeleteUsersModal,
+        }}
       />
       {!!token && userType === "admin" && (
         <Users
-          requestError={requestError}
-          requestStatus={requestStatus}
-          resetHookState={resetHookState}
-          token={token}
-          users={users}
-          setUsers={setUsers}
-          modalQuestion={modalQuestion}
-          theme={theme}
+          {...{
+            requestError,
+            requestStatus,
+            resetHookState,
+            token,
+            users,
+            setUsers,
+            theme,
+          }}
         />
       )}
     </Fragment>

@@ -6,7 +6,6 @@ import Alert from "react-bootstrap/Alert";
 import ErrorAlert from "../UI/ErrorAlert";
 
 import { FormattedMessage } from "react-intl";
-// <FormattedMessage id="app-navigation.home.button" />
 
 import { Fragment } from "react";
 import User from "./User";

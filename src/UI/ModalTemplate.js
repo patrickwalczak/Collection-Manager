@@ -7,11 +7,13 @@ import AppContext from "../store/app-context";
 
 function ModalTemplate(props) {
   const { theme } = useContext(AppContext);
+
   return (
     <Modal
       data-theme={theme}
       show={props.modalState}
       onHide={props.handleCloseModal}
+      fullscreen={!!props?.fullscreen}
     >
       <Modal.Header className="themeClass" closeButton>
         <Modal.Title>{props.modalHeading}</Modal.Title>
@@ -22,6 +24,3 @@ function ModalTemplate(props) {
 }
 
 export default ModalTemplate;
-
-// tags in items table are displayed wrong
-// item view - top link has wrong class

@@ -10,7 +10,8 @@ import NewCollection from "./NewCollection/NewCollection";
 import AdminPanel from "./AdminPanel/AdminPanel";
 import ItemView from "./ItemView/ItemView";
 import MainPage from "./pages/MainPage";
-import SearchModal from "./Search/SearchModal";
+import ModalTemplate from "./UI/ModalTemplate";
+import SearchForm from "./Search/SearchForm";
 
 import { useContext, useState } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
@@ -45,10 +46,15 @@ function App() {
           language={language}
           changeLanguage={changeLanguage}
         />
-        <SearchModal
-          modalVisibility={searchModalVisibility}
-          closeModal={closeSearchModal}
-        />
+
+        <ModalTemplate
+          modalState={searchModalVisibility}
+          handleCloseModal={closeSearchModal}
+          modalHeading={"Search for items in collections"}
+          fullscreen={true}
+        >
+          <SearchForm closeModal={closeSearchModal} />
+        </ModalTemplate>
 
         <Routes>
           <Route path="/login" element={<Login />} />
