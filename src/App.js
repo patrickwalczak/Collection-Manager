@@ -1,18 +1,23 @@
-import { Routes, Route, Navigate } from "react-router-dom";
+import "bootstrap/dist/css/bootstrap.min.css";
+import Container from "react-bootstrap/Container";
+
 import AppNavigation from "./AppNavigation/AppNavigation";
 import Login from "./pages/Login";
-import Container from "react-bootstrap/Container";
 import SignUp from "./pages/SignUp";
 import UserProfile from "./UserProfile/UserProfile";
 import CollectionView from "./Collection/CollectionView";
 import NewCollection from "./NewCollection/NewCollection";
-import AppContext from "./store/app-context";
-import { useContext, useState } from "react";
 import AdminPanel from "./AdminPanel/AdminPanel";
 import ItemView from "./ItemView/ItemView";
-import { IntlProvider } from "react-intl";
-import MainPage from "./MainPage/MainPage";
+import MainPage from "./pages/MainPage";
 import SearchModal from "./Search/SearchModal";
+
+import { useContext, useState } from "react";
+import { Routes, Route, Navigate } from "react-router-dom";
+
+import { IntlProvider } from "react-intl";
+
+import AppContext from "./store/app-context";
 
 function App() {
   const [searchModalVisibility, setSearchModalVisibility] = useState(false);

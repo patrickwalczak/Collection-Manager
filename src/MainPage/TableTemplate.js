@@ -3,9 +3,13 @@ import Row from "react-bootstrap/Row";
 import Table from "react-bootstrap/Table";
 import Spinner from "react-bootstrap/Spinner";
 
-import { Link } from "react-router-dom";
+import CenteredSpinner from "../UI/CenteredSpinner";
 
 import { FormattedMessage } from "react-intl";
+
+import { Link } from "react-router-dom";
+
+import { AiOutlineArrowRight } from "react-icons/ai";
 
 const TableTemplate = ({
   tableHeading,
@@ -14,15 +18,7 @@ const TableTemplate = ({
   requestStatus,
   path,
 }) => {
-  let content;
-
-  content = (
-    <tr className="position-absolute top-50 start-50 translate-middle">
-      <th>
-        <Spinner animation="border" variant="light" />
-      </th>
-    </tr>
-  );
+  let content = <CenteredSpinner />;
 
   if (!dataList.length && requestStatus === "completed") {
     content = (
@@ -45,8 +41,11 @@ const TableTemplate = ({
           <th className="col-4 text-center text-break">{collectionName}</th>
           <th className="col-3 text-center text-break">{author}</th>
           <th className="col-2 text-center text-break">
-            <Link to={`${path}/${id}`} className="btn btn-success py-0">
-              <FormattedMessage id="open.item" />
+            <Link
+              to={`${path}/${id}`}
+              className="btn themeClass btn-light py-0 px-3"
+            >
+              <AiOutlineArrowRight />
             </Link>
           </th>
         </tr>
