@@ -12,7 +12,9 @@ import ListItemText from "@mui/material/ListItemText";
 
 import { useNavigate } from "react-router-dom";
 
-import { useState, useEffect, useCallback, Fragment } from "react";
+import { useState, useEffect, useCallback, Fragment, useContext } from "react";
+
+import AppContext from "../store/app-context";
 
 import useHttp from "../hooks/useHttp";
 
@@ -24,6 +26,8 @@ const SearchController = ({ closeModal }) => {
 
   const { requestError, requestStatus, sendRequest, resetHookState } =
     useHttp();
+
+  const { theme } = useContext(AppContext);
 
   const navigate = useNavigate();
 
@@ -53,6 +57,7 @@ const SearchController = ({ closeModal }) => {
   useEffect(() => {
     if (!isSearching) return;
     getItems(query);
+    setQuery("");
   }, [getItems, query, isSearching]);
 
   const hideErrorAlert = 2000;
@@ -72,6 +77,12 @@ const SearchController = ({ closeModal }) => {
 
   const isDisabled = requestStatus === "loading";
 
+  const listStyle = {
+    backgroundColor:
+      theme === "dark" ? "rgb(20, 20, 15)" : "rgb(241, 241, 241)",
+    color: theme === "dark" ? "rgb(250, 250, 250)" : "rgb(33, 37, 41)",
+  };
+
   return (
     <Fragment>
       <Form
@@ -79,11 +90,10 @@ const SearchController = ({ closeModal }) => {
         className="d-flex col-12 align-items-center"
       >
         <Form.Group
-          className="themeClass mb-3 col-10 position-relative d-flex align-items-center"
+          className="mb-3 col-10 position-relative d-flex align-items-center"
           controlId="searchItems"
         >
           <TextField
-            className="pl-4 bg-light"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             fullWidth
@@ -94,7 +104,7 @@ const SearchController = ({ closeModal }) => {
         </Form.Group>
         <Button
           style={{ height: "56px" }}
-          className="themeClass btn-light col-2 fw-bolder mb-3"
+          className="themeClass btn-light col-2 fw-bolder mb-3 fs-4"
           type="submit"
           disabled={isDisabled}
         >
@@ -103,7 +113,7 @@ const SearchController = ({ closeModal }) => {
         </Button>
       </Form>
       {!!items.length && (
-        <List sx={{ width: "100%", bgcolor: "background.paper" }}>
+        <List style={listStyle} sx={{ width: "100%" }}>
           {items.map((item, index) => (
             <ListItem
               onClick={handleClickedResultItem}
@@ -119,7 +129,7 @@ const SearchController = ({ closeModal }) => {
         </List>
       )}
       {!items.length && requestStatus === "completed" && (
-        <List sx={{ width: "100%", bgcolor: "background.paper" }}>
+        <List style={listStyle} sx={{ width: "100%" }}>
           <ListItem disablePadding>
             <ListItemButton>
               <ListItemText primary={"NO RESULT FOUND"} />

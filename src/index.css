@@ -73,10 +73,6 @@ ul ul li {
   -webkit-border-vertical-spacing: 0;
 }
 
-.ps {
-  right: 2%;
-}
-
 /* Fixing style error in react-bootstrap-typeahead */
 .rbt-token .rbt-token-remove-button {
   background: none;
@@ -98,6 +94,15 @@ ul ul li {
 [data-theme="light"] .themeClass.btn-light {
   background-color: rgb(33, 37, 41);
   color: rgb(248, 249, 250);
+}
+
+[data-theme="dark"] .css-2hzjrb-MuiInputBase-input-MuiFilledInput-input {
+  background-color: #1b1b1b;
+  border: 1px solid rgb(160, 160, 160);
+}
+
+[data-theme="dark"] .btn-close {
+  background: white;
 }
 
 .themeClass {
