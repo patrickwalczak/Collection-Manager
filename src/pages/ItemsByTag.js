@@ -8,7 +8,7 @@ import { useEffect, useState, useCallback, Fragment } from "react";
 
 import { useParams } from "react-router-dom";
 
-import useHttp from "../hooks/useHttp";
+import useHttp from "../shared/hooks/useHttp";
 
 const ItemsByTag = () => {
   const [foundItems, setFoundItems] = useState([]);

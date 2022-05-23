@@ -11,7 +11,7 @@ import ProfileHeading from "../Components/UserProfile/ProfileHeading";
 import { useParams } from "react-router-dom";
 import { useEffect, useContext, useState, useCallback, Fragment } from "react";
 
-import useHttp from "../hooks/useHttp";
+import useHttp from "../shared/hooks/useHttp";
 import AppContext from "../shared/context/app-context";
 
 const UserProfile = () => {

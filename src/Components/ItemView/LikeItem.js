@@ -6,7 +6,7 @@ import { AiFillLike } from "react-icons/ai";
 
 import { useEffect, useState, useCallback, Fragment } from "react";
 
-import useHttp from "../../hooks/useHttp";
+import useHttp from "../../shared/hooks/useHttp";
 
 const LikeItem = ({ token, itemId, isLikedByLoggedUser, theme }) => {
   const [isSending, setSending] = useState(false);

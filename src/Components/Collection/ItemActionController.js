@@ -7,7 +7,7 @@ import ItemFormTemplate from "./ItemFormTemplate";
 
 import { useEffect, useState, useCallback } from "react";
 
-import useHttp from "../../hooks/useHttp";
+import useHttp from "../../shared/hooks/useHttp";
 
 const ItemActionController = ({
   heading,

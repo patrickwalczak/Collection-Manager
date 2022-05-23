@@ -10,7 +10,7 @@ import { useEffect, useState, useCallback } from "react";
 
 import { useNavigate } from "react-router-dom";
 
-import useHttp from "../../hooks/useHttp";
+import useHttp from "../../shared/hooks/useHttp";
 
 const Cloud = () => {
   const [cloudData, setCloudData] = useState([]);

@@ -11,7 +11,7 @@ import ErrorAlert from "../../common/UI/ErrorAlert";
 
 import ReusableFormField from "../../common/UI/ReusableFormField";
 
-import { validationTemplates } from "../../helpers/yupHelper";
+import { validationTemplates } from "../../shared/helpers/yupHelper";
 
 const EditCollectionForm = ({
   requestError,

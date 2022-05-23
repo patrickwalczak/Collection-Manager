@@ -2,7 +2,7 @@ import TableTemplate from "./TableTemplate";
 
 import { useEffect, useState, useCallback, Fragment } from "react";
 
-import useHttp from "../../hooks/useHttp";
+import useHttp from "../../shared/hooks/useHttp";
 
 import { FormattedMessage } from "react-intl";
 

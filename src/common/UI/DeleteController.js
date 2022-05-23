@@ -4,7 +4,7 @@ import Alert from "react-bootstrap/Alert";
 import Spinner from "react-bootstrap/Spinner";
 
 import ModalTemplate from "./ModalTemplate";
-import useHttp from "../../hooks/useHttp";
+import useHttp from "../../shared/hooks/useHttp";
 import { useCallback, useEffect, useState } from "react";
 
 const DeleteController = ({

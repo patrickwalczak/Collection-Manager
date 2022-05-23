@@ -12,7 +12,7 @@ import SelectTags from "./SelectTags";
 
 import { useEffect } from "react";
 
-import { validationTemplates } from "../../helpers/yupHelper";
+import { validationTemplates } from "../../shared/helpers/yupHelper";
 
 const ItemFormTemplate = ({
   requestError,

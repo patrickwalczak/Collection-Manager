@@ -1,6 +1,6 @@
 import { useEffect, useState, useCallback } from "react";
 
-import useHttp from "../../hooks/useHttp";
+import useHttp from "../../shared/hooks/useHttp";
 
 import ModalTemplate from "../../common/UI/ModalTemplate";
 import EditCollectionForm from "./EditCollectionForm";

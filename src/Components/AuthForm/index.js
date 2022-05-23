@@ -11,7 +11,7 @@ import * as yup from "yup";
 
 import { Link } from "react-router-dom";
 
-import { validationTemplates } from "../../helpers/yupHelper";
+import { validationTemplates } from "../../shared/helpers/yupHelper";
 
 import { FormattedMessage } from "react-intl";
 

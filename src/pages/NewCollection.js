@@ -1,7 +1,7 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import Container from "react-bootstrap/Container";
 
-import useHttp from "../hooks/useHttp";
+import useHttp from "../shared/hooks/useHttp";
 import AppContext from "../shared/context/app-context";
 
 import NewCollectionForm from "../Components/NewCollection/NewCollectionForm";

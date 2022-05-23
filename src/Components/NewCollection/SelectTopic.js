@@ -3,7 +3,7 @@ import Select from "react-select";
 
 import { useEffect, useState, useCallback } from "react";
 
-import useHttp from "../../hooks/useHttp";
+import useHttp from "../../shared/hooks/useHttp";
 
 const SelectTopic = ({
   setValue,

@@ -5,7 +5,7 @@ import AuthForm from "../Components/AuthForm/index";
 
 import { FormattedMessage } from "react-intl";
 
-import useHttp from "../hooks/useHttp";
+import useHttp from "../shared/hooks/useHttp";
 import AppContext from "../shared/context/app-context";
 
 import { useNavigate } from "react-router-dom";

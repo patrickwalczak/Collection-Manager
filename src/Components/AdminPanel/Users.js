@@ -3,11 +3,11 @@ import Table from "react-bootstrap/Table";
 import Spinner from "react-bootstrap/Spinner";
 
 import ErrorAlert from "../../common/UI/ErrorAlert";
+import User from "./User";
 
 import { FormattedMessage } from "react-intl";
 
 import { Fragment } from "react";
-import User from "./User";
 
 const Users = ({
   users,

@@ -14,7 +14,7 @@ import { FormattedMessage } from "react-intl";
 import { Formik } from "formik";
 import * as yup from "yup";
 
-import { validationTemplates } from "../../helpers/yupHelper";
+import { validationTemplates } from "../../shared/helpers/yupHelper";
 
 const NewCollectionForm = ({
   requestError,

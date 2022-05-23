@@ -8,7 +8,7 @@ import { FormattedMessage } from "react-intl";
 
 import { Fragment, useState, useContext, useEffect, useCallback } from "react";
 
-import useHttp from "../hooks/useHttp";
+import useHttp from "../shared/hooks/useHttp";
 
 const AdminPanel = () => {
   const [users, setUsers] = useState([]);
