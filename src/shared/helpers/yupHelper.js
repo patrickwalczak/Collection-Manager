@@ -1,9 +1,10 @@
 import * as yup from "yup";
 
-const checkQuestionErrorMessage = "You have to choose one option";
-const isRequiredErrorMessage = "Field is required!";
-const tooLongErrorMessage = "Input is too long!";
-const tooShortErrorMessage = "Input is too short!";
+import { FormattedMessage } from "react-intl";
+
+const isRequiredErrorMessage = <FormattedMessage id="field.required" />;
+const tooLongErrorMessage = <FormattedMessage id="field.too.long" />;
+const tooShortErrorMessage = <FormattedMessage id="field.too.short" />;
 
 const regexForSpecialCharacters = /[`!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?~]/;
 

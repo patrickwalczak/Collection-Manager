@@ -1,6 +1,8 @@
 import Form from "react-bootstrap/Form";
 import "bootstrap/dist/css/bootstrap.min.css";
 
+import { FormattedMessage } from "react-intl";
+
 const ReusableFieldName = ({
   name,
   label,
@@ -24,7 +26,9 @@ const ReusableFieldName = ({
         {...restInputProps}
       />
       <Form.Control.Feedback type="invalid">{error}</Form.Control.Feedback>
-      <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
+      <Form.Control.Feedback>
+        <FormattedMessage id="looks.good" />!
+      </Form.Control.Feedback>
     </Form.Group>
   );
 };
