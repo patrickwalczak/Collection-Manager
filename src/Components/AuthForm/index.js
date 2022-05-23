@@ -1,47 +1,50 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
-import Alert from "react-bootstrap/Alert";
 import Spinner from "react-bootstrap/Spinner";
+import Alert from "react-bootstrap/Alert";
+
+import ErrorAlert from "../../UI/ErrorAlert";
+import ReusableFieldName from "../ReusableFieldName";
 
 import { Formik } from "formik";
 import * as yup from "yup";
 
 import { Link } from "react-router-dom";
 
-import ReusableFieldName from "../ReusableFieldName";
-
 import { validationTemplates } from "../../helpers/yupHelper";
 
 import { FormattedMessage } from "react-intl";
 
-const SignUp = ({
+const AuthenticationForm = ({
   theme,
   setFormData,
   requestStatus,
   requestError,
   resetHookState,
+  initialValues,
+  signUpForm,
 }) => {
   const { validateSingleTextField, validatePassword, validateEmail } =
     validationTemplates;
 
-  const schema = yup.object().shape({
-    username: validateSingleTextField,
-    email: validateEmail,
-    password: validatePassword,
-  });
+  const validationSchema = { email: validateEmail, password: validatePassword };
+
+  if (!!signUpForm) validationSchema.username = validateSingleTextField;
 
   const isDisabled = requestStatus === "loading" ? true : false;
+
+  const submitButtonText = !!signUpForm ? "signup" : "login";
+
+  const pathToPage = !!signUpForm ? "login" : "signup";
+
+  const schema = yup.object().shape(validationSchema);
 
   return (
     <Formik
       validationSchema={schema}
       onSubmit={setFormData}
-      initialValues={{
-        username: "",
-        email: "",
-        password: "",
-      }}
+      initialValues={initialValues}
     >
       {({
         handleSubmit,
@@ -53,21 +56,24 @@ const SignUp = ({
         errors,
       }) => (
         <Form className="themeClass" noValidate onSubmit={handleSubmit}>
+          {!!signUpForm && (
+            <ReusableFieldName
+              name="username"
+              label={<FormattedMessage id="form.username" />}
+              type="text"
+              autoFocus
+              value={values.username}
+              setFieldTouched={setFieldTouched}
+              setFieldValue={setFieldValue}
+              onBlur={handleBlur}
+              isInvalid={errors.username && touched.username}
+              isValid={!errors.username && values.username}
+              error={errors.username}
+              disabled={isDisabled}
+            />
+          )}
           <ReusableFieldName
-            name="username"
-            label={<FormattedMessage id="form.username" />}
-            type="text"
-            autoFocus
-            value={values.username}
-            setFieldTouched={setFieldTouched}
-            setFieldValue={setFieldValue}
-            onBlur={handleBlur}
-            isInvalid={errors.username && touched.username}
-            isValid={!errors.username && values.username}
-            error={errors.username}
-            disabled={isDisabled}
-          />
-          <ReusableFieldName
+            autoFocus={!signUpForm}
             label="Email"
             name="email"
             type="email"
@@ -97,28 +103,36 @@ const SignUp = ({
 
           {!!requestError && requestStatus !== "loading" && (
             <Alert variant="danger" onClose={resetHookState} dismissible>
-              <Alert.Heading>{requestError}</Alert.Heading>
+              {requestError}
             </Alert>
           )}
-          <div className="d-grid gap-1 mt-4">
+          <div className="d-grid gap-1 mt-4 mb-2">
             <Button
               disabled={isDisabled}
               type="submit"
               className="btn-light themeClass"
             >
               {!isDisabled && (
-                <FormattedMessage id="app-navigation.signup.button" />
+                <FormattedMessage
+                  id={`app-navigation.${submitButtonText}.button`}
+                />
               )}
               {isDisabled && <Spinner animation="border" />}
             </Button>
-            <Link to={"/login"}>
-              <Button variant="link">Log in instead</Button>
-            </Link>
           </div>
+          <Link
+            to={`/${pathToPage}`}
+            className={`btn btn-inherit ${
+              theme === "dark" ? "text-white" : ""
+            }`}
+          >
+            <FormattedMessage id={`app-navigation.${pathToPage}.button`} />{" "}
+            instead
+          </Link>
         </Form>
       )}
     </Formik>
   );
 };
 
-export default SignUp;
+export default AuthenticationForm;

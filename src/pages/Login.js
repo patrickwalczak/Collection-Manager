@@ -1,15 +1,15 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 
 import FormWrapper from "../UI/FormWrapper";
-import SignInForm from "../Components/LogInForm";
+import AuthForm from "../Components/AuthForm/index";
+
+import { FormattedMessage } from "react-intl";
 
 import useHttp from "../hooks/useHttp";
 import AppContext from "../store/app-context";
 
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState, useContext } from "react";
-
-import { FormattedMessage } from "react-intl";
 
 const Login = () => {
   const [submittedFormData, setFormData] = useState(null);
@@ -54,12 +54,17 @@ const Login = () => {
       <h2 className=" mb-3 text-center fs-1">
         <FormattedMessage id="app-navigation.login.button" />
       </h2>
-      <SignInForm
+      <AuthForm
         theme={theme}
         requestError={requestError}
         requestStatus={requestStatus}
         resetHookState={resetHookState}
         setFormData={setFormData}
+        initialValues={{
+          email: "",
+          password: "",
+        }}
+        signUpForm={false}
       />
     </FormWrapper>
   );

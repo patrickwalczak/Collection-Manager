@@ -1,15 +1,15 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 
-import SignUpForm from "../Components/SignUpForm/index";
+import AuthForm from "../Components/AuthForm/index";
 import FormWrapper from "../UI/FormWrapper";
+
+import { FormattedMessage } from "react-intl";
 
 import useHttp from "../hooks/useHttp";
 import AppContext from "../store/app-context";
 
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState, useContext } from "react";
-
-import { FormattedMessage } from "react-intl";
 
 const SignUp = () => {
   const [submittedFormData, setFormData] = useState(null);
@@ -53,12 +53,18 @@ const SignUp = () => {
       <h2 data-theme={theme} className="inputViewStyle mb-3 text-center fs-1">
         <FormattedMessage id="app-navigation.signup.button" />
       </h2>
-      <SignUpForm
+      <AuthForm
         theme={theme}
         requestError={requestError}
         requestStatus={requestStatus}
         resetHookState={resetHookState}
         setFormData={setFormData}
+        initialValues={{
+          email: "",
+          password: "",
+          username: "",
+        }}
+        signUpForm={true}
       />
     </FormWrapper>
   );
