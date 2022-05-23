@@ -1,9 +1,13 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import Button from "react-bootstrap/Button";
-import Alert from "react-bootstrap/Alert";
 import Spinner from "react-bootstrap/Spinner";
 
 import ModalTemplate from "./ModalTemplate";
+import SuccessAlert from "./SuccessAlert";
+import ErrorAlert from "./ErrorAlert";
+
+import { FormattedMessage } from "react-intl";
+
 import useHttp from "../../shared/hooks/useHttp";
 import { useCallback, useEffect, useState } from "react";
 
@@ -69,16 +73,13 @@ const DeleteController = ({
       modalState={modalVisibilityState}
       handleCloseModal={resetComponent}
     >
-      {!successMessage && <h2>Are you sure you want to delete?</h2>}
+      {!successMessage && (
+        <h2>
+          <FormattedMessage id="delete.confirm" />
+        </h2>
+      )}
       {requestError !== null && requestStatus !== "loading" && (
-        <Alert variant="danger">
-          <Alert.Heading>{requestError}</Alert.Heading>
-          <div className="mt-3 d-flex justify-content-end">
-            <Button variant="outline-danger" onClick={triggerRequestAgain}>
-              Try again
-            </Button>
-          </div>
-        </Alert>
+        <ErrorAlert {...{ requestError, retryRequest: triggerRequestAgain }} />
       )}
       {!successMessage && !requestError && (
         <div className="d-flex justify-content-end gap-3">
@@ -88,7 +89,7 @@ const DeleteController = ({
             disabled={isDisabled}
             onClick={resetComponent}
           >
-            Cancel
+            <FormattedMessage id="cancel" />
           </Button>
           <Button
             disabled={isDisabled}
@@ -96,20 +97,13 @@ const DeleteController = ({
             type="button"
             onClick={() => setIsDeleting(true)}
           >
-            {!isDisabled && "Delete"}
+            {!isDisabled && <FormattedMessage id="delete" />}
             {isDisabled && <Spinner animation="border" />}
           </Button>
         </div>
       )}
       {!!successMessage && (
-        <Alert variant="success">
-          <Alert.Heading>{successMessage}</Alert.Heading>
-          <div className="d-flex justify-content-end">
-            <Button onClick={resetComponent} variant="outline-success">
-              Great!
-            </Button>
-          </div>
-        </Alert>
+        <SuccessAlert {...{ successMessage, onCloseModal: resetComponent }} />
       )}
     </ModalTemplate>
   );

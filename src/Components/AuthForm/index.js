@@ -126,7 +126,7 @@ const AuthenticationForm = ({
             }`}
           >
             <FormattedMessage id={`app-navigation.${pathToPage}.button`} />{" "}
-            instead
+            <FormattedMessage id="instead" />
           </Link>
         </Form>
       )}

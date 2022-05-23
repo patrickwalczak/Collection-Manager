@@ -1,9 +1,12 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import Button from "react-bootstrap/Button";
-import Alert from "react-bootstrap/Alert";
 import Spinner from "react-bootstrap/Spinner";
 
 import ModalTemplate from "../../common/UI/ModalTemplate";
+import ErrorAlert from "../../common/UI/ErrorAlert";
+import SuccessAlert from "../../common/UI/ErrorAlert";
+
+import { FormattedMessage } from "react-intl";
 
 import { useCallback, useEffect, useState, useContext } from "react";
 
@@ -65,13 +68,15 @@ const ConfirmOperationModal = ({
         (id) => id === loggedUserId
       );
 
+      <FormattedMessage id="try.again" />;
+
       if (requestBodyObject?.status === "blocked" && !!findLoggedUser)
-        handleLogOutAdmin("Your account has been blocked");
+        handleLogOutAdmin(<FormattedMessage id="admin.blocked.account" />);
 
       if (requestBodyObject?.userType === "user" && !!findLoggedUser)
-        handleLogOutAdmin("You have been removed from admins");
+        handleLogOutAdmin(<FormattedMessage id="admin.removed.admin" />);
       if (method === "DELETE" && !!findLoggedUser)
-        handleLogOutAdmin("Your account has been deleted");
+        handleLogOutAdmin(<FormattedMessage id="admin.deleted.account" />);
 
       triggerUpdate();
     } catch (err) {
@@ -93,20 +98,13 @@ const ConfirmOperationModal = ({
 
   return (
     <ModalTemplate
-      modalHeading="Confirm your operation"
+      modalHeading={<FormattedMessage id="admin.confirm.operation" />}
       modalState={modalVisibilityState}
       handleCloseModal={resetComponent}
     >
       {!successMessage && <h2>{modalQuestion}</h2>}
       {requestError !== null && requestStatus !== "loading" && (
-        <Alert variant="danger">
-          <Alert.Heading>{requestError}</Alert.Heading>
-          <div className="mt-3 d-flex justify-content-end">
-            <Button variant="outline-danger" onClick={triggerRequestAgain}>
-              Try again
-            </Button>
-          </div>
-        </Alert>
+        <ErrorAlert {...{ requestError, retryRequest: triggerRequestAgain }} />
       )}
       {!successMessage && !requestError && (
         <div className="d-flex justify-content-end gap-3">
@@ -117,7 +115,7 @@ const ConfirmOperationModal = ({
             disabled={isDisabled}
             onClick={resetComponent}
           >
-            Cancel
+            <FormattedMessage id="cancel" />
           </Button>
           <Button
             disabled={isDisabled}
@@ -126,20 +124,13 @@ const ConfirmOperationModal = ({
             type="button"
             onClick={() => setIsDeleting(true)}
           >
-            {!isDisabled && "Yes"}
+            {!isDisabled && <FormattedMessage id="confirm" />}
             {isDisabled && <Spinner animation="border" />}
           </Button>
         </div>
       )}
       {!!successMessage && (
-        <Alert variant="success">
-          <Alert.Heading>{successMessage}</Alert.Heading>
-          <div className="d-flex justify-content-end">
-            <Button onClick={resetComponent} variant="outline-success">
-              Great!
-            </Button>
-          </div>
-        </Alert>
+        <SuccessAlert {...{ successMessage, onCloseModal: resetComponent }} />
       )}
     </ModalTemplate>
   );

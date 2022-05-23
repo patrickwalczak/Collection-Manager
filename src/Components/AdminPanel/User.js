@@ -1,5 +1,7 @@
 import { Link } from "react-router-dom";
 
+import { FormattedMessage } from "react-intl";
+
 import AppContext from "../../shared/context/app-context";
 
 import { useContext } from "react";
@@ -48,7 +50,7 @@ const User = ({ user, handleChange }) => {
       <td>{user.userType}</td>
       <td className="text-center">
         <Link className="btn themeClass btn-light py-0" to={`/user/${user.id}`}>
-          VIEW
+          <FormattedMessage id="view" />
         </Link>
       </td>
     </tr>

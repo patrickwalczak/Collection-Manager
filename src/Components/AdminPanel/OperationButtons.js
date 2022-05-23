@@ -20,35 +20,35 @@ const OperationButtons = ({
   return (
     <div className="d-flex gap-2 justify-content-end col-12 mt-4 pb-1">
       <Button
-        title={<FormattedMessage id="admin.panel.icon.title.block" />}
+        title="Block User"
         className={operationButtonStyle}
         onClick={openBlockUserModal}
       >
         <AiFillLock />
       </Button>
       <Button
-        title={<FormattedMessage id="admin.panel.icon.title.unblock" />}
+        title="Unblock User"
         className={operationButtonStyle}
         onClick={openUnblockUserModal}
       >
         <AiFillUnlock />
       </Button>
       <Button
-        title={<FormattedMessage id="admin.panel.icon.title.delete" />}
+        title="Delete User"
         className={operationButtonStyle}
         onClick={openDeleteUsersModal}
       >
         <AiFillDelete />
       </Button>
       <Button
-        title={<FormattedMessage id="admin.panel.icon.title.add" />}
+        title="Add Admin"
         className={operationButtonStyle}
         onClick={openAddAdminModal}
       >
         <AiOutlineUserAdd />
       </Button>
       <Button
-        title={<FormattedMessage id="admin.panel.icon.title.remove" />}
+        title="Remove Admin"
         className={operationButtonStyle}
         onClick={openRemoveAdminModal}
       >

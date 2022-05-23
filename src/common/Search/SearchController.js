@@ -10,6 +10,8 @@ import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemText from "@mui/material/ListItemText";
 
+import { FormattedMessage } from "react-intl";
+
 import { useNavigate } from "react-router-dom";
 
 import { useState, useEffect, useCallback, Fragment, useContext } from "react";
@@ -106,7 +108,7 @@ const SearchController = ({ closeModal }) => {
           type="submit"
           disabled={isDisabled}
         >
-          {requestStatus !== "loading" && "Search"}
+          {requestStatus !== "loading" && <FormattedMessage id="search" />}
           {requestStatus === "loading" && <Spinner animation="border" />}
         </Button>
       </Form>
@@ -133,7 +135,7 @@ const SearchController = ({ closeModal }) => {
         <List style={listStyle} sx={{ width: "100%" }}>
           <ListItem disablePadding>
             <ListItemButton>
-              <ListItemText primary={"NO RESULT FOUND"} />
+              <ListItemText primary={<FormattedMessage id="search.empty" />} />
             </ListItemButton>
           </ListItem>
         </List>
