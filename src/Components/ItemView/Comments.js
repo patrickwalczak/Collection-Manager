@@ -4,6 +4,8 @@ import Row from "react-bootstrap/Row";
 import AddCommentController from "./AddCommentController";
 import CommentList from "./CommentList";
 
+import { FormattedMessage } from "react-intl";
+
 import { useState, useEffect } from "react";
 
 import { socket } from "../../shared/socket/socket";
@@ -26,7 +28,7 @@ const Comments = ({ itemComments, theme }) => {
           theme === "dark" ? "white" : "dark"
         } px-0 pb-4 fs-3 mb-3 fw-normal border-bottom`}
       >
-        Comments <AiOutlineComment />
+        <FormattedMessage id="comments" /> <AiOutlineComment />
       </h3>
 
       <AddCommentController />

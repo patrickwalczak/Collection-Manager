@@ -58,10 +58,13 @@ const LikeItem = ({ token, itemId, isLikedByLoggedUser, theme }) => {
     ? "outline-light"
     : "outline-dark";
 
+  const buttonTitle = itemIsLiked ? "Unlike Item" : "Like Item";
+
   return (
     <Fragment>
       <div className="col-12 d-grid justify-content-start align-items-center mt-5">
         <Button
+          title="Like Item"
           className="fs-5 mb-3"
           onClick={() => setSending(true)}
           variant={btnClass}

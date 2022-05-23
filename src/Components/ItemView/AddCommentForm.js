@@ -4,6 +4,8 @@ import Spinner from "react-bootstrap/Spinner";
 
 import { AiOutlineSend } from "react-icons/ai";
 
+import { FormattedMessage } from "react-intl";
+
 import { Formik } from "formik";
 import * as yup from "yup";
 
@@ -44,7 +46,7 @@ const AddCommentForm = ({
               onChange={handleChange}
               as="textarea"
               style={{ height: "40px" }}
-              placeholder="Write a comment..."
+              placeholder={<FormattedMessage id="add.comment.placeholder" />}
               className="themeClass"
               autoFocus
               ref={commentInputRef}

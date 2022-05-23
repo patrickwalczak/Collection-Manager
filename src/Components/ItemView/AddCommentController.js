@@ -6,6 +6,8 @@ import Collapse from "react-bootstrap/Collapse";
 import AddCommentForm from "./AddCommentForm";
 import SuccessAlert from "../../common/UI/SuccessAlert";
 
+import { FormattedMessage } from "react-intl";
+
 import {
   useEffect,
   useState,
@@ -88,7 +90,7 @@ const AddCommentController = () => {
           onClick={resetComponent}
           aria-expanded={addCommentFormVisibility}
         >
-          Add Comment
+          <FormattedMessage id="add.comment" />
         </Button>
       )}
 
