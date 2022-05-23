@@ -13,6 +13,7 @@ import ItemView from "./pages/ItemView";
 import MainPage from "./pages/MainPage";
 import ModalTemplate from "./UI/ModalTemplate";
 import SearchController from "./Search/SearchController";
+import ItemsByTag from "./pages/ItemsByTag";
 
 import { useContext, useState } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
@@ -78,6 +79,7 @@ function App() {
         <Routes>
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<SignUp />} />
+          <Route path="/foundItems/:tag" element={<ItemsByTag />} />
           <Route
             path="/collection/:collectionId"
             element={<CollectionView />}
