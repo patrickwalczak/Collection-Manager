@@ -1,8 +1,8 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import Row from "react-bootstrap/Row";
 
-import ErrorAlert from "../../UI/ErrorAlert";
-import CenteredSpinner from "../../UI/CenteredSpinner";
+import ErrorAlert from "../../common/UI/ErrorAlert";
+import CenteredSpinner from "../../common/UI/CenteredSpinner";
 
 import { TagCloud } from "react-tagcloud";
 

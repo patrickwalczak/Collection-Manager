@@ -1,18 +1,18 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 
-import CenteredSpinner from "../UI/CenteredSpinner";
-import ErrorAlert from "../UI/ErrorAlert";
+import CenteredSpinner from "../common/UI/CenteredSpinner";
+import ErrorAlert from "../common/UI/ErrorAlert";
 import CollectionsContainer from "../Components/UserProfile/CollectionsContainer";
 import UserProfileWrapper from "../Components/UserProfile/UserProfileWrapper";
 import EditCollection from "../Components/UserProfile/EditCollection";
-import DeleteController from "../UI/DeleteController";
+import DeleteController from "../common/UI/DeleteController";
 import ProfileHeading from "../Components/UserProfile/ProfileHeading";
 
 import { useParams } from "react-router-dom";
 import { useEffect, useContext, useState, useCallback, Fragment } from "react";
 
 import useHttp from "../hooks/useHttp";
-import AppContext from "../store/app-context";
+import AppContext from "../shared/context/app-context";
 
 const UserProfile = () => {
   const [collections, setCollections] = useState([]);

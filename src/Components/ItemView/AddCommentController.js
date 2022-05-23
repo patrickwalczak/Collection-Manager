@@ -4,7 +4,7 @@ import Button from "react-bootstrap/Button";
 import Collapse from "react-bootstrap/Collapse";
 
 import AddCommentForm from "./AddCommentForm";
-import SuccessAlert from "../../UI/SuccessAlert";
+import SuccessAlert from "../../common/UI/SuccessAlert";
 
 import {
   useEffect,
@@ -17,11 +17,11 @@ import {
 
 import useHttp from "../../hooks/useHttp";
 
-import AppContext from "../../store/app-context";
+import AppContext from "../../shared/context/app-context";
 
 import { useParams } from "react-router-dom";
 
-import { socket } from "../../socket/socket";
+import { socket } from "../../shared/socket/socket";
 
 const AddCommentController = () => {
   const [submittedFormData, setFormData] = useState(null);

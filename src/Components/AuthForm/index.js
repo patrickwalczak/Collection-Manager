@@ -4,8 +4,7 @@ import Button from "react-bootstrap/Button";
 import Spinner from "react-bootstrap/Spinner";
 import Alert from "react-bootstrap/Alert";
 
-import ErrorAlert from "../../UI/ErrorAlert";
-import ReusableFormField from "../ReusableFormField";
+import ReusableFormField from "../../common/UI/ReusableFormField";
 
 import { Formik } from "formik";
 import * as yup from "yup";

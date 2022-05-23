@@ -2,16 +2,16 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import Container from "react-bootstrap/Container";
 import Button from "react-bootstrap/Button";
 
-import AppNavigation from "./AppNavigation/AppNavigation";
+import AppNavigation from "./common/AppNavigation/AppNavigation";
 import Login from "./pages/Login";
 import SignUp from "./pages/SignUp";
 import UserProfile from "./pages/UserProfile";
-import CollectionView from "./Collection/CollectionView";
+import CollectionView from "./pages/CollectionView";
 import NewCollection from "./pages/NewCollection";
 import AdminPanel from "./pages/AdminPanel";
 import ItemView from "./pages/ItemView";
 import MainPage from "./pages/MainPage";
-import ModalTemplate from "./UI/ModalTemplate";
+import ModalTemplate from "./common/UI/ModalTemplate";
 import SearchController from "./Search/SearchController";
 import ItemsByTag from "./pages/ItemsByTag";
 
@@ -20,7 +20,7 @@ import { Routes, Route, Navigate } from "react-router-dom";
 
 import { IntlProvider } from "react-intl";
 
-import AppContext from "./store/app-context";
+import AppContext from "./shared/context/app-context";
 
 function App() {
   const [searchModalVisibility, setSearchModalVisibility] = useState(false);
@@ -41,7 +41,6 @@ function App() {
   const openSearchModal = () => setSearchModalVisibility(true);
 
   const closeSearchModal = () => setSearchModalVisibility(false);
-
   return (
     <IntlProvider locale={language} messages={messages[language]}>
       <Container

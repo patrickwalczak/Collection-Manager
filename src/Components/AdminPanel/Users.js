@@ -2,7 +2,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import Table from "react-bootstrap/Table";
 import Spinner from "react-bootstrap/Spinner";
 
-import ErrorAlert from "../../UI/ErrorAlert";
+import ErrorAlert from "../../common/UI/ErrorAlert";
 
 import { FormattedMessage } from "react-intl";
 

@@ -7,9 +7,9 @@ import { Formik } from "formik";
 import * as yup from "yup";
 
 import CollectionTopic from "../NewCollection/CollectionTopic";
-import ErrorAlert from "../../UI/ErrorAlert";
+import ErrorAlert from "../../common/UI/ErrorAlert";
 
-import ReusableFormField from "../ReusableFormField";
+import ReusableFormField from "../../common/UI/ReusableFormField";
 
 import { validationTemplates } from "../../helpers/yupHelper";
 

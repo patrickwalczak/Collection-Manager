@@ -1,5 +1,5 @@
-import Select from "react-select";
 import "bootstrap/dist/css/bootstrap.min.css";
+import Select from "react-select";
 
 import { useEffect, useState, useCallback } from "react";
 

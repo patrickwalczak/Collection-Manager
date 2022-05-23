@@ -3,13 +3,13 @@ import Button from "react-bootstrap/Button";
 import Alert from "react-bootstrap/Alert";
 import Spinner from "react-bootstrap/Spinner";
 
-import ModalTemplate from "../../UI/ModalTemplate";
+import ModalTemplate from "../../common/UI/ModalTemplate";
 
 import { useCallback, useEffect, useState, useContext } from "react";
 
 import useHttp from "../../hooks/useHttp";
 
-import AppContext from "../../store/app-context";
+import AppContext from "../../shared/context/app-context";
 
 const ConfirmOperationModal = ({
   modalVisibilityState,

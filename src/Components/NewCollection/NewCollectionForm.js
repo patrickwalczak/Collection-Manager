@@ -7,7 +7,7 @@ import Spinner from "react-bootstrap/Spinner";
 import CollectionTopic from "./CollectionTopic";
 import CustomItemQuestion from "./CustomItemQuestion";
 import CustomFieldInputs from "./CustomFieldInputs";
-import ReusableFormField from "../ReusableFormField";
+import ReusableFormField from "../../common/UI/ReusableFormField";
 
 import { FormattedMessage } from "react-intl";
 

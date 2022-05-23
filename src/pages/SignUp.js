@@ -1,12 +1,12 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 
 import AuthForm from "../Components/AuthForm/index";
-import FormWrapper from "../UI/FormWrapper";
+import FormWrapper from "../common/UI/FormWrapper";
 
 import { FormattedMessage } from "react-intl";
 
 import useHttp from "../hooks/useHttp";
-import AppContext from "../store/app-context";
+import AppContext from "../shared/context/app-context";
 
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState, useContext } from "react";

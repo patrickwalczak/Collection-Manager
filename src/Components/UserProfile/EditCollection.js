@@ -2,9 +2,9 @@ import { useEffect, useState, useCallback } from "react";
 
 import useHttp from "../../hooks/useHttp";
 
-import ModalTemplate from "../../UI/ModalTemplate";
+import ModalTemplate from "../../common/UI/ModalTemplate";
 import EditCollectionForm from "./EditCollectionForm";
-import SuccessAlert from "../../UI/SuccessAlert";
+import SuccessAlert from "../../common/UI/SuccessAlert";
 
 const EditCollection = ({
   modalVisibilityState,

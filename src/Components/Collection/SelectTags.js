@@ -6,7 +6,7 @@ import { Typeahead } from "react-bootstrap-typeahead";
 
 import { useState, useEffect, useCallback } from "react";
 
-import useHttp from "../hooks/useHttp";
+import useHttp from "../../hooks/useHttp";
 
 const SelectTags = ({
   setValue,

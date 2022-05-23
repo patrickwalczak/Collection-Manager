@@ -1,13 +1,13 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 
-import ModalTemplate from "../UI/ModalTemplate";
-import SuccessAlert from "../UI/SuccessAlert";
+import ModalTemplate from "../../common/UI/ModalTemplate";
+import SuccessAlert from "../../common/UI/SuccessAlert";
 
 import ItemFormTemplate from "./ItemFormTemplate";
 
 import { useEffect, useState, useCallback } from "react";
 
-import useHttp from "../hooks/useHttp";
+import useHttp from "../../hooks/useHttp";
 
 const ItemActionController = ({
   heading,

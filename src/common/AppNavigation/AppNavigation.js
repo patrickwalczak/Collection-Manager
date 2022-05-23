@@ -16,7 +16,7 @@ import { AiFillHome } from "react-icons/ai";
 import { Link, NavLink } from "react-router-dom";
 import { useContext } from "react";
 
-import AppContext from "../store/app-context";
+import AppContext from "../../shared/context/app-context";
 
 const AppNavigation = ({ changeLanguage, language, openSearchModal }) => {
   const navLinkMargin = "mx-1 mx-md-2 nav-link";

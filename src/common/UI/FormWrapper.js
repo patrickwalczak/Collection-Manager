@@ -1,7 +1,7 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import Col from "react-bootstrap/Col";
 
-import AppContext from "../store/app-context";
+import AppContext from "../../shared/context/app-context";
 
 import { useContext } from "react";
 

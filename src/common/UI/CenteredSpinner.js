@@ -3,7 +3,7 @@ import Spinner from "react-bootstrap/Spinner";
 
 import { useContext } from "react";
 
-import AppContext from "../store/app-context";
+import AppContext from "../../shared/context/app-context";
 
 const CenteredSpinner = () => {
   const { theme } = useContext(AppContext);

@@ -5,10 +5,10 @@ import ButtonGroup from "react-bootstrap/ButtonGroup";
 import Dropdown from "react-bootstrap/Dropdown";
 import Spinner from "react-bootstrap/Spinner";
 
-import ItemsTable from "./ItemsTable";
-import ItemActionController from "./ItemActionController";
-import DeleteController from "../UI/DeleteController";
-import ErrorAlert from "../UI/ErrorAlert";
+import ItemsTable from "../Components/Collection/ItemsTable";
+import ItemActionController from "../Components/Collection/ItemActionController";
+import DeleteController from "../common/UI/DeleteController";
+import ErrorAlert from "../common/UI/ErrorAlert";
 
 import { BsSortUp } from "react-icons/bs";
 import { AiOutlineAppstoreAdd } from "react-icons/ai";
@@ -18,7 +18,7 @@ import { AiOutlineDownload } from "react-icons/ai";
 import { useParams, Link } from "react-router-dom";
 import { useEffect, useContext, useState, useCallback, Fragment } from "react";
 
-import AppContext from "../store/app-context";
+import AppContext from "../shared/context/app-context";
 import useHttp from "../hooks/useHttp";
 
 import { CSVLink } from "react-csv";

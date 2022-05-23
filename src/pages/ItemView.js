@@ -6,17 +6,17 @@ import Comments from "../Components/ItemView/Comments";
 import ItemData from "../Components/ItemView/ItemData";
 import LikeItem from "../Components/ItemView/LikeItem";
 import ItemViewWrapper from "../Components/ItemView/ItemViewWrapper";
-import ErrorAlert from "../UI/ErrorAlert";
+import ErrorAlert from "../common/UI/ErrorAlert";
 
 import { AiOutlineArrowLeft } from "react-icons/ai";
 
 import { useEffect, useContext, useState, useCallback, Fragment } from "react";
 import { useParams, Link } from "react-router-dom";
 
-import AppContext from "../store/app-context";
+import AppContext from "../shared/context/app-context";
 
 import useHttp from "../hooks/useHttp";
-import CenteredSpinner from "../UI/CenteredSpinner";
+import CenteredSpinner from "../common/UI/CenteredSpinner";
 
 const ItemView = () => {
   const [collectionItem, setCollectionItem] = useState(null);

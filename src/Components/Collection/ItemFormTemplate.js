@@ -7,12 +7,12 @@ import Spinner from "react-bootstrap/Spinner";
 import { Formik } from "formik";
 import * as yup from "yup";
 
-import ReusableFormField from "../Components/ReusableFormField";
+import ReusableFormField from "../../common/UI/ReusableFormField";
 import SelectTags from "./SelectTags";
 
 import { useEffect } from "react";
 
-import { validationTemplates } from "../helpers/yupHelper";
+import { validationTemplates } from "../../helpers/yupHelper";
 
 const ItemFormTemplate = ({
   requestError,

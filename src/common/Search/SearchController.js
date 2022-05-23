@@ -14,7 +14,7 @@ import { useNavigate } from "react-router-dom";
 
 import { useState, useEffect, useCallback, Fragment, useContext } from "react";
 
-import AppContext from "../store/app-context";
+import AppContext from "../context/app-context";
 
 import useHttp from "../hooks/useHttp";
 

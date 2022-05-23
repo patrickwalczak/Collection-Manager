@@ -3,7 +3,7 @@ import Modal from "react-bootstrap/Modal";
 
 import { useContext } from "react";
 
-import AppContext from "../store/app-context";
+import AppContext from "../../shared/context/app-context";
 
 function ModalTemplate(props) {
   const { theme } = useContext(AppContext);
