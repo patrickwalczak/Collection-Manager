@@ -15,7 +15,7 @@ import {
   useRef,
 } from "react";
 
-import useHttp from "../../hooks/useHttp";
+import useHttp from "../../shared/hooks/useHttp";
 
 import AppContext from "../../shared/context/app-context";
 
