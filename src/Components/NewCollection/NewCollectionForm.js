@@ -4,24 +4,24 @@ import Form from "react-bootstrap/Form";
 import Alert from "react-bootstrap/Alert";
 import Spinner from "react-bootstrap/Spinner";
 
-import { Formik } from "formik";
-import * as yup from "yup";
-
 import CollectionTopic from "./CollectionTopic";
-import CollectionImg from "./CollectionImg";
 import CustomItemQuestion from "./CustomItemQuestion";
 import CustomFieldInputs from "./CustomFieldInputs";
 import ReusableFieldName from "../ReusableFieldName";
 
-import { validationTemplates } from "../../helpers/yupHelper";
-
 import { FormattedMessage } from "react-intl";
+
+import { Formik } from "formik";
+import * as yup from "yup";
+
+import { validationTemplates } from "../../helpers/yupHelper";
 
 const NewCollectionForm = ({
   requestError,
   requestStatus,
   resetHookState,
   setFormData,
+  handlePickedImage,
 }) => {
   const {
     validateSingleTextField,
@@ -137,12 +137,6 @@ const NewCollectionForm = ({
             setFieldTouched={setFieldTouched}
             setFieldValue={setFieldValue}
             onBlur={handleBlur}
-          />
-
-          <CollectionImg
-            label={<FormattedMessage id="new.collection.form.image" />}
-            name="collectionImg"
-            setImg={setFieldValue}
           />
 
           <CustomItemQuestion

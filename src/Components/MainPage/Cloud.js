@@ -63,7 +63,7 @@ const Cloud = () => {
   return (
     <Row
       style={{ minHeight: "20rem", minWidth: "440px" }}
-      className="themeClass shadow rounded col-11 p-4 d-flex align-items-center"
+      className="position-relative themeClass shadow rounded col-11 p-4 d-flex align-items-center"
     >
       {!cloudData.length && (
         <div className="p-4">

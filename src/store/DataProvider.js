@@ -35,6 +35,7 @@ const DataProvider = (props) => {
     setUserId(null);
     setUsername(null);
     setUserType(null);
+    navigate("/mainPage");
   };
 
   const logOutAdmin = (msg) => {

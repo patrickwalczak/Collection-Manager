@@ -75,11 +75,14 @@ function NewCollection() {
           <FormattedMessage id="new.collection.form.heading" />
         </h1>
       </div>
+
       <NewCollectionForm
-        requestError={requestError}
-        requestStatus={requestStatus}
-        resetHookState={resetHookState}
-        setFormData={setFormData}
+        {...{
+          requestError,
+          requestStatus,
+          resetHookState,
+          setFormData,
+        }}
       />
     </Container>
   );
