@@ -66,14 +66,16 @@ const Collection = ({
         </div>
       </Col>
       <Col
-        className="bg-dark rounded col-12 col-lg-4 order-1 order-lg-2 pr-0"
-        style={{
-          backgroundImage:
-            "url(https://images.unsplash.com/photo-1649771174243-ca0b50ea6647?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1740&q=80)",
-          backgroundRepeat: "no-repeat",
-          backgroundSize: "cover",
-          minHeight: "12rem",
-        }}
+        className={`${
+          theme === "dark" ? "bg-light" : "bg-dark"
+        } rounded col-12 col-lg-4 order-1 order-lg-2 pr-0`}
+        // style={{
+        //   backgroundImage:
+        //     "url(https://images.unsplash.com/photo-1649771174243-ca0b50ea6647?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1740&q=80)",
+        //   backgroundRepeat: "no-repeat",
+        //   backgroundSize: "cover",
+        //   minHeight: "12rem",
+        // }}
       ></Col>
     </Row>
   );
