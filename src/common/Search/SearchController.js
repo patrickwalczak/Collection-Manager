@@ -14,9 +14,9 @@ import { useNavigate } from "react-router-dom";
 
 import { useState, useEffect, useCallback, Fragment, useContext } from "react";
 
-import AppContext from "../context/app-context";
+import AppContext from "../../shared/context/app-context";
 
-import useHttp from "../hooks/useHttp";
+import useHttp from "../../shared/hooks/useHttp";
 
 const SearchController = ({ closeModal }) => {
   const [query, setQuery] = useState("");
