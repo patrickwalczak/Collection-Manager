@@ -25,7 +25,6 @@ export const validationTemplates = {
     .max(1000000000, tooLongErrorMessage)
     .required(),
   validateDateField: yup.date().required(),
-  validateRadioField: yup.string().required(checkQuestionErrorMessage),
   validateCustomFieldsNames: yup.array().test({
     message: "Custom fields names cannot be empty!",
     test: (fieldsNames) =>

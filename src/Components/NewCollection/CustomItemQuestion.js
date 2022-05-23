@@ -5,7 +5,6 @@ const CustomItemQuestion = ({
   name,
   setValue,
   setTouched,
-  options,
   question,
   errors,
   touched,
@@ -16,6 +15,7 @@ const CustomItemQuestion = ({
 }) => {
   const changeOption = (e) => {
     const newChosenNumberOfCustomInputs = +e.target.value;
+    if (newChosenNumberOfCustomInputs < 0) return;
     setValue(name, newChosenNumberOfCustomInputs);
     setTouched(name);
 
@@ -56,19 +56,15 @@ const CustomItemQuestion = ({
   return (
     <Form.Group className="mb-3" onChange={changeOption} controlId={name}>
       <Form.Label>{question}</Form.Label>
-      <br></br>
-      {options.map((item, index) => (
-        <Form.Check
-          inline
-          name={name}
-          checked={index === chosenNumberOfCustomInputs}
-          onChange={() => {}}
-          key={item.value}
-          {...item}
-          type="radio"
-          disabled={isDisabled}
-        />
-      ))}
+      <Form.Control
+        disabled={isDisabled}
+        onChange={changeOption}
+        name={name}
+        type="number"
+        min="0"
+        step="1"
+        defaultValue={chosenNumberOfCustomInputs}
+      />
       {chosenNumberOfCustomInputs !== "" && (
         <div style={{ display: "block" }} className="valid-feedback">
           Looks good!

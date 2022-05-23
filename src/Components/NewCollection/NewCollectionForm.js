@@ -21,28 +21,27 @@ const NewCollectionForm = ({
   requestStatus,
   resetHookState,
   setFormData,
-  handlePickedImage,
 }) => {
   const {
     validateSingleTextField,
     validateMultilineTextField,
-    validateRadioField,
     validateCustomFieldsNames,
+    validateNumberField,
   } = validationTemplates;
 
   const initialFormValues = {
     collectionName: "",
     collectionTopic: "",
     collectionDescription: "",
-    chosenNumberOfCustomTextFields: "",
+    chosenNumberOfCustomTextFields: 0,
     customTextFieldsNames: [],
-    chosenNumberOfCustomNumberFields: "",
+    chosenNumberOfCustomNumberFields: 0,
     customNumberFieldsNames: [],
-    chosenNumberOfCustomMultilineTextFields: "",
+    chosenNumberOfCustomMultilineTextFields: 0,
     customMultilineTextFieldsNames: [],
-    chosenNumberOfBooleanFields: "",
+    chosenNumberOfBooleanFields: 0,
     customBooleanFieldsNames: [],
-    chosenNumberOfDateFields: "",
+    chosenNumberOfDateFields: 0,
     customDateFieldsNames: [],
   };
 
@@ -52,24 +51,20 @@ const NewCollectionForm = ({
     collectionName: validateSingleTextField,
     collectionTopic: yup.string().required(isRequiredErrorMessage),
     collectionDescription: validateMultilineTextField,
-    chosenNumberOfCustomTextFields: validateRadioField,
-    chosenNumberOfCustomNumberFields: validateRadioField,
-    chosenNumberOfCustomMultilineTextFields: validateRadioField,
-    chosenNumberOfBooleanFields: validateRadioField,
-    chosenNumberOfDateFields: validateRadioField,
+    chosenNumberOfCustomTextFields: validateNumberField.min(
+      0,
+      "Input cannot be empty, if you do not need this input type, enter 0"
+    ),
+    chosenNumberOfCustomNumberFields: validateNumberField.min(0),
+    chosenNumberOfCustomMultilineTextFields: validateNumberField.min(0),
+    chosenNumberOfBooleanFields: validateNumberField.min(0),
+    chosenNumberOfDateFields: validateNumberField.min(0),
     customTextFieldsNames: validateCustomFieldsNames,
     customNumberFieldsNames: validateCustomFieldsNames,
     customMultilineTextFieldsNames: validateCustomFieldsNames,
     customBooleanFieldsNames: validateCustomFieldsNames,
     customDateFieldsNames: validateCustomFieldsNames,
   });
-
-  const numberOfCustomFieldsOptions = [
-    { value: 0, label: "0" },
-    { value: 1, label: "1" },
-    { value: 2, label: "2" },
-    { value: 3, label: "3" },
-  ];
 
   const isDisabled = requestStatus === "loading" ? true : false;
 
@@ -145,7 +140,6 @@ const NewCollectionForm = ({
             name="chosenNumberOfCustomTextFields"
             fieldsNamesId="customTextFieldsNames"
             fieldsNamesList={values.customTextFieldsNames}
-            options={numberOfCustomFieldsOptions}
             question={<FormattedMessage id="new.collection.form.question1" />}
             errors={errors}
             touched={touched}
@@ -167,7 +161,6 @@ const NewCollectionForm = ({
             setValue={setFieldValue}
             setTouched={setFieldTouched}
             name="chosenNumberOfCustomNumberFields"
-            options={numberOfCustomFieldsOptions}
             fieldsNamesId="customNumberFieldsNames"
             fieldsNamesList={values.customNumberFieldsNames}
             question={<FormattedMessage id="new.collection.form.question2" />}
@@ -193,7 +186,6 @@ const NewCollectionForm = ({
             name="chosenNumberOfCustomMultilineTextFields"
             fieldsNamesId="customMultilineTextFieldsNames"
             fieldsNamesList={values.customMultilineTextFieldsNames}
-            options={numberOfCustomFieldsOptions}
             question={<FormattedMessage id="new.collection.form.question3" />}
             errors={errors}
             touched={touched}
@@ -217,7 +209,6 @@ const NewCollectionForm = ({
             name="chosenNumberOfBooleanFields"
             fieldsNamesId="customBooleanFieldsNames"
             fieldsNamesList={values.customBooleanFieldsNames}
-            options={numberOfCustomFieldsOptions}
             question={<FormattedMessage id="new.collection.form.question4" />}
             errors={errors}
             touched={touched}
@@ -241,7 +232,6 @@ const NewCollectionForm = ({
             name="chosenNumberOfDateFields"
             fieldsNamesId="customDateFieldsNames"
             fieldsNamesList={values.customDateFieldsNames}
-            options={numberOfCustomFieldsOptions}
             question={<FormattedMessage id="new.collection.form.question5" />}
             errors={errors}
             touched={touched}
