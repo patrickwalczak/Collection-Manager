@@ -49,6 +49,8 @@ const SelectTags = ({
   }, [getTags, query]);
 
   const changeTags = (t) => {
+    setQuery("");
+    setTags([]);
     if (!t.length) setError(name, "Item tags are required!");
     setTouched(name);
     setValue(name, t);
@@ -83,6 +85,7 @@ const SelectTags = ({
         isLoading={isLoading}
         isInvalid={inputIsInvalid}
         isValid={inputIsValid}
+        open={!!query}
       />
       {inputIsValid && (
         <div style={{ display: "block" }} className="valid-feedback">

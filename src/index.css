@@ -115,8 +115,6 @@ ul ul li {
   background: white;
 }
 
-[data-theme="dark"] .form-control,
-[data-theme="dark"] .dropdown-menu,
 [data-theme="dark"] .css-6j8wv5-Input,
 [data-theme="dark"] .css-1s2u09g-control,
 [data-theme="dark"] .css-1pahdxg-control {
@@ -124,6 +122,14 @@ ul ul li {
   color: rgb(248, 249, 250);
 }
 
+[data-theme="dark"] .form-control,
+[data-theme="dark"] .dropdown-menu,
+[data-theme="dark"] .dropdown-item {
+  background-color: rgb(33, 37, 41);
+  color: rgb(248, 249, 250);
+}
+
+[data-theme="dark"] .rbt-input-multi .rbt-input-main,
 [data-theme="dark"] .css-qc6sy-singleValue,
 [data-theme="dark"] .css-319lph-ValueContainer,
 [data-theme="dark"] .css-26l3qy-menu {
@@ -132,6 +138,10 @@ ul ul li {
 
 [data-theme="dark"] .css-26l3qy-menu {
   background-color: rgb(33, 37, 41);
+}
+
+[data-theme="dark"] .navbar-light .navbar-toggler {
+  background-color: white;
 }
 
 [data-theme="dark"] .dropdown-menu {
@@ -171,4 +181,8 @@ ul ul li {
 
 .commentBg {
   background-color: #2f3332;
+}
+
+.tag-cloud-tag {
+  cursor: pointer;
 }

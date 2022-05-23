@@ -78,8 +78,8 @@ const ItemView = () => {
                 <Badge
                   className={`${
                     theme === "light"
-                      ? "bg-dark text-light"
-                      : "bg-light text-dark"
+                      ? "bg-dark text-light mx-1"
+                      : "bg-light text-dark mx-1"
                   }   fs-6`}
                   key={index}
                 >

@@ -28,7 +28,9 @@ const Item = ({
         {tags.map((tag, index) => (
           <Badge
             className={`${
-              theme === "dark" ? "bg-light text-dark" : "bg-dark text-white"
+              theme === "dark"
+                ? "bg-light text-dark mx-1"
+                : "bg-dark text-white mx-1"
             }`}
             key={index}
           >
