@@ -46,7 +46,7 @@ const AddCommentForm = ({
               onChange={handleChange}
               as="textarea"
               style={{ height: "40px" }}
-              placeholder={<FormattedMessage id="add.comment.placeholder" />}
+              placeholder="Write your comment.."
               className="themeClass"
               autoFocus
               ref={commentInputRef}
