@@ -6,7 +6,7 @@ import CollectionsContainer from "../Components/UserProfile/CollectionsContainer
 import UserProfileWrapper from "../Components/UserProfile/UserProfileWrapper";
 import EditCollection from "../Components/UserProfile/EditCollection";
 import DeleteController from "../UI/DeleteController";
-import ProfileHeading from "../UserProfile/ProfileHeading";
+import ProfileHeading from "../Components/UserProfile/ProfileHeading";
 
 import { useParams } from "react-router-dom";
 import { useEffect, useContext, useState, useCallback, Fragment } from "react";
