@@ -46,6 +46,7 @@ const CollectionsContainer = ({
   }
   return (
     <Col className="d-flex flex-wrap justify-content-center gap-4">
+      {" "}
       {content}
     </Col>
   );

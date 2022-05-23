@@ -83,7 +83,6 @@ const DeleteController = ({
       {!successMessage && !requestError && (
         <div className="d-flex justify-content-end gap-3">
           <Button
-            className="col-2"
             variant="secondary"
             type="button"
             disabled={isDisabled}
@@ -93,7 +92,6 @@ const DeleteController = ({
           </Button>
           <Button
             disabled={isDisabled}
-            className="col-4"
             variant="danger"
             type="button"
             onClick={() => setIsDeleting(true)}

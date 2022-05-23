@@ -141,7 +141,13 @@ const UserProfile = () => {
 
       <UserProfileWrapper>
         <ProfileHeading
-          {...{ theme, userId, username, displayOperationsButtons }}
+          {...{
+            theme,
+            userId,
+            username,
+            displayOperationsButtons,
+            collections,
+          }}
         />
         {requestStatus === "completed" && !requestError && (
           <CollectionsContainer

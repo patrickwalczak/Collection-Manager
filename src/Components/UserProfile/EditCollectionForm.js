@@ -9,7 +9,7 @@ import * as yup from "yup";
 import CollectionTopic from "../NewCollection/CollectionTopic";
 import ErrorAlert from "../../UI/ErrorAlert";
 
-import ReusableFieldName from "../ReusableFieldName";
+import ReusableFormField from "../ReusableFormField";
 
 import { validationTemplates } from "../../helpers/yupHelper";
 
@@ -58,7 +58,7 @@ const EditCollectionForm = ({
         setFieldTouched,
       }) => (
         <Form noValidate onSubmit={handleSubmit} className="pb-4">
-          <ReusableFieldName
+          <ReusableFormField
             autoFocus
             name="collectionName"
             label="Collection Name*"
@@ -83,7 +83,7 @@ const EditCollectionForm = ({
             value={values.collectionTopic}
           />
 
-          <ReusableFieldName
+          <ReusableFormField
             name="collectionDescription"
             label="Collection Description*"
             as="textarea"
@@ -110,7 +110,6 @@ const EditCollectionForm = ({
           {!requestError && (
             <div className="d-flex justify-content-end gap-3">
               <Button
-                className="col-2"
                 variant="secondary"
                 type="button"
                 disabled={isDisabled}
@@ -118,12 +117,7 @@ const EditCollectionForm = ({
               >
                 Cancel
               </Button>
-              <Button
-                disabled={isDisabled}
-                className="col-4"
-                variant="success"
-                type="submit"
-              >
+              <Button disabled={isDisabled} variant="success" type="submit">
                 {!isDisabled && "SAVE"}
                 {isDisabled && <Spinner animation="border" />}
               </Button>

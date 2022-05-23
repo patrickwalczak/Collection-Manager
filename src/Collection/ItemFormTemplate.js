@@ -7,7 +7,7 @@ import Spinner from "react-bootstrap/Spinner";
 import { Formik } from "formik";
 import * as yup from "yup";
 
-import ReusableFieldName from "../Components/ReusableFieldName";
+import ReusableFormField from "../Components/ReusableFormField";
 import SelectTags from "./SelectTags";
 
 import { useEffect } from "react";
@@ -105,7 +105,7 @@ const ItemFormTemplate = ({
         setFieldError,
       }) => (
         <Form noValidate onSubmit={handleSubmit} className="pb-4">
-          <ReusableFieldName
+          <ReusableFormField
             autoFocus
             name="name"
             label="Item Name*"
@@ -132,7 +132,7 @@ const ItemFormTemplate = ({
           />
 
           {textFields.map((fieldName, index) => (
-            <ReusableFieldName
+            <ReusableFormField
               key={fieldName + index}
               name={fieldName}
               label={fieldName}
@@ -149,7 +149,7 @@ const ItemFormTemplate = ({
           ))}
 
           {multilineTextFields.map((fieldName, index) => (
-            <ReusableFieldName
+            <ReusableFormField
               key={fieldName + index}
               name={fieldName}
               label={fieldName}
@@ -167,7 +167,7 @@ const ItemFormTemplate = ({
           ))}
 
           {numberFields.map((fieldName, index) => (
-            <ReusableFieldName
+            <ReusableFormField
               key={fieldName + index}
               name={fieldName}
               label={fieldName}
@@ -184,7 +184,7 @@ const ItemFormTemplate = ({
           ))}
 
           {dateFields.map((fieldName, index) => (
-            <ReusableFieldName
+            <ReusableFormField
               key={fieldName + index}
               name={fieldName}
               label={fieldName}

@@ -5,7 +5,7 @@ import Spinner from "react-bootstrap/Spinner";
 import Alert from "react-bootstrap/Alert";
 
 import ErrorAlert from "../../UI/ErrorAlert";
-import ReusableFieldName from "../ReusableFieldName";
+import ReusableFormField from "../ReusableFormField";
 
 import { Formik } from "formik";
 import * as yup from "yup";
@@ -57,7 +57,7 @@ const AuthenticationForm = ({
       }) => (
         <Form className="themeClass" noValidate onSubmit={handleSubmit}>
           {!!signUpForm && (
-            <ReusableFieldName
+            <ReusableFormField
               name="username"
               label={<FormattedMessage id="form.username" />}
               type="text"
@@ -72,7 +72,7 @@ const AuthenticationForm = ({
               disabled={isDisabled}
             />
           )}
-          <ReusableFieldName
+          <ReusableFormField
             autoFocus={!signUpForm}
             label="Email"
             name="email"
@@ -87,7 +87,7 @@ const AuthenticationForm = ({
             disabled={isDisabled}
           />
 
-          <ReusableFieldName
+          <ReusableFormField
             label={<FormattedMessage id="form.password" />}
             name="password"
             type="password"

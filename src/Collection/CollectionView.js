@@ -12,12 +12,16 @@ import ErrorAlert from "../UI/ErrorAlert";
 
 import { BsSortUp } from "react-icons/bs";
 import { AiOutlineAppstoreAdd } from "react-icons/ai";
+import { AiOutlineArrowLeft } from "react-icons/ai";
+import { AiOutlineDownload } from "react-icons/ai";
 
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import { useEffect, useContext, useState, useCallback, Fragment } from "react";
 
 import AppContext from "../store/app-context";
 import useHttp from "../hooks/useHttp";
+
+import { CSVLink } from "react-csv";
 
 const CollectionView = () => {
   const [collection, setCollection] = useState(null);
@@ -45,7 +49,7 @@ const CollectionView = () => {
   const { requestError, requestStatus, sendRequest, resetHookState } =
     useHttp();
 
-  const operationButtonStyle = `btn-${theme} px-1 py-0 fs-4 fw-bolder`;
+  const operationButtonStyle = `btn-${theme} px-1 py-0 mx-1 fs-4 fw-bolder`;
 
   const handleUpdating = () => setIsBeingUpdated(true);
 
@@ -245,42 +249,64 @@ const CollectionView = () => {
         />
       )}
 
-      <div className="mt-4 d-flex justify-content-end gap-2 pb-1">
-        {canBeChanged && (
-          <Button
-            title="Create Item"
-            className={operationButtonStyle}
-            onClick={openAddItemForm}
+      <div className="mt-4 d-flex justify-content-between gap-2 pb-1">
+        <div>
+          <Link
+            className="mx-2 btn themeClass btn-light"
+            to={`/user/${collection?.author}`}
           >
-            <AiOutlineAppstoreAdd />
-          </Button>
-        )}
-        {!!collection?.items.length && (
-          <DropdownButton
-            as={ButtonGroup}
-            id={"sortDropdown"}
-            variant={theme}
-            title="Sort"
-            className={operationButtonStyle}
-            title={<BsSortUp />}
-            onClick={sortTable}
-          >
-            {tableHeadings.map((tableHeading, index) => {
-              if (tableHeading === "Tags") return;
-              return (
-                <Dropdown.Item
-                  key={index}
-                  data-index={index}
-                  data-value={tableHeading.toLowerCase()}
-                >
-                  {tableHeading}
-                </Dropdown.Item>
-              );
-            })}
-            <Dropdown.Divider />
-            <Dropdown.Item data-value="reset">Reset</Dropdown.Item>
-          </DropdownButton>
-        )}
+            <AiOutlineArrowLeft /> Back to user profile
+          </Link>
+        </div>
+
+        <div>
+          {!!tableValues.length && (
+            <CSVLink
+              title="Download items"
+              className={`btn mx-2 ${
+                theme === "dark" ? "text-white btn-dark" : "btn-light text-dark"
+              }`}
+              data={tableValues}
+            >
+              <AiOutlineDownload />
+            </CSVLink>
+          )}
+          {canBeChanged && (
+            <Button
+              title="Create Item"
+              className={operationButtonStyle}
+              onClick={openAddItemForm}
+            >
+              <AiOutlineAppstoreAdd />
+            </Button>
+          )}
+          {!!collection?.items.length && (
+            <DropdownButton
+              as={ButtonGroup}
+              id={"sortDropdown"}
+              variant={theme}
+              title="Sort"
+              className={operationButtonStyle}
+              title={<BsSortUp />}
+              onClick={sortTable}
+            >
+              {tableHeadings.map((tableHeading, index) => {
+                if (tableHeading === "Tags") return;
+                return (
+                  <Dropdown.Item
+                    key={index}
+                    data-index={index}
+                    data-value={tableHeading.toLowerCase()}
+                  >
+                    {tableHeading}
+                  </Dropdown.Item>
+                );
+              })}
+              <Dropdown.Divider />
+              <Dropdown.Item data-value="reset">Reset</Dropdown.Item>
+            </DropdownButton>
+          )}
+        </div>
       </div>
 
       {requestStatus === "completed" &&

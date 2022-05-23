@@ -7,7 +7,7 @@ import Spinner from "react-bootstrap/Spinner";
 import CollectionTopic from "./CollectionTopic";
 import CustomItemQuestion from "./CustomItemQuestion";
 import CustomFieldInputs from "./CustomFieldInputs";
-import ReusableFieldName from "../ReusableFieldName";
+import ReusableFormField from "../ReusableFormField";
 
 import { FormattedMessage } from "react-intl";
 
@@ -88,7 +88,7 @@ const NewCollectionForm = ({
         setFieldTouched,
       }) => (
         <Form noValidate onSubmit={handleSubmit} className="pb-4 themeCLass">
-          <ReusableFieldName
+          <ReusableFormField
             autoFocus
             name="collectionName"
             label={<FormattedMessage id="new.collection.form.name" />}
@@ -114,7 +114,7 @@ const NewCollectionForm = ({
             value={values.collectionTopic}
           />
 
-          <ReusableFieldName
+          <ReusableFormField
             name="collectionDescription"
             label={<FormattedMessage id="new.collection.form.description" />}
             as="textarea"
