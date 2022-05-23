@@ -12,7 +12,7 @@ import AdminPanel from "./pages/AdminPanel";
 import ItemView from "./pages/ItemView";
 import MainPage from "./pages/MainPage";
 import ModalTemplate from "./common/UI/ModalTemplate";
-import SearchController from "./Search/SearchController";
+import SearchController from "./common/Search/SearchController";
 import ItemsByTag from "./pages/ItemsByTag";
 
 import { useContext, useState } from "react";
