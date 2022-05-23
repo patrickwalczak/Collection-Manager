@@ -4,7 +4,7 @@ import Spinner from "react-bootstrap/Spinner";
 
 import ModalTemplate from "../../common/UI/ModalTemplate";
 import ErrorAlert from "../../common/UI/ErrorAlert";
-import SuccessAlert from "../../common/UI/ErrorAlert";
+import SuccessAlert from "../../common/UI/SuccessAlert";
 
 import { FormattedMessage } from "react-intl";
 
@@ -67,9 +67,6 @@ const ConfirmOperationModal = ({
       const findLoggedUser = requestBodyObject?.users.find(
         (id) => id === loggedUserId
       );
-
-      <FormattedMessage id="try.again" />;
-
       if (requestBodyObject?.status === "blocked" && !!findLoggedUser)
         handleLogOutAdmin(<FormattedMessage id="admin.blocked.account" />);
 
@@ -103,7 +100,7 @@ const ConfirmOperationModal = ({
       handleCloseModal={resetComponent}
     >
       {!successMessage && <h2>{modalQuestion}</h2>}
-      {requestError !== null && requestStatus !== "loading" && (
+      {!!requestError && requestStatus !== "loading" && (
         <ErrorAlert {...{ requestError, retryRequest: triggerRequestAgain }} />
       )}
       {!successMessage && !requestError && (
