@@ -1,6 +1,6 @@
 # CollectApp
 
-This repository is only the frontend. This is a link to backend https://github.com/patrickwalczak/CollectAppBack
+This repository is only for the frontend. This is a link to backend https://github.com/patrickwalczak/CollectAppBack
 
 About the application
 
