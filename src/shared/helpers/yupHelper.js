@@ -13,7 +13,7 @@ export const validationTemplates = {
     .string()
     .trim()
     .min(3, tooShortErrorMessage)
-    .max(25, tooLongErrorMessage)
+    .max(40, tooLongErrorMessage)
     .required(isRequiredErrorMessage),
   validateMultilineTextField: yup
     .string()
