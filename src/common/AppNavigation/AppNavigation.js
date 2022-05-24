@@ -22,7 +22,7 @@ const AppNavigation = ({ changeLanguage, language, openSearchModal }) => {
   const navLinkMargin = "mx-1 mx-md-2 nav-link";
   const navBtnMarPad = "py-0 px-3 mx-1 mx-md-2 mx-lg-3";
 
-  const { logout, userId, token, userType, changeTheme, theme } =
+  const { logout, userId, token, userType, changeTheme, theme, username } =
     useContext(AppContext);
 
   return (
@@ -114,6 +114,7 @@ const AppNavigation = ({ changeLanguage, language, openSearchModal }) => {
                 language={language}
                 changeLanguage={changeLanguage}
               />
+              {!!username && <h4>{username}</h4>}
             </Nav>
           </Navbar.Collapse>
         </Navbar>
