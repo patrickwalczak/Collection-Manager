@@ -17,6 +17,8 @@ Only admin or creator of the collections or items can manage them (edit, add, de
 
 Admin has its own panel where he can block, unblock, delete users and add or remove admin.
 
+Admin see all pages as their author (for example, admin can open collection of other user and add an item it it; so, admin is virtually owner of every collection and every item).
+
 Application provides dark and light mode and supports two languages.
 
 Full-text search is implemented with MongoDB (it doesn't matter if query will be found in item comment or tags or additional fields)
