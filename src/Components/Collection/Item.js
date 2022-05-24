@@ -29,8 +29,8 @@ const Item = ({
           <Badge
             className={`${
               theme === "dark"
-                ? "bg-light text-dark mx-1"
-                : "bg-dark text-white mx-1"
+                ? "bg-light text-dark mx-2"
+                : "bg-dark text-white mx-2"
             }`}
             key={index}
           >
