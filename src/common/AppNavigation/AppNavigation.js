@@ -114,7 +114,7 @@ const AppNavigation = ({ changeLanguage, language, openSearchModal }) => {
                 language={language}
                 changeLanguage={changeLanguage}
               />
-              {!!username && <h4 className="mx-2">{username}</h4>}
+              {!!username && <h5 className="mx-2">{username}</h5>}
             </Nav>
           </Navbar.Collapse>
         </Navbar>
