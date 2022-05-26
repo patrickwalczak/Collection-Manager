@@ -5,6 +5,9 @@ import Table from "react-bootstrap/Table";
 import CenteredSpinner from "../../common/UI/CenteredSpinner";
 import ErrorAlert from "../../common/UI/ErrorAlert";
 
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
+
 import { FormattedMessage } from "react-intl";
 
 import { Link } from "react-router-dom";
@@ -21,13 +24,25 @@ const TableTemplate = ({
   path,
   emptyMessage,
 }) => {
-  let content = (
-    <tr>
-      <th>
-        <CenteredSpinner />
+  let content = [1, 2, 3, 4, 5].map((item, index) => (
+    <tr
+      key={index}
+      className="themeClass shadow d-flex col-12 fs-5 rounded border p-1 mb-3"
+    >
+      <th className="col-3 text-center text-break">
+        <Skeleton />
+      </th>
+      <th className="col-4 text-center text-break">
+        <Skeleton />
+      </th>
+      <th className="col-3 text-center text-break">
+        <Skeleton />
+      </th>
+      <th className="col-2 text-center text-break">
+        <Skeleton />
       </th>
     </tr>
-  );
+  ));
 
   if (!dataList.length && !requestError && requestStatus === "completed") {
     content = (
@@ -71,6 +86,7 @@ const TableTemplate = ({
   return (
     <Row className="mb-5 col-12 rounded p-0 p-lg-3">
       <Table
+        onLoad={() => console.log("test")}
         style={{ minWidth: "590px" }}
         responsive
         className="scrollBar reset"
