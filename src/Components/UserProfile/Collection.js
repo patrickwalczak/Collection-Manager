@@ -1,3 +1,5 @@
+import classes from "./Collection.module.css";
+
 import "bootstrap/dist/css/bootstrap.min.css";
 import Col from "react-bootstrap/Col";
 import Button from "react-bootstrap/Button";
@@ -28,11 +30,10 @@ const Collection = ({
     ? `${process.env.REACT_APP_SOCKET_URL}/${collectionImage}`
     : "";
 
+  const displayImgElement = imageLink.length ? "" : "hidden";
+
   return (
-    <Row
-      className="themeClass shadow col-12 col-md-8 col-lg-12 flex-xl-row mx-0"
-      style={{ minHeight: "12rem" }}
-    >
+    <Row className="themeClass shadow col-12 col-md-8 col-lg-12 flex-xl-row mx-0">
       <Col className="col-12 col-lg-8 p-3 p-xl-4 order-2 order-lg-1">
         <h3 className="fs-1 fw-normal border-bottom pb-2">{collectionName}</h3>
         <span className="d-flex mb-2">{collectionTopic}</span>
@@ -74,15 +75,18 @@ const Collection = ({
         className={`${
           theme === "dark" ? "bg-light" : "bg-dark"
         } rounded col-12 col-lg-4 order-1 order-lg-2 p-0`}
+        style={{
+          minHeight: "12rem",
+          position: "relative",
+        }}
       >
         <img
-          style={{
-            objectFit: "cover",
-            display: `${imageLink.length ? "block" : "none"}`,
-          }}
-          width="100%"
-          height="100%"
-          src={`${imageLink}`}
+          className={
+            classes.collectionImage +
+            " cursor-pointer " +
+            classes[displayImgElement]
+          }
+          src={imageLink}
           alt={collectionName}
         />
       </Col>

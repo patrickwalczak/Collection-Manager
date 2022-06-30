@@ -182,3 +182,7 @@ ul ul li {
 .tag-cloud-tag {
   cursor: pointer;
 }
+
+.cursor-pointer {
+  cursor: pointer;
+}
