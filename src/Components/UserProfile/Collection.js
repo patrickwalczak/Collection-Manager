@@ -83,7 +83,7 @@ const Collection = ({
           width="100%"
           height="100%"
           src={`${imageLink}`}
-          alt="collection image"
+          alt={collectionName}
         />
       </Col>
     </Row>
