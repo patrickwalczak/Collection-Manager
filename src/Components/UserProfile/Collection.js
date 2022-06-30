@@ -25,7 +25,7 @@ const Collection = ({
   const operationBtnClass = `btn btn-${theme} px-1 py-0 fs-3`;
 
   const imageLink = collectionImage.length
-    ? `${REACT_APP_SOCKET_URL}/${collectionImage}`
+    ? `${process.env.REACT_APP_SOCKET_URL}/${collectionImage}`
     : "";
 
   return (
