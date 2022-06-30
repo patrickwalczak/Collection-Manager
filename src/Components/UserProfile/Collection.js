@@ -16,6 +16,7 @@ const Collection = ({
   collectionName,
   collectionTopic,
   id,
+  collectionImage,
   openEditForm,
   deleteCollection,
   displayOperationsButtons,
@@ -23,12 +24,16 @@ const Collection = ({
 }) => {
   const operationBtnClass = `btn btn-${theme} px-1 py-0 fs-3`;
 
+  const imageLink = collectionImage.length
+    ? `${REACT_APP_SOCKET_URL}/${collectionImage}`
+    : "";
+
   return (
-    <Row className="themeClass shadow col-12 col-md-8 col-lg-12 flex-xl-row mx-0">
-      <Col
-        className="col-12 col-lg-8 p-3 p-xl-4 order-2 order-lg-1"
-        style={{ minHeight: "12rem" }}
-      >
+    <Row
+      className="themeClass shadow col-12 col-md-8 col-lg-12 flex-xl-row mx-0"
+      style={{ minHeight: "12rem" }}
+    >
+      <Col className="col-12 col-lg-8 p-3 p-xl-4 order-2 order-lg-1">
         <h3 className="fs-1 fw-normal border-bottom pb-2">{collectionName}</h3>
         <span className="d-flex mb-2">{collectionTopic}</span>
         <ReactMarkdown className="col-11">
@@ -68,15 +73,19 @@ const Collection = ({
       <Col
         className={`${
           theme === "dark" ? "bg-light" : "bg-dark"
-        } rounded col-12 col-lg-4 order-1 order-lg-2 pr-0`}
-        // style={{
-        //   backgroundImage:
-        //     "url(https://images.unsplash.com/photo-1649771174243-ca0b50ea6647?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1740&q=80)",
-        //   backgroundRepeat: "no-repeat",
-        //   backgroundSize: "cover",
-        //   minHeight: "12rem",
-        // }}
-      ></Col>
+        } rounded col-12 col-lg-4 order-1 order-lg-2 p-0`}
+      >
+        <img
+          style={{
+            objectFit: "cover",
+            display: `${imageLink.length ? "block" : "none"}`,
+          }}
+          width="100%"
+          height="100%"
+          src={`${imageLink}`}
+          alt="collection image"
+        />
+      </Col>
     </Row>
   );
 };

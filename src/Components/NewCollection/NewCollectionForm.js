@@ -8,6 +8,7 @@ import CollectionTopic from "./CollectionTopic";
 import CustomItemQuestion from "./CustomItemQuestion";
 import CustomFieldInputs from "./CustomFieldInputs";
 import ReusableFormField from "../../common/UI/ReusableFormField";
+import UploadImageForm from "./UploadImageForm";
 
 import { FormattedMessage } from "react-intl";
 
@@ -21,6 +22,8 @@ const NewCollectionForm = ({
   requestStatus,
   resetHookState,
   setFormData,
+  file,
+  setFile,
 }) => {
   const {
     validateSingleTextField,
@@ -133,6 +136,8 @@ const NewCollectionForm = ({
             setFieldValue={setFieldValue}
             onBlur={handleBlur}
           />
+
+          <UploadImageForm file={file} setFile={setFile} />
 
           <CustomItemQuestion
             setValue={setFieldValue}

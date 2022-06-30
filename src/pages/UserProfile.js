@@ -56,6 +56,7 @@ const UserProfile = () => {
       const { collections, username } = returnedData;
       setUsername(username);
       setCollections(collections);
+      console.log(collections);
     } catch (err) {
       setCollections([]);
     }

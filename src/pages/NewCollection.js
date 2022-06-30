@@ -13,6 +13,7 @@ import { FormattedMessage } from "react-intl";
 
 function NewCollection() {
   const [submittedFormData, setFormData] = useState(null);
+  const [file, setFile] = useState(null);
 
   const { requestError, requestStatus, sendRequest, resetHookState } =
     useHttp();
@@ -26,16 +27,15 @@ function NewCollection() {
   const createCollection = async () => {
     const filteredFormObject = filterSubmittedForm(submittedFormData);
 
+    const convertedFormData = convertFormData(filteredFormObject);
+
     try {
       const returnedData = await sendRequest(
         `${process.env.REACT_APP_BACKEND_URL}/collections/${userId}/createCollection`,
         {
           method: "POST",
-          body: JSON.stringify({
-            ...filteredFormObject,
-          }),
+          body: convertedFormData,
           headers: {
-            "Content-Type": "application/json",
             Authorization: "Bearer " + token,
           },
         }
@@ -57,6 +57,26 @@ function NewCollection() {
     );
     const formDataObject = Object.fromEntries(filteredFormPropertiesArray);
     return formDataObject;
+  };
+
+  const convertFormData = (collectionData) => {
+    const formData = new FormData();
+
+    for (const [key, value] of Object.entries(collectionData)) {
+      if (Array.isArray(value)) {
+        if (!value.length) {
+          formData.append(key, value);
+        } else {
+          for (const currentValue of value) {
+            formData.append(key, currentValue);
+          }
+        }
+      } else {
+        formData.append(key, value);
+      }
+    }
+    if (!!file) formData.append("image", file);
+    return formData;
   };
 
   useEffect(() => {
@@ -82,6 +102,8 @@ function NewCollection() {
           requestStatus,
           resetHookState,
           setFormData,
+          file,
+          setFile,
         }}
       />
     </Container>
