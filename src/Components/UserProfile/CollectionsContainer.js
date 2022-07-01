@@ -16,7 +16,7 @@ const CollectionsContainer = ({
   let content;
 
   if (collections.length && !requestError && requestStatus === "completed") {
-    content = collections.map(({ id, ...restCollectionProps }) => (
+    content = collections.reverse().map(({ id, ...restCollectionProps }) => (
       <Collection
         key={id}
         {...{
