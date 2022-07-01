@@ -36,7 +36,7 @@ function NewCollection() {
     try {
       if (!!file) await uploadImage(filteredFormObject);
 
-      await sendRequest(
+      const response = await sendRequest(
         `${process.env.REACT_APP_BACKEND_URL}/collections/${userId}/createCollection`,
         {
           method: "POST",
@@ -47,6 +47,7 @@ function NewCollection() {
           },
         }
       );
+      if (!response) throw "";
       setFormData(null);
       navigate(`/user/${userId}`);
     } catch (err) {
@@ -112,6 +113,7 @@ function NewCollection() {
           setFormData,
           setFile,
           uploadImageRequestStatus,
+          uploadImageResetHookState,
         }}
       />
     </Container>

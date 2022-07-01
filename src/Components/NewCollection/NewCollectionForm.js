@@ -25,6 +25,7 @@ const NewCollectionForm = ({
   setFile,
   uploadImageRequestStatus,
   uploadImageRequestError,
+  uploadImageResetHookState,
 }) => {
   const {
     validateSingleTextField,
@@ -260,7 +261,14 @@ const NewCollectionForm = ({
           {(requestError !== null || uploadImageRequestError !== null) &&
             (requestStatus !== "loading" ||
               uploadImageRequestStatus !== "loading") && (
-              <Alert variant="danger" onClose={() => {}} dismissible>
+              <Alert
+                variant="danger"
+                onClose={() => {
+                  resetHookState();
+                  uploadImageResetHookState();
+                }}
+                dismissible
+              >
                 <Alert.Heading>
                   {requestError || uploadImageRequestError}
                 </Alert.Heading>
