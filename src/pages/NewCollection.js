@@ -18,6 +18,13 @@ function NewCollection() {
   const { requestError, requestStatus, sendRequest, resetHookState } =
     useHttp();
 
+  const {
+    requestError: uploadImageRequestError,
+    requestStatus: uploadImageRequestStatus,
+    sendRequest: uploadImageRequest,
+    resetHookState: uploadImageResetHookState,
+  } = useHttp();
+
   const { token, theme } = useContext(AppContext);
 
   const { userId } = useParams();
@@ -26,26 +33,44 @@ function NewCollection() {
 
   const createCollection = async () => {
     const filteredFormObject = filterSubmittedForm(submittedFormData);
-
-    const convertedFormData = convertFormData(filteredFormObject);
-
     try {
-      const returnedData = await sendRequest(
+      if (!!file) await uploadImage(filteredFormObject);
+
+      await sendRequest(
         `${process.env.REACT_APP_BACKEND_URL}/collections/${userId}/createCollection`,
         {
           method: "POST",
-          body: convertedFormData,
+          body: JSON.stringify({ ...filteredFormObject }),
           headers: {
+            "Content-Type": "application/json",
             Authorization: "Bearer " + token,
           },
         }
       );
-      if (!returnedData) throw "";
-      resetHookState();
       setFormData(null);
       navigate(`/user/${userId}`);
     } catch (err) {
       setFormData(null);
+    }
+  };
+
+  const uploadImage = async (filteredFormObject) => {
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("upload_preset", "cay9rmuu");
+
+    try {
+      const responseData = await uploadImageRequest(
+        `https://api.cloudinary.com/v1_1/dfmqabv0s/upload`,
+        {
+          method: "POST",
+          body: formData,
+        }
+      );
+      filteredFormObject.collectionImage = responseData.url;
+      filteredFormObject.collectionImageID = responseData.public_id;
+    } catch (err) {
+      throw err;
     }
   };
 
@@ -56,27 +81,9 @@ function NewCollection() {
       (formProperty) => !formProperty[propertyKey].includes("chosenNumber")
     );
     const formDataObject = Object.fromEntries(filteredFormPropertiesArray);
+    formDataObject.collectionImage = "";
+    formDataObject.collectionImageID = "";
     return formDataObject;
-  };
-
-  const convertFormData = (collectionData) => {
-    const formData = new FormData();
-
-    for (const [key, value] of Object.entries(collectionData)) {
-      if (Array.isArray(value)) {
-        if (!value.length) {
-          formData.append(key, value);
-        } else {
-          for (const currentValue of value) {
-            formData.append(key, currentValue);
-          }
-        }
-      } else {
-        formData.append(key, value);
-      }
-    }
-    if (!!file) formData.append("image", file);
-    return formData;
   };
 
   useEffect(() => {
@@ -100,10 +107,11 @@ function NewCollection() {
         {...{
           requestError,
           requestStatus,
+          uploadImageRequestError,
           resetHookState,
           setFormData,
-          file,
           setFile,
+          uploadImageRequestStatus,
         }}
       />
     </Container>

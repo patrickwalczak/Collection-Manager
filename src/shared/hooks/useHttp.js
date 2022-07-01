@@ -49,12 +49,12 @@ const useHttp = () => {
         fetch(url, methodOptionsObject),
       ]);
 
-      const rData = await response.json();
+      const responseData = await response.json();
 
-      if (!response.ok) throw rData;
+      if (!response.ok) throw responseData;
 
       dispatch({ type: "SUCCESS" });
-      return rData;
+      return responseData;
     } catch ({ message }) {
       dispatch({
         type: "ERROR",

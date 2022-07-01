@@ -22,8 +22,9 @@ const NewCollectionForm = ({
   requestStatus,
   resetHookState,
   setFormData,
-  file,
   setFile,
+  uploadImageRequestStatus,
+  uploadImageRequestError,
 }) => {
   const {
     validateSingleTextField,
@@ -69,7 +70,10 @@ const NewCollectionForm = ({
     customDateFieldsNames: validateCustomFieldsNames,
   });
 
-  const isDisabled = requestStatus === "loading" ? true : false;
+  const isDisabled =
+    requestStatus === "loading" || uploadImageRequestStatus === "loading"
+      ? true
+      : false;
 
   return (
     <Formik
@@ -137,7 +141,7 @@ const NewCollectionForm = ({
             onBlur={handleBlur}
           />
 
-          <UploadImageForm file={file} setFile={setFile} />
+          <UploadImageForm setFile={setFile} />
 
           <CustomItemQuestion
             setValue={setFieldValue}
@@ -253,11 +257,15 @@ const NewCollectionForm = ({
             error={errors.customDateFieldsNames}
             isDisabled={isDisabled}
           />
-          {requestError !== null && requestStatus !== "loading" && (
-            <Alert variant="danger" onClose={resetHookState} dismissible>
-              <Alert.Heading>{requestError}</Alert.Heading>
-            </Alert>
-          )}
+          {(requestError !== null || uploadImageRequestError !== null) &&
+            (requestStatus !== "loading" ||
+              uploadImageRequestStatus !== "loading") && (
+              <Alert variant="danger" onClose={() => {}} dismissible>
+                <Alert.Heading>
+                  {requestError || uploadImageRequestError}
+                </Alert.Heading>
+              </Alert>
+            )}
 
           <div className="d-flex justify-content-end gap-3">
             <Button

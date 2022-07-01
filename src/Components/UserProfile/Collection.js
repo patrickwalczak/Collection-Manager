@@ -26,9 +26,7 @@ const Collection = ({
 }) => {
   const operationBtnClass = `btn btn-${theme} px-1 py-0 fs-3`;
 
-  const imageLink = collectionImage.length
-    ? `${process.env.REACT_APP_SOCKET_URL}/${collectionImage}`
-    : "";
+  const imageLink = collectionImage.length ? collectionImage : "";
 
   const displayImgElement = imageLink.length ? "" : "hidden";
 
