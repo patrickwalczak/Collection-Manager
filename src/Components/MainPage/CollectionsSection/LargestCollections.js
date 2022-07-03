@@ -33,6 +33,8 @@ const LargestCollections = () => {
     getLargestCollections();
   }, [getLargestCollections, requestStatus]);
 
+  console.log(largestCollections);
+
   return (
     <Row
       className={
