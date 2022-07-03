@@ -84,13 +84,8 @@ const TableTemplate = ({
   }
 
   return (
-    <Row className="mb-5 col-12 rounded p-0 p-lg-3">
-      <Table
-        onLoad={() => console.log("test")}
-        style={{ minWidth: "590px" }}
-        responsive
-        className="scrollBar reset"
-      >
+    <Row className="my-5 col-12 rounded">
+      <Table style={{ minWidth: "590px" }} className="reset">
         <thead className="themeClass shadow text-uppercase mb-4 rounded">
           <tr>
             <th>
