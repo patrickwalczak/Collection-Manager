@@ -1,4 +1,4 @@
-import { Fragment } from "react";
+import { Fragment, useState } from "react";
 
 import Collection from "./Collection";
 
@@ -20,10 +20,11 @@ const LargestCollectionsList = ({
     </Fragment>
   );
 
-  if (!requestError && requestStatus === "completed")
+  if (!requestError && requestStatus === "completed") {
     content = largestCollections.map((collection) => (
       <Collection key={collection.id} {...{ collection }} />
     ));
+  }
 
   return <Fragment>{content}</Fragment>;
 };
