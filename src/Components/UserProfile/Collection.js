@@ -72,7 +72,9 @@ const Collection = ({
       <Col
         className={`${
           theme === "dark" ? "bg-light" : "bg-dark"
-        } rounded col-12 col-lg-4 order-1 order-lg-2 p-0`}
+        } rounded col-12 col-lg-4 order-1 order-lg-2 p-0 ${
+          classes.imgContainer
+        }`}
         style={{
           minHeight: "12rem",
           position: "relative",

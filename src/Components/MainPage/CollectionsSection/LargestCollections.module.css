@@ -1,0 +1,221 @@
+:root {
+  --d: 700ms;
+  --e: cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+.largestCollectionsContainer {
+  margin-top: 5rem;
+  height: auto;
+  min-height: 350px;
+}
+
+.collectionPreview {
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  overflow: hidden;
+  padding: 1rem;
+  width: 100%;
+  text-align: center;
+  color: whitesmoke;
+  background-color: whitesmoke;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1), 0 2px 2px rgba(0, 0, 0, 0.1),
+    0 4px 4px rgba(0, 0, 0, 0.1), 0 8px 8px rgba(0, 0, 0, 0.1),
+    0 16px 16px rgba(0, 0, 0, 0.1);
+  height: 350px;
+  width: 236px;
+}
+
+.collectionPreview-image {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 110%;
+  background-size: cover;
+  background-position: 0 0;
+  transition: transform calc(var(--d) * 1.5) var(--e);
+}
+
+.collectionPreview-shadow {
+  content: "";
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 200%;
+  background-image: linear-gradient(
+    to bottom,
+    hsla(0, 0%, 0%, 0) 0%,
+    hsla(0, 0%, 0%, 0.009) 11.7%,
+    hsla(0, 0%, 0%, 0.034) 22.1%,
+    hsla(0, 0%, 0%, 0.072) 31.2%,
+    hsla(0, 0%, 0%, 0.123) 39.4%,
+    hsla(0, 0%, 0%, 0.182) 46.6%,
+    hsla(0, 0%, 0%, 0.249) 53.1%,
+    hsla(0, 0%, 0%, 0.32) 58.9%,
+    hsla(0, 0%, 0%, 0.394) 64.3%,
+    hsla(0, 0%, 0%, 0.468) 69.3%,
+    hsla(0, 0%, 0%, 0.54) 74.1%,
+    hsla(0, 0%, 0%, 0.607) 78.8%,
+    hsla(0, 0%, 0%, 0.668) 83.6%,
+    hsla(0, 0%, 0%, 0.721) 88.7%,
+    hsla(0, 0%, 0%, 0.762) 94.1%,
+    hsla(0, 0%, 0%, 0.79) 100%
+  );
+  transform: translateY(-20%);
+  transition: transform calc(var(--d) * 2) var(--e);
+}
+
+.collectionPreview-content {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  padding: 1rem;
+  transition: transform var(--d) var(--e);
+  z-index: 1;
+}
+
+.collectionPreview-content {
+  transform: translateY(calc(100% - 4.5rem));
+}
+
+.itemsNumber,
+.collectionPreview-content_btn {
+  opacity: 0;
+  transform: translateY(1rem);
+  transition: transform var(--d) var(--e), opacity var(--d) var(--e);
+}
+
+.collectionPreview-content_title {
+  font-size: 1.3rem;
+  font-weight: bold;
+  line-height: 1.2;
+}
+
+.itemsNumber {
+  font-size: 1.125rem;
+  line-height: 1.35;
+}
+
+.span_itemsNumber {
+  font-size: 2.5rem;
+  color: rgb(255, 80, 74);
+  font-weight: 500;
+}
+
+.collectionPreview-content_btn {
+  cursor: pointer;
+  margin-top: 1.5rem;
+  padding: 0.75rem 1.5rem;
+  font-size: 0.65rem;
+  font-weight: bold;
+  letter-spacing: 0.025rem;
+  text-transform: uppercase;
+  color: white;
+  background-color: black;
+  border: none;
+}
+
+a.collectionPreview-content_btn {
+  text-decoration: none;
+}
+
+a.collectionPreview-content_btn:hover {
+  text-decoration: none;
+  color: white;
+}
+
+.collectionPreview-content_btn:hover {
+  background-color: rgb(54, 54, 54);
+}
+
+.collectionPreview:hover {
+  align-items: center;
+}
+
+.collectionPreview:hover .collectionPreview-image {
+  transform: translateY(-4%);
+}
+
+.collectionPreview:hover .collectionPreview-shadow {
+  transform: translateY(-50%);
+}
+
+.collectionPreview:hover .collectionPreview-content {
+  transform: translateY(2rem);
+}
+
+.collectionPreview:hover .itemsNumber,
+.collectionPreview:hover .collectionPreview-content_btn {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: calc(var(--d) / 8);
+}
+
+a.authorProfileLink {
+  text-decoration: none;
+}
+
+.authorProfileLink {
+  height: 50px;
+  width: 50px;
+  background: #31353d;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 10;
+}
+
+.authorProfileLink-content {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+  color: #fff;
+  padding: 0.9em;
+  font-size: 0.8em;
+  width: 50px;
+  height: 50px;
+  overflow: hidden;
+  background: transparent
+    url("https://raw.githubusercontent.com/brunodsgn/productpreview/master/assets/img/icons/info.png")
+    no-repeat 15px;
+  transition: 400ms ease-in-out;
+}
+
+.authorProfileLink-content:hover {
+  width: 150px;
+  background-color: #161616;
+  position: relative;
+}
+
+.authorProfileLink-span {
+  white-space: nowrap;
+  margin-left: 40px;
+  padding-top: 0.3rem;
+  display: block;
+}
+
+.collection-skeleton {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  justify-content: space-between;
+  padding: 1rem;
+  color: rgb(39, 39, 39);
+  background-color: whitesmoke;
+  height: 350px;
+  width: 236px;
+}
+
+.collection-skeleton h2 {
+  width: 100%;
+  font-size: 3rem;
+}
+
+.collection-skeleton div {
+  width: 100%;
+  font-size: 6rem;
+}
