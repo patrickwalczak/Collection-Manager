@@ -22,10 +22,7 @@ const Collection = ({ collection }) => {
   return (
     <Fragment>
       {!!sourceLoaded && (
-        <div
-          key={collection.id}
-          className={`${classes["collectionPreview"]} mb-4`}
-        >
+        <div key={collection.id} className={`${classes["collectionPreview"]}`}>
           <Link
             to={`/user/${collection.authorID}`}
             className={classes["authorProfileLink"]}

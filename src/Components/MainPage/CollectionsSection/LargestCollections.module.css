@@ -7,6 +7,9 @@
   margin-top: 5rem;
   height: auto;
   min-height: 350px;
+  padding-top: 5rem;
+  padding-bottom: 5rem;
+  padding-left: 1.5rem;
 }
 
 .collectionPreview {
@@ -15,7 +18,6 @@
   align-items: flex-end;
   overflow: hidden;
   padding: 1rem;
-  width: 100%;
   text-align: center;
   color: whitesmoke;
   background-color: whitesmoke;
@@ -24,6 +26,7 @@
     0 16px 16px rgba(0, 0, 0, 0.1);
   height: 350px;
   width: 236px;
+  max-width: 236px;
 }
 
 .collectionPreview-image {

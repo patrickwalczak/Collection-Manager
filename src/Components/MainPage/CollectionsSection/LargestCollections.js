@@ -36,7 +36,7 @@ const LargestCollections = () => {
   return (
     <Row
       className={
-        `col-12 justify-content-center justify-content-sm-around justify-content-md-between flex-wrap rounded p-4 themeClass ` +
+        `col-12 justify-content-center justify-content-sm-around justify-content-md-start flex-wrap rounded themeClass gap-2 gap-lg-4 ` +
         classes.largestCollectionsContainer
       }
     >
