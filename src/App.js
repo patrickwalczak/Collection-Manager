@@ -15,12 +15,14 @@ import ModalTemplate from "./common/UI/ModalTemplate";
 import SearchController from "./common/Search/SearchController";
 import ItemsByTag from "./pages/ItemsByTag";
 
-import { useContext, useState } from "react";
+import { useContext, useState, useEffect } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 
 import { IntlProvider } from "react-intl";
 
 import AppContext from "./shared/context/app-context";
+
+import { updateWebCounter } from "./shared/helpers/helpers";
 
 function App() {
   const [searchModalVisibility, setSearchModalVisibility] = useState(false);
@@ -41,6 +43,11 @@ function App() {
   const openSearchModal = () => setSearchModalVisibility(true);
 
   const closeSearchModal = () => setSearchModalVisibility(false);
+
+  useEffect(() => {
+    updateWebCounter();
+  }, []);
+
   return (
     <IntlProvider locale={language} messages={messages[language]}>
       <Container
