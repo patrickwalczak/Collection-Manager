@@ -19,9 +19,13 @@ const Collection = ({ collection }) => {
     };
   }, [collectionImage]);
 
+  const backgroundImageStyle = !!collectionImage.length
+    ? { backgroundImage: `url(${sourceLoaded})` }
+    : { backgroundColor: "#FC766AFF" };
+
   return (
     <Fragment>
-      {!!sourceLoaded && (
+      {(!!sourceLoaded || !collectionImage.length) && (
         <div key={collection.id} className={`${classes["collectionPreview"]}`}>
           <Link
             to={`/user/${collection.authorID}`}
@@ -35,7 +39,7 @@ const Collection = ({ collection }) => {
           </Link>
           <div
             className={classes["collectionPreview-image"]}
-            style={{ backgroundImage: `url(${sourceLoaded})` }}
+            style={backgroundImageStyle}
           />
           <div className={classes["collectionPreview-shadow"]} />
           <div className={classes["collectionPreview-content"]}>
@@ -57,7 +61,7 @@ const Collection = ({ collection }) => {
           </div>
         </div>
       )}
-      {!sourceLoaded && <CollectionSkeleton />}
+      {!sourceLoaded && !!collectionImage.length && <CollectionSkeleton />}
     </Fragment>
   );
 };

@@ -41,6 +41,9 @@ const LargestCollections = () => {
         classes.largestCollectionsContainer
       }
     >
+      <h2 className={`text-left mb-5 ${classes["sectionTitle"]}`}>
+        LARGEST COLLECTIONS
+      </h2>
       {!requestError && (
         <LargestCollectionsList
           {...{ largestCollections, requestStatus, requestError }}
