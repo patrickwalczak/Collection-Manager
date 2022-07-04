@@ -1,11 +1,11 @@
-import classes from "./LargestCollections.module.css";
 import "bootstrap/dist/css/bootstrap.min.css";
+
+import classes from "./LargestCollections.module.css";
+import CollectionSkeleton from "./CollectionSkeleton";
 
 import { Link } from "react-router-dom";
 
 import { useEffect, useState, Fragment } from "react";
-
-import CollectionSkeleton from "./CollectionSkeleton";
 
 const Collection = ({ collection }) => {
   const [sourceLoaded, setSourceLoaded] = useState(null);

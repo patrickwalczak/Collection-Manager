@@ -9,6 +9,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import Row from "react-bootstrap/Row";
 
 import LargestCollectionsList from "./LargestCollectionsList";
+import ErrorAlert from "../../../common/UI/ErrorAlert";
 
 const LargestCollections = () => {
   const [largestCollections, setLargestCollections] = useState([]);
@@ -44,6 +45,9 @@ const LargestCollections = () => {
         <LargestCollectionsList
           {...{ largestCollections, requestStatus, requestError }}
         />
+      )}
+      {!!requestError && (
+        <ErrorAlert {...{ requestError, retryRequest: resetHookState }} />
       )}
     </Row>
   );
